@@ -6,6 +6,9 @@ namespace ender {
 #else
     constexpr bool in_debug = true;
 #endif  // !_DEBUG
+
+    constexpr bool use_imgui = true;
+
     constexpr const char* version_string = "0.1";
     constexpr const char* engine_name = "ender";
 }  // namespace ender

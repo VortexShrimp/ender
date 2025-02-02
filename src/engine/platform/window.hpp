@@ -12,35 +12,25 @@
 
 namespace ender {
     class engine_renderer;
-
-    /**
-     * @brief Data that needs to be shared between Window and Message Loop.
-     */
-    struct engine_window_data {
-        UINT resize_width;  // Resizing is handled in render loop and wndproc.
-        UINT resize_height;
-
-        using message_function_create = void (*)();
-        using message_function_destroy = void (*)();
-
-        message_function_create on_create;
-        message_function_destroy on_destroy;
-    };
-
     class engine_window {
     public:
+        using message_create_function = void (*)();
+        using message_destroy_function = void (*)();
+
+        using create_function = bool (*)(engine_window* window);  // Return true for success.
+        using destroy_function = void (*)(engine_window* window);
+        using handle_events_function = bool (*)(engine_window* window);
+        using render_frame_function = void (*)(engine_window* window);
+
         struct window_details {
             std::wstring_view title;
             int width;
             int height;
+            message_create_function on_message_create;
+            message_destroy_function on_message_destroy;
             HINSTANCE instance;
             int cmd_show;
         };
-
-        using create_function = void (*)();
-        using destroy_function = void (*)();
-        using process_input_function = void (*)();
-        using render_frame_function = void (*)();
 
         engine_window()
             : m_is_running(false),
@@ -59,12 +49,19 @@ namespace ender {
         bool create(create_function on_create, window_details details);
         bool destroy(destroy_function on_destroy);
 
-        void process_input(process_input_function on_process_input);
+        /**
+         * @brief
+         * @param on_process_input Called after system handles messages.
+         * @return True to keep the game running.
+         */
+        bool handle_events(handle_events_function on_handle_events);
         void render_frame(render_frame_function on_render_frame);
 
         bool set_title(std::wstring_view new_title);
-
         bool is_running() const noexcept;
+
+        void get_client_size(int& width, int& height);
+        void get_window_size(int& width, int& height);
 
     private:
         bool m_is_running;

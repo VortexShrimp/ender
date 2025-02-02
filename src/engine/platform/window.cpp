@@ -2,6 +2,8 @@
 
 #include <unordered_map>
 
+#include "../ender.hpp"
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
@@ -46,6 +48,17 @@ namespace ender {
 
         bool m_is_swap_chain_occluded;
     };
+
+    /**
+     * @brief Data that needs to be shared between Window and Message Loop.
+     */
+    struct engine_window_data {
+        UINT resize_width;  // Resizing is handled in render loop and wndproc.
+        UINT resize_height;
+
+        engine_window::message_create_function on_message_create;
+        engine_window::message_destroy_function on_message_destroy;
+    };
 }  // namespace ender
 
 static std::unordered_map<HWND, ender::engine_window_data> s_window_data;
@@ -54,8 +67,10 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND window, UINT m
                                                              WPARAM wparam, LPARAM lparam);
 
 static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
-        return true;
+    if constexpr (ender::use_imgui == true) {
+        if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
+            return true;
+        }
     }
 
     ender::engine_window_data& window_data = s_window_data[hwnd];
@@ -64,8 +79,8 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         // Sent on CreateWindow(Ex).
         // lParam is CREATESTRUCT pointer.
         case WM_CREATE: {
-            if (window_data.on_create != nullptr) {
-                window_data.on_create();
+            if (window_data.on_message_create != nullptr) {
+                window_data.on_message_create();
             }
             break;
         }
@@ -96,8 +111,8 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
 
         // Sent on DestroyWindow.
         case WM_DESTROY: {
-            if (window_data.on_destroy != nullptr) {
-                window_data.on_destroy();
+            if (window_data.on_message_destroy != nullptr) {
+                window_data.on_message_destroy();
             }
 
             PostQuitMessage(EXIT_SUCCESS);
@@ -291,36 +306,45 @@ bool ender::engine_window::create(create_function on_create, window_details deta
     ShowWindow(m_hwnd, details.cmd_show);
     UpdateWindow(m_hwnd);
 
-    // Initialize ImGui.
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
-    io.IniFilename = NULL;                                 // Disable .ini config saving.
+    if constexpr (use_imgui == true) {
+        // Initialize ImGui.
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
+        io.IniFilename = NULL;                                 // Disable .ini config saving.
 
-    ImGui::StyleColorsDark();
+        ImGui::StyleColorsDark();
 
-    ImGui_ImplWin32_Init(m_hwnd);
-    ImGui_ImplDX11_Init(m_renderer->get_device(), m_renderer->get_device_context());
-
-    // Add this window to the global lookup table.
-    s_window_data[m_hwnd] = engine_window_data{
-        .resize_width = 0, .resize_height = 0, .on_create = nullptr, .on_destroy = nullptr};
-
-    if (on_create != nullptr) {
-        on_create();
+        ImGui_ImplWin32_Init(m_hwnd);
+        ImGui_ImplDX11_Init(m_renderer->get_device(), m_renderer->get_device_context());
     }
 
-    return m_is_running = true;
+    // Add this window to the global lookup table.
+    s_window_data[m_hwnd] = engine_window_data{.resize_width = 0,
+                                               .resize_height = 0,
+                                               .on_message_create = details.on_message_create,
+                                               .on_message_destroy = details.on_message_destroy};
+
+    m_is_running = true;
+
+    // If callback exists, return based on it.
+    if (on_create != nullptr) {
+        return on_create(this);
+    }
+
+    return m_is_running;
 }
 
 bool ender::engine_window::destroy(destroy_function on_destroy) {
     if (on_destroy != nullptr) {
-        on_destroy();
+        on_destroy(this);
     }
 
-    ImGui_ImplDX11_Shutdown();
-    ImGui_ImplWin32_Shutdown();
-    ImGui::DestroyContext();
+    if constexpr (use_imgui == true) {
+        ImGui_ImplDX11_Shutdown();
+        ImGui_ImplWin32_Shutdown();
+        ImGui::DestroyContext();
+    }
 
     m_renderer->destroy();
     m_renderer.reset(nullptr);
@@ -336,20 +360,22 @@ bool ender::engine_window::destroy(destroy_function on_destroy) {
     return true;
 }
 
-void ender::engine_window::process_input(process_input_function on_process_input) {
+bool ender::engine_window::handle_events(handle_events_function on_handle_events) {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
         DispatchMessage(&message);
 
         if (message.message == WM_QUIT) {
-            m_is_running = false;
+            return m_is_running = false;
         }
     }
 
-    if (on_process_input != nullptr) {
-        on_process_input();
+    if (on_handle_events != nullptr) {
+        return on_handle_events(this);
     }
+
+    return m_is_running;
 }
 
 void ender::engine_window::render_frame(render_frame_function on_render_frame) {
@@ -361,20 +387,27 @@ void ender::engine_window::render_frame(render_frame_function on_render_frame) {
         return;
     }
     m_renderer->set_swap_chain_occluded(false);
-
     m_renderer->handle_resize(m_hwnd);
 
-    ImGui_ImplDX11_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
-
-    if (on_render_frame != nullptr) {
-        on_render_frame();
+    if (use_imgui == true) {
+        ImGui_ImplDX11_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
     }
 
-    ImGui::Render();
+    if (on_render_frame != nullptr) {
+        on_render_frame(this);
+    }
+
+    if constexpr (use_imgui == true) {
+        ImGui::Render();
+    }
+
     m_renderer->render_frame();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+    if constexpr (use_imgui == true) {
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    }
 
     m_renderer->post_render_frame();
 }
@@ -385,4 +418,18 @@ bool ender::engine_window::set_title(std::wstring_view new_title) {
 
 bool ender::engine_window::is_running() const noexcept {
     return m_is_running;
+}
+
+void ender::engine_window::get_client_size(int& width, int& height) {
+    RECT rect;
+    GetClientRect(m_hwnd, &rect);
+    width = rect.right - rect.left;
+    height = rect.bottom - rect.top;
+}
+
+void ender::engine_window::get_window_size(int& width, int& height) {
+    RECT rect;
+    GetWindowRect(m_hwnd, &rect);
+    width = rect.right - rect.left;
+    height = rect.bottom - rect.top;
 }

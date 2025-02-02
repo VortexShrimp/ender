@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\games\main.cpp">
+    <ClCompile Include="src\games\example_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="external\imgui\imgui.cpp">
@@ -113,7 +113,7 @@
     <ClInclude Include="external\fmt\xchar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\engine.hpp">
+    <ClInclude Include="src\engine\ender.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\platform\window.hpp">

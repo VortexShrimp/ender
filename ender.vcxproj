@@ -154,7 +154,7 @@
     <ClCompile Include="external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\engine\platform\console.cpp" />
     <ClCompile Include="src\engine\platform\window.cpp" />
-    <ClCompile Include="src\games\main.cpp" />
+    <ClCompile Include="src\games\example_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\fmt\args.h" />
@@ -179,7 +179,7 @@
     <ClInclude Include="external\imgui\imstb_rectpack.h" />
     <ClInclude Include="external\imgui\imstb_textedit.h" />
     <ClInclude Include="external\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\engine\engine.hpp" />
+    <ClInclude Include="src\engine\ender.hpp" />
     <ClInclude Include="src\engine\platform\console.hpp" />
     <ClInclude Include="src\engine\platform\window.hpp" />
     <ClInclude Include="src\engine\utils\pointers.hpp" />

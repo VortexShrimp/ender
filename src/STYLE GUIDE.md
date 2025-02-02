@@ -30,7 +30,7 @@ int g_some_global = 0;
 // Static variables prefixed with "s_".
 static int s_some_static = 1;
 
-// Booleans should be prefixed with "is_" or "should_".
+// Booleans should be prefixed with "is_", "should_" or "use_.
 bool is_boolean = true;
 
 class my_class {

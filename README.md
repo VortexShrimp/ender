@@ -1,7 +1,7 @@
 # ender
-A 2D game framework, written in modern C++, for game-development learning purposes.
+A 2D Windows game framework, written in modern C++, to learn some game dev.
 
-## features
+## roadmap
 - UI & game rendering done with ImGUI.
 - LUA scripting over the top.
 
@@ -12,8 +12,9 @@ A 2D game framework, written in modern C++, for game-development learning purpos
 
 ## getting started
 1. Clone this repository or download a release version.
-2. Open the `.sln` file with VS2022.
-3. Build in `Release\Debug x64`
+2. Download/build required binaries from `ender/external` and place them in `ender/lib`.
+3. Open the `.sln` file. (Development done in VS2022)
+4. Build in `Release\Debug x64`
 
 ## support
 Only supports 64-bit Windows at the moment.
