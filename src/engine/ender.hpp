@@ -11,4 +11,6 @@ namespace ender {
 
     constexpr const char* version_string = "0.1";
     constexpr const char* engine_name = "ender";
+
+    class ender_engine {};
 }  // namespace ender

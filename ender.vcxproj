@@ -155,6 +155,7 @@
     <ClCompile Include="external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\engine\platform\console.cpp" />
     <ClCompile Include="src\engine\platform\window.cpp" />
+    <ClCompile Include="src\engine\utils\timer.cpp" />
     <ClCompile Include="src\games\example_main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +241,7 @@
     <ClInclude Include="src\engine\platform\console.hpp" />
     <ClInclude Include="src\engine\platform\window.hpp" />
     <ClInclude Include="src\engine\utils\pointers.hpp" />
+    <ClInclude Include="src\engine\utils\timer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

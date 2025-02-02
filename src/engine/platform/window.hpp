@@ -9,18 +9,19 @@
 #include <d3d11.h>
 
 #include "../utils/pointers.hpp"
+#include "../utils/timer.hpp"
 
 namespace ender {
-    class engine_renderer;
-    class engine_window {
+    class game_renderer;
+    class game_window {
     public:
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
 
-        using create_function = bool (*)(engine_window* window);  // Return true for success.
-        using destroy_function = void (*)(engine_window* window);
-        using handle_events_function = bool (*)(engine_window* window);
-        using render_frame_function = void (*)(engine_window* window);
+        using create_function = bool (*)(game_window* window);  // Return true for success.
+        using destroy_function = void (*)(game_window* window);
+        using handle_events_function = bool (*)(game_window* window);
+        using render_frame_function = void (*)(game_window* window);
 
         struct window_details {
             std::wstring_view title;
@@ -32,12 +33,13 @@ namespace ender {
             int cmd_show;
         };
 
-        engine_window()
+        game_window()
             : m_is_running(false),
               m_hwnd(nullptr),
               m_wcex(),
               m_instance(nullptr),
-              m_renderer(nullptr) {
+              m_renderer(nullptr),
+              m_timer() {
         }
 
         /**
@@ -65,6 +67,8 @@ namespace ender {
         void get_client_size(int& width, int& height);
         void get_window_size(int& width, int& height);
 
+        float get_delta_time();
+
     private:
         bool m_is_running;
 
@@ -72,6 +76,8 @@ namespace ender {
         ATOM m_wcex;
         HINSTANCE m_instance;
 
-        unique_pointer<engine_renderer> m_renderer;
+        unique_pointer<game_renderer> m_renderer;
+        high_resolution_timer m_timer;
     };
+
 }  // namespace ender
