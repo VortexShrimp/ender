@@ -1,0 +1,3 @@
+LUA 5.4.2 64bit
+
+move these to bin
