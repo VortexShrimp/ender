@@ -12,7 +12,7 @@ A 2D Windows game framework, written in modern C++, to learn some game dev.
 
 ## getting started
 1. Clone this repository or download a release version.
-2. Download/build required binaries from `ender/external` and place them in `ender/lib`.
+2. Download/build required binaries from `ender/lib`.
 3. Open the `.sln` file. (Development done in VS2022)
 4. Build in `Release\Debug x64`
 
