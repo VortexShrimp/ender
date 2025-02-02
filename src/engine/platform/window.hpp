@@ -58,7 +58,9 @@ namespace ender {
         void render_frame(render_frame_function on_render_frame);
 
         bool set_title(std::wstring_view new_title);
+
         bool is_running() const noexcept;
+        void stop_running() noexcept;
 
         void get_client_size(int& width, int& height);
         void get_window_size(int& width, int& height);

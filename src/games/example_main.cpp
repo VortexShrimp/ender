@@ -5,17 +5,33 @@
 #include "../engine/platform/window.hpp"
 
 #include <imgui\imgui.h>
+#include <imgui\imgui_impl_dx11.h>
 
 namespace game {
     bool on_main_window_create(ender::engine_window* window) {
         // Initialize game stuff here...
         window->set_title(L"ender example");
 
+        if (ender::use_imgui == true) {
+            ImGuiIO& io = ImGui::GetIO();
+            io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/bahnschrift.ttf", 32.0f);
+            io.Fonts->Build();
+
+            ImGui_ImplDX11_InvalidateDeviceObjects();
+            ImGui_ImplDX11_CreateDeviceObjects();
+
+            io.FontDefault = io.Fonts->Fonts[0];
+        }
+
         return true;
     }
 
     bool on_main_window_handle_events(ender::engine_window* window) {
         // Return false to exit the game.
+        if (window->is_running() == false) {
+            return false;
+        }
+
         return true;
     }
 
@@ -30,8 +46,11 @@ namespace game {
             if (ImGui::Begin("ender menu", nullptr,
                              ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
                                  ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize) == true) {
-                ImGui::Button("begin");
-                ImGui::Button("exit");
+                ImGui::Text("ender example");
+                ImGui::Button("begin", {250, 100});
+                if (ImGui::Button("exit", {250, 100}) == true) {
+                    window->stop_running();
+                }
                 ImGui::End();
             }
         }

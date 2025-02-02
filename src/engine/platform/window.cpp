@@ -420,6 +420,10 @@ bool ender::engine_window::is_running() const noexcept {
     return m_is_running;
 }
 
+void ender::engine_window::stop_running() noexcept {
+    m_is_running = false;
+}
+
 void ender::engine_window::get_client_size(int& width, int& height) {
     RECT rect;
     GetClientRect(m_hwnd, &rect);
