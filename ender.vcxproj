@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="examples\menu_app.cpp" />
     <ClCompile Include="external\imgui\imgui.cpp" />
     <ClCompile Include="external\imgui\imgui_demo.cpp" />
     <ClCompile Include="external\imgui\imgui_draw.cpp" />
@@ -156,9 +157,10 @@
     <ClCompile Include="src\ender\platform\console.cpp" />
     <ClCompile Include="src\ender\platform\window.cpp" />
     <ClCompile Include="src\ender\utils\timer.cpp" />
-    <ClCompile Include="examples\example_main.cpp" />
+    <ClCompile Include="examples\examples_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="examples\menu_app.hpp" />
     <ClInclude Include="external\fmt\args.h" />
     <ClInclude Include="external\fmt\base.h" />
     <ClInclude Include="external\fmt\chrono.h" />

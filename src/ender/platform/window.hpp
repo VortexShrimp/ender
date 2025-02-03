@@ -19,7 +19,7 @@ namespace ender {
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
 
-        using create_function = bool (*)(game_window* game);  // Return true for success.
+        using create_function = bool (*)(game_window* game);
         using destroy_function = void (*)(game_window* game);
         using handle_events_function = bool (*)(game_window* game);
         using render_frame_function = void (*)(game_window* game);
@@ -50,6 +50,12 @@ namespace ender {
          * @return True on success.
          */
         bool create(create_function on_create, window_details details);
+
+        /**
+         * @brief
+         * @param on_destroy Called before internal resources are destroyed.
+         * @return
+         */
         bool destroy(destroy_function on_destroy);
 
         /**
@@ -58,6 +64,11 @@ namespace ender {
          * @return True to keep the game running.
          */
         bool handle_events(handle_events_function on_handle_events);
+
+        /**
+         * @brief
+         * @param on_render_frame
+         */
         void render_frame(render_frame_function on_render_frame);
 
         bool is_running() const noexcept;

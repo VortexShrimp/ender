@@ -63,18 +63,40 @@ namespace ender {
     };
 }  // namespace ender
 
+/**
+ * @brief Stores data that is shared between wndproc and windows.
+ */
 static std::unordered_map<HWND, ender::engine_window_data> s_window_data;
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND window, UINT message,
                                                              WPARAM wparam, LPARAM lparam);
 
+/**
+ * @brief Dispatches window messages.
+ *
+ * Every ender::game_window created uses this function as its wndproc.
+ * This then dispatches the correct messages to the correct windows
+ * based on HWND. This allows ender::game_window's to work like standalone
+ * objects.
+ *
+ * Not sure how good it scales but it should work just fine for a few
+ * windows.
+ *
+ * @param hwnd
+ * @param msg
+ * @param wparam
+ * @param lparam
+ * @return
+ */
 static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     if constexpr (ender::use_imgui == true) {
+        // Pass messages to ImGui.
         if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
             return true;
         }
     }
 
+    // Get the window data for this window from the map.
     ender::engine_window_data& window_data = s_window_data[hwnd];
 
     switch (msg) {
