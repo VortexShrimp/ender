@@ -1,8 +1,16 @@
 # ender
-<img src="data/logo.png" align="center" width="300px"/>
-A 2D rendering framework for Windows,
-written in modern C++.
-<br clear="center"/>
+<img src="data/logo.png" align="left" width="350px"/>
+A 2D rendering framework for Windows, written in modern C++.
+
+### Requirements
+- Visual Studio 2022 (C++ 20)
+- Directx11 Windows
+### Building
+1. Clone this repository or download a release version.
+2. Download/build required binaries from `ender/lib`.
+3. Open the `.sln` file.
+4. Build in `Release\Debug x64`
+<br clear="left"/>
 
 ## Example
 ```cpp
@@ -25,11 +33,6 @@ private:
     pages m_current_page;
 };
 ```
-<img src="data/menu_app.png" align="right" width="300px"/>
-The above code is an example of a simple window created with ender
-and ImGui.
-<br clear="left"/>
-
 
 ## Geting Started
 ### Requirements
