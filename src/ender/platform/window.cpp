@@ -268,7 +268,7 @@ void ender::game_renderer::destroy_render_target() {
     }
 }
 
-bool ender::game_window::create(void* game, create_function on_create, window_details details) {
+bool ender::game_window::create(create_function on_create, window_details details) {
     m_instance = details.instance;
 
     WNDCLASSEXW wcex = {};
@@ -332,15 +332,15 @@ bool ender::game_window::create(void* game, create_function on_create, window_de
 
     // If callback exists, return based on it.
     if (on_create != nullptr) {
-        return on_create(game, this);
+        return on_create(this);
     }
 
     return m_is_running;
 }
 
-bool ender::game_window::destroy(void* game, destroy_function on_destroy) {
+bool ender::game_window::destroy(destroy_function on_destroy) {
     if (on_destroy != nullptr) {
-        on_destroy(game, this);
+        on_destroy(this);
     }
 
     if constexpr (use_imgui == true) {
@@ -363,7 +363,7 @@ bool ender::game_window::destroy(void* game, destroy_function on_destroy) {
     return true;
 }
 
-bool ender::game_window::handle_events(void* game, handle_events_function on_handle_events) {
+bool ender::game_window::handle_events(handle_events_function on_handle_events) {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
@@ -375,13 +375,13 @@ bool ender::game_window::handle_events(void* game, handle_events_function on_han
     }
 
     if (on_handle_events != nullptr) {
-        return on_handle_events(game, this);
+        return on_handle_events(this);
     }
 
     return m_is_running;
 }
 
-void ender::game_window::render_frame(void* game, render_frame_function on_render_frame) {
+void ender::game_window::render_frame(render_frame_function on_render_frame) {
     if (m_is_running == false) {
         return;
     }
@@ -399,7 +399,7 @@ void ender::game_window::render_frame(void* game, render_frame_function on_rende
     }
 
     if (on_render_frame != nullptr) {
-        on_render_frame(game, this);
+        on_render_frame(this);
     }
 
     if constexpr (use_imgui == true) {
@@ -427,10 +427,6 @@ std::wstring_view ender::game_window::get_title() const {
 
 bool ender::game_window::is_running() const noexcept {
     return m_is_running;
-}
-
-void ender::game_window::stop_running() noexcept {
-    m_is_running = false;
 }
 
 auto ender::game_window::get_client_size() const noexcept -> vec2i {

@@ -36,7 +36,7 @@ bool is_boolean = true;
 class my_class {
 public:
 	// Public members have no prefix.
-	int public_var;
+	int public_var
 
 private:
 	// Private members prefixed with "m_".

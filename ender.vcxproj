@@ -153,11 +153,10 @@
     <ClCompile Include="external\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="external\imgui\imgui_tables.cpp" />
     <ClCompile Include="external\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\engine\platform\console.cpp" />
-    <ClCompile Include="src\engine\platform\window.cpp" />
-    <ClCompile Include="src\engine\utils\timer.cpp" />
-    <ClCompile Include="src\games\example_main.cpp" />
-    <ClCompile Include="src\games\snake\snake.cpp" />
+    <ClCompile Include="src\ender\platform\console.cpp" />
+    <ClCompile Include="src\ender\platform\window.cpp" />
+    <ClCompile Include="src\ender\utils\timer.cpp" />
+    <ClCompile Include="examples\example_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\fmt\args.h" />
@@ -238,13 +237,12 @@
     <ClInclude Include="external\imgui\imstb_rectpack.h" />
     <ClInclude Include="external\imgui\imstb_textedit.h" />
     <ClInclude Include="external\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\engine\ender.hpp" />
-    <ClInclude Include="src\engine\math\vectors.hpp" />
-    <ClInclude Include="src\engine\platform\console.hpp" />
-    <ClInclude Include="src\engine\platform\window.hpp" />
-    <ClInclude Include="src\engine\utils\pointers.hpp" />
-    <ClInclude Include="src\engine\utils\timer.hpp" />
-    <ClInclude Include="src\games\snake\snake.hpp" />
+    <ClInclude Include="src\ender\ender.hpp" />
+    <ClInclude Include="src\ender\math\vectors.hpp" />
+    <ClInclude Include="src\ender\platform\console.hpp" />
+    <ClInclude Include="src\ender\platform\window.hpp" />
+    <ClInclude Include="src\ender\utils\pointers.hpp" />
+    <ClInclude Include="src\ender\utils\timer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

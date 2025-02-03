@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\games\example_main.cpp">
+    <ClCompile Include="examples\example_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="external\imgui\imgui.cpp">
@@ -39,19 +39,16 @@
     <ClCompile Include="external\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\platform\window.cpp">
+    <ClCompile Include="src\ender\platform\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\platform\console.cpp">
+    <ClCompile Include="src\ender\platform\console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="external\imgui\imgui_freetype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\utils\timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\games\snake\snake.cpp">
+    <ClCompile Include="src\ender\utils\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,16 +119,16 @@
     <ClInclude Include="external\fmt\xchar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\ender.hpp">
+    <ClInclude Include="src\ender\ender.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\platform\window.hpp">
+    <ClInclude Include="src\ender\platform\window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\platform\console.hpp">
+    <ClInclude Include="src\ender\platform\console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\pointers.hpp">
+    <ClInclude Include="src\ender\utils\pointers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="external\imgui\imgui_freetype.h">
@@ -302,13 +299,10 @@
     <ClInclude Include="external\ft2build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\utils\timer.hpp">
+    <ClInclude Include="src\ender\utils\timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\math\vectors.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\games\snake\snake.hpp">
+    <ClInclude Include="src\ender\math\vectors.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
