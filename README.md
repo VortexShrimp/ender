@@ -6,10 +6,9 @@ A 2D rendering framework for Windows, written in modern C++.
 - Visual Studio 2022 (C++ 20)
 - Directx11 Windows
 ### Building
-1. Clone this repository or download a release version.
-2. Download/build required binaries from `ender/lib`.
-3. Open the `.sln` file.
-4. Build in `Release\Debug x64`
+1. Clone this repository. `https://github.com/VortexShrimp/ender.git`
+2. Get dependencies from `ender/lib`.
+4. Build in `Release\Debug` -> `x64`
 <br clear="left"/>
 
 ## Example
@@ -33,16 +32,5 @@ private:
     pages m_current_page;
 };
 ```
-
-## Geting Started
-### Requirements
-- Visual Studio 2022 (C++ 20)
-- Directx11 Windows
-### Building
-1. Clone this repository or download a release version.
-2. Download/build required binaries from `ender/lib`.
-3. Open the `.sln` file. (Development done in VS2022)
-4. Build in `Release\Debug x64`
-
-## support
+## Support
 Only supports 64-bit Windows at the moment.
