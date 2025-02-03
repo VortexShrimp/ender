@@ -157,6 +157,7 @@
     <ClCompile Include="src\engine\platform\window.cpp" />
     <ClCompile Include="src\engine\utils\timer.cpp" />
     <ClCompile Include="src\games\example_main.cpp" />
+    <ClCompile Include="src\games\snake\snake.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\fmt\args.h" />
@@ -243,6 +244,7 @@
     <ClInclude Include="src\engine\platform\window.hpp" />
     <ClInclude Include="src\engine\utils\pointers.hpp" />
     <ClInclude Include="src\engine\utils\timer.hpp" />
+    <ClInclude Include="src\games\snake\snake.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

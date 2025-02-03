@@ -10,6 +10,7 @@
 
 #include "../utils/pointers.hpp"
 #include "../utils/timer.hpp"
+#include "../math/vectors.hpp"
 
 namespace ender {
     class game_renderer;
@@ -18,10 +19,11 @@ namespace ender {
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
 
-        using create_function = bool (*)(game_window* window);  // Return true for success.
-        using destroy_function = void (*)(game_window* window);
-        using handle_events_function = bool (*)(game_window* window);
-        using render_frame_function = void (*)(game_window* window);
+        using create_function = bool (*)(void* game,
+                                         game_window* window);  // Return true for success.
+        using destroy_function = void (*)(void* game, game_window* window);
+        using handle_events_function = bool (*)(void* game, game_window* window);
+        using render_frame_function = void (*)(void* game, game_window* window);
 
         struct window_details {
             std::wstring_view title;
@@ -48,24 +50,25 @@ namespace ender {
          * @param details Parameters for the window.
          * @return True on success.
          */
-        bool create(create_function on_create, window_details details);
-        bool destroy(destroy_function on_destroy);
+        bool create(void* game, create_function on_create, window_details details);
+        bool destroy(void* game, destroy_function on_destroy);
 
         /**
          * @brief
          * @param on_process_input Called after system handles messages.
          * @return True to keep the game running.
          */
-        bool handle_events(handle_events_function on_handle_events);
-        void render_frame(render_frame_function on_render_frame);
+        bool handle_events(void* game, handle_events_function on_handle_events);
+        void render_frame(void* game, render_frame_function on_render_frame);
 
         bool set_title(std::wstring_view new_title);
+        std::wstring_view get_title() const;
 
         bool is_running() const noexcept;
         void stop_running() noexcept;
 
-        void get_client_size(int& width, int& height);
-        void get_window_size(int& width, int& height);
+        vec2i get_client_size() const noexcept;
+        vec2i get_window_size() const noexcept;
 
         float get_delta_time();
 
