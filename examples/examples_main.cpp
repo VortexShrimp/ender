@@ -7,8 +7,8 @@ namespace examples {
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
     if constexpr (examples::build_menu_app == true) {
         menu_app::menu_app app = {};
-        if (app.create(menu_app::on_create_handler, {.title = L"ender example",
-                                                     .width = 600,
+        if (app.create(menu_app::on_create_handler, {.title = L"menu app",
+                                                     .width = 300,
                                                      .height = 500,
                                                      .on_message_create = nullptr,
                                                      .on_message_destroy = nullptr,

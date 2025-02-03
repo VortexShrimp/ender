@@ -29,7 +29,10 @@ void menu_app::on_render_frame_handler(ender::game_window* ctx) {
 bool menu_app::menu_app::on_create() noexcept {
     if (ender::use_imgui == true) {
         ImGuiIO& io = ImGui::GetIO();
-        io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/bahnschrift.ttf", 32.0f);
+
+        io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/bahnschrift.ttf", 30.0f);
+        io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/bahnschrift.ttf", 16.0f);
+
         io.Fonts->Build();
 
         ImGui_ImplDX11_InvalidateDeviceObjects();
@@ -54,6 +57,10 @@ bool menu_app::menu_app::on_handle_events() noexcept {
 
 void menu_app::menu_app::on_render_frame() noexcept {
     if constexpr (ender::use_imgui == true) {
+        ImGuiIO& io = ImGui::GetIO();
+        ImFont* font_big = io.Fonts->Fonts[0];
+        ImFont* font_small = io.Fonts->Fonts[1];
+
         const ender::vec2i client_size = get_client_size();
 
         // Set the next window to the size of the client draw area.
@@ -66,10 +73,38 @@ void menu_app::menu_app::on_render_frame() noexcept {
                              ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize) == true) {
             switch (m_current_page) {
                 case pages::login: {
-                    ImGui::Text("menu app");
-                    ImGui::Button("login");
+                    ImGui::PushFont(font_big);
+                    ImGui::Text("Welcome");
+                    ImGui::PopFont();
+
+                    ImGui::PushFont(font_small);
+
+                    static char username[32] = {};
+                    ImGui::InputText("username", username, IM_ARRAYSIZE(username));
+
+                    static char password[32] = {};
+                    ImGui::InputText("password", password, IM_ARRAYSIZE(username),
+                                     ImGuiInputTextFlags_Password);
+
+                    if (ImGui::Button("login") == true) {
+                        m_current_page = pages::home;
+                    }
+
+                    static bool remember_me_button = true;
+                    ImGui::Checkbox("remember me", &remember_me_button);
+
+                    ImGui::PopFont();
                 } break;
                 case pages::home: {
+                    ImGui::PushFont(font_big);
+                    ImGui::Text("Home");
+                    ImGui::PopFont();
+
+                    ImGui::PushFont(font_small);
+                    if (ImGui::Button("logout") == true) {
+                        m_current_page = pages::login;
+                    }
+                    ImGui::PopFont();
                 } break;
             }
 
