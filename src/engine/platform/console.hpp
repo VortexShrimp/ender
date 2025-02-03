@@ -15,6 +15,10 @@ namespace ender {
         bool create();
         void destroy();
 
+        void write(std::wstring_view text);
+
+        void set_title(std::wstring_view new_title);
+
     private:
         HANDLE m_console;
         HANDLE m_input;

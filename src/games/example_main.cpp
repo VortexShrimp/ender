@@ -69,6 +69,11 @@ namespace game {
 }  // namespace game
 
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
+    ender::console console = {};
+    if (console.create() == false) {
+        return EXIT_FAILURE;
+    }
+
     ender::game_window main_window = {};
     if (main_window.create(game::window_create, {.title = L"ender",
                                                  .width = 1280,
@@ -77,13 +82,17 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
                                                  .on_message_destroy = nullptr,
                                                  .instance = instance,
                                                  .cmd_show = cmd_show}) == true) {
+        console.write(L"main window created\n");
         while (main_window.handle_events(game::handle_events) == true) {
             main_window.render_frame(game::render_start_menu);
         }
 
         main_window.destroy(game::window_destroy);
+        console.destroy();
+
         return EXIT_SUCCESS;
     }
 
+    console.destroy();
     return EXIT_FAILURE;
 }
