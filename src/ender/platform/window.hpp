@@ -18,6 +18,7 @@ namespace ender {
     public:
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
+        using message_close_function = void (*)();
 
         using create_function = bool (*)(game_window* game);
         using destroy_function = void (*)(game_window* game);
@@ -28,8 +29,11 @@ namespace ender {
             std::wstring_view title;
             int width;
             int height;
+
             message_create_function on_message_create;
             message_destroy_function on_message_destroy;
+            message_close_function on_message_close;
+
             HINSTANCE instance;
             int cmd_show;
         };

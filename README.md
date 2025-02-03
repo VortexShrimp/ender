@@ -1,14 +1,14 @@
 # ender
 <img src="data/logo.png" align="left" width="350px"/>
-A 2D rendering framework for Windows, written in modern C++.
 
-### Requirements
+A 2D rendering framework for Windows, written in modern C++.
+## Requirements
 - Visual Studio 2022 (C++ 20)
 - Directx11 Windows
-### Building
-1. Clone this repository. `https://github.com/VortexShrimp/ender.git`
+## Building
+1. Clone this repository.
 2. Get dependencies from `ender/lib`.
-4. Build in `Release\Debug` -> `x64`
+3. Build in `Release\Debug` -> `x64`
 <br clear="left"/>
 
 ## Example

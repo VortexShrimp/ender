@@ -60,6 +60,7 @@ namespace ender {
 
         game_window::message_create_function on_message_create;
         game_window::message_destroy_function on_message_destroy;
+        game_window::message_close_function on_message_close;
     };
 }  // namespace ender
 
@@ -124,10 +125,18 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         // Sent when a window should be terminated.
         // Use it to allow a user to confirm their exit.
         case WM_CLOSE: {
-            // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
-            const int choice = MessageBox(hwnd, L"Would you like to exit this window?", L"ender",
-                                          MB_YESNO | MB_ICONEXCLAMATION);
-            if (choice == IDYES) {
+            if (window_data.on_message_close != nullptr) {
+                window_data.on_message_close();
+
+                // TODO: Use the above callback to let devs toggle the "confirm exit" dialogue.
+
+                // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
+                const int choice = MessageBox(hwnd, L"Would you like to exit this window?",
+                                              L"ender", MB_YESNO | MB_ICONEXCLAMATION);
+                if (choice == IDYES) {
+                    DestroyWindow(hwnd);
+                }
+            } else {
                 DestroyWindow(hwnd);
             }
             break;
@@ -348,7 +357,8 @@ bool ender::game_window::create(create_function on_create, window_details detail
     s_window_data[m_hwnd] = engine_window_data{.resize_width = 0,
                                                .resize_height = 0,
                                                .on_message_create = details.on_message_create,
-                                               .on_message_destroy = details.on_message_destroy};
+                                               .on_message_destroy = details.on_message_destroy,
+                                               .on_message_close = details.on_message_close};
 
     m_is_running = true;
 
