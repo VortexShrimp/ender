@@ -12,8 +12,7 @@
 namespace ender {
     class platform_console {
     public:
-        platform_console()
-            : m_output(nullptr), m_input(nullptr), m_csbi({}), m_width(0), m_height(0) {
+        platform_console() : m_output(nullptr), m_input(nullptr) {
         }
 
         /**
@@ -50,20 +49,15 @@ namespace ender {
         static std::wstring multibyte_to_unicode(std::string_view multibyte_text);
 
     private:
-        void write_raw(std::wstring_view text);
+        void write_raw(std::wstring_view text) noexcept;
 
         HANDLE m_output;
         HANDLE m_input;
-
-        CONSOLE_SCREEN_BUFFER_INFO m_csbi;
-
-        int m_width;
-        int m_height;
     };
 
     template <typename... Args>
     inline void platform_console::write(std::string_view format, Args&&... args) {
-        std::string formatted =
+        const std::string formatted =
             std::vformat(std::string(format), std::make_format_args(std::forward<Args>(args)...));
         write_raw(multibyte_to_unicode(formatted));
     }

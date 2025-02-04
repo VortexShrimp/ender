@@ -13,14 +13,6 @@ bool ender::platform_console::create() {
         return false;
     }
 
-    if (GetConsoleScreenBufferInfo(m_output, &m_csbi) == FALSE) {
-        FreeConsole();
-        return false;
-    }
-
-    m_width = m_csbi.srWindow.Right - m_csbi.srWindow.Left + 1;
-    m_height = m_csbi.srWindow.Bottom - m_csbi.srWindow.Top + 1;
-
     return true;
 }
 
@@ -31,7 +23,7 @@ void ender::platform_console::destroy() {
     m_input = INVALID_HANDLE_VALUE;
 }
 
-void ender::platform_console::write_raw(std::wstring_view text) {
+void ender::platform_console::write_raw(std::wstring_view text) noexcept {
     if (m_output == INVALID_HANDLE_VALUE) {
         return;
     }

@@ -8,17 +8,6 @@ namespace examples {
 
 // Example Windows entry point.
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
-    // Allocate a console.
-    ender::platform_console console = {};
-    if (console.create() == false) {
-        return EXIT_FAILURE;
-    }
-
-    console.set_title("menu_app example console");
-
-    console.write("hello, ender!\n");
-    console.write("this is an example console that supports {}\n", "formatting");
-
     if constexpr (examples::build_menu_app == true) {
         menu_app::menu_app app = {};
         // Create our menu_app window.
@@ -37,12 +26,10 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
                 app.render_frame(menu_app::on_render_frame_handler);
             }
             app.destroy(menu_app::on_destroy_handler);
-            console.destroy();
 
             return EXIT_SUCCESS;
         }
     }
 
-    console.destroy();
     return EXIT_FAILURE;
 }

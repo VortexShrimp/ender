@@ -33,6 +33,12 @@ bool menu_app::on_message_close_handler(ender::platform_window* ctx) {
 }
 
 bool menu_app::menu_app::on_create() noexcept {
+    if (m_console.create() == false) {
+        return false;
+    }
+
+    m_console.set_title("menu_app logger");
+
     if (ender::use_imgui == true) {
         ImGuiIO& io = ImGui::GetIO();
 
@@ -47,10 +53,13 @@ bool menu_app::menu_app::on_create() noexcept {
         io.FontDefault = io.Fonts->Fonts[0];
     }
 
+    m_console.write("[menu_app::on_create] Success.\n");
+
     return true;
 }
 
 void menu_app::menu_app::on_destroy() noexcept {
+    m_console.destroy();
 }
 
 bool menu_app::menu_app::on_handle_events() noexcept {
@@ -77,40 +86,44 @@ void menu_app::menu_app::on_render_frame_imgui() noexcept {
         if (ImGui::Begin("menu app", nullptr,
                          ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
                              ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize) == true) {
-            switch (m_current_page) {
-                case pages::login: {
-                    ImGui::PushFont(font_big);
-                    ImGui::Text("Welcome");
-                    ImGui::Separator();
-                    ImGui::PopFont();
+            if (ImGui::BeginChild("##child") == true) {
+                switch (m_current_page) {
+                    case pages::login: {
+                        ImGui::PushFont(font_big);
+                        ImGui::Text("Welcome");
+                        ImGui::Separator();
+                        ImGui::PopFont();
 
-                    ImGui::PushFont(font_small);
+                        ImGui::PushFont(font_small);
 
-                    static char username[32] = {};
-                    ImGui::InputText("username", username, IM_ARRAYSIZE(username));
+                        ImGui::InputText("username", m_username_buffer.data(),
+                                         m_username_buffer.size());
 
-                    if (ImGui::Button("login") == true) {
-                        m_current_page = pages::home;
-                    }
+                        if (ImGui::Button("login") == true) {
+                            m_current_page = pages::home;
 
-                    static bool remember_me_button = true;
-                    ImGui::Checkbox("remember me", &remember_me_button);
+                            std::string username = m_username_buffer.data();
+                            m_console.write("Logged in as '{}'\n", username);
+                        }
 
-                    ImGui::PopFont();
-                } break;
-                case pages::home: {
-                    ImGui::PushFont(font_big);
-                    ImGui::Text("Home");
-                    ImGui::PopFont();
+                        ImGui::Checkbox("remember me", &m_should_remember_me);
 
-                    ImGui::PushFont(font_small);
-                    if (ImGui::Button("logout") == true) {
-                        m_current_page = pages::login;
-                    }
-                    ImGui::PopFont();
-                } break;
+                        ImGui::PopFont();
+                    } break;
+                    case pages::home: {
+                        ImGui::PushFont(font_big);
+                        ImGui::Text("Home");
+                        ImGui::PopFont();
+
+                        ImGui::PushFont(font_small);
+                        if (ImGui::Button("logout") == true) {
+                            m_current_page = pages::login;
+                        }
+                        ImGui::PopFont();
+                    } break;
+                }
+                ImGui::EndChild();
             }
-
             ImGui::End();
         }
     }

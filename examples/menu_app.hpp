@@ -1,12 +1,19 @@
 #pragma once
+#include <array>
 
 // We just need a window from ender.
 #include "../src/ender/platform/window.hpp"
+#include "../src/ender/platform/console.hpp"
 
 namespace menu_app {
     class menu_app : public ender::platform_window {
     public:
-        menu_app() : m_current_page(pages::login), platform_window() {
+        menu_app()
+            : m_console(),
+              m_should_remember_me(true),
+              m_current_page(pages::login),
+              m_username_buffer(),
+              platform_window() {
         }
 
         bool on_create() noexcept;
@@ -17,7 +24,13 @@ namespace menu_app {
         enum class pages { login, home };
 
     private:
+        // We want a console for example.
+        ender::platform_console m_console;
+
+        // Custom application fields.
+        bool m_should_remember_me;
         pages m_current_page;
+        std::array<char, 256> m_username_buffer;
     };
 
     bool on_create_handler(ender::platform_window* ctx);
