@@ -226,6 +226,7 @@
     <ClInclude Include="external\imgui\imstb_rectpack.h" />
     <ClInclude Include="external\imgui\imstb_textedit.h" />
     <ClInclude Include="external\imgui\imstb_truetype.h" />
+    <ClInclude Include="external\xorstr\xorstr.hpp" />
     <ClInclude Include="src\ender\ender.hpp" />
     <ClInclude Include="src\ender\math\vectors.hpp" />
     <ClInclude Include="src\ender\platform\console.hpp" />

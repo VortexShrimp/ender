@@ -275,5 +275,8 @@
     <ClInclude Include="src\ender\platform\internet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="external\xorstr\xorstr.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
