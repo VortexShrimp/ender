@@ -10,9 +10,10 @@
 #include "../math/vectors.hpp"
 
 namespace ender {
-    class console {
+    class platform_console {
     public:
-        console() : m_output(nullptr), m_input(nullptr), m_csbi({}), m_width(0), m_height(0) {
+        platform_console()
+            : m_output(nullptr), m_input(nullptr), m_csbi({}), m_width(0), m_height(0) {
         }
 
         /**
@@ -61,7 +62,7 @@ namespace ender {
     };
 
     template <typename... Args>
-    inline void console::write(std::string_view format, Args&&... args) {
+    inline void platform_console::write(std::string_view format, Args&&... args) {
         std::string formatted =
             std::vformat(std::string(format), std::make_format_args(std::forward<Args>(args)...));
         write_raw(multibyte_to_unicode(formatted));

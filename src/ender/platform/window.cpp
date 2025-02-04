@@ -14,16 +14,16 @@ namespace ender {
     /**
      * @brief Currently a d3d11 renderer.
      */
-    class game_renderer {
+    class platform_renderer {
     public:
-        game_renderer()
+        platform_renderer()
             : m_device(nullptr),
               m_device_context(nullptr),
               m_swap_chain(nullptr),
               m_render_target_view(nullptr),
               m_is_swap_chain_occluded(false) {
         }
-        ~game_renderer();
+        ~platform_renderer();
 
         bool create(HWND hwnd);
         bool destroy();
@@ -55,14 +55,14 @@ namespace ender {
      * @brief Data that needs to be shared between Window and Message Loop.
      */
     struct engine_window_data {
-        game_window* window;  // Reference to the window.
+        platform_window* window;  // Reference to the window.
 
         UINT resize_width;  // Resizing is handled in render loop and wndproc.
         UINT resize_height;
 
-        game_window::message_create_function on_message_create;
-        game_window::message_destroy_function on_message_destroy;
-        game_window::message_close_function on_message_close;
+        platform_window::message_create_function on_message_create;
+        platform_window::message_destroy_function on_message_destroy;
+        platform_window::message_close_function on_message_close;
     };
 }  // namespace ender
 
@@ -173,11 +173,11 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     return 0;
 }
 
-ender::game_renderer::~game_renderer() {
+ender::platform_renderer::~platform_renderer() {
     destroy();
 }
 
-bool ender::game_renderer::create(HWND hwnd) {
+bool ender::platform_renderer::create(HWND hwnd) {
     DXGI_SWAP_CHAIN_DESC sd = {};
     sd.BufferCount = 2;
     sd.BufferDesc.Width = 0;
@@ -220,7 +220,7 @@ bool ender::game_renderer::create(HWND hwnd) {
     return true;
 }
 
-bool ender::game_renderer::destroy() {
+bool ender::platform_renderer::destroy() {
     destroy_render_target();
 
     if (m_swap_chain != nullptr) {
@@ -241,12 +241,12 @@ bool ender::game_renderer::destroy() {
     return true;
 }
 
-bool ender::game_renderer::is_swapchain_occluded() {
+bool ender::platform_renderer::is_swapchain_occluded() {
     return m_is_swap_chain_occluded == false &&
            m_swap_chain->Present(0, DXGI_PRESENT_TEST) != DXGI_STATUS_OCCLUDED;
 }
 
-void ender::game_renderer::render_frame() {
+void ender::platform_renderer::render_frame() {
     ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
     const float clear_color_with_alpha[4] = {clear_color.x * clear_color.w,
                                              clear_color.y * clear_color.w,
@@ -255,16 +255,16 @@ void ender::game_renderer::render_frame() {
     m_device_context->ClearRenderTargetView(m_render_target_view, clear_color_with_alpha);
 }
 
-void ender::game_renderer::post_render_frame() {
+void ender::platform_renderer::post_render_frame() {
     HRESULT hr = m_swap_chain->Present(0, 0);
     m_is_swap_chain_occluded = (hr == DXGI_STATUS_OCCLUDED);
 }
 
-void ender::game_renderer::set_swap_chain_occluded(bool is_occluded) {
+void ender::platform_renderer::set_swap_chain_occluded(bool is_occluded) {
     m_is_swap_chain_occluded = is_occluded;
 }
 
-void ender::game_renderer::handle_resize(HWND hwnd) {
+void ender::platform_renderer::handle_resize(HWND hwnd) {
     engine_window_data& window_data = s_window_data[hwnd];
     if (window_data.resize_width != 0 && window_data.resize_height != 0) {
         destroy_render_target();
@@ -277,15 +277,15 @@ void ender::game_renderer::handle_resize(HWND hwnd) {
     }
 }
 
-ID3D11Device* ender::game_renderer::get_device() const noexcept {
+ID3D11Device* ender::platform_renderer::get_device() const noexcept {
     return m_device;
 }
 
-ID3D11DeviceContext* ender::game_renderer::get_device_context() const noexcept {
+ID3D11DeviceContext* ender::platform_renderer::get_device_context() const noexcept {
     return m_device_context;
 }
 
-bool ender::game_renderer::create_render_target() {
+bool ender::platform_renderer::create_render_target() {
     ID3D11Texture2D* back_buffer;
     if (m_swap_chain->GetBuffer(0, IID_PPV_ARGS(&back_buffer)) != S_OK) {
         return false;
@@ -300,14 +300,14 @@ bool ender::game_renderer::create_render_target() {
     return true;
 }
 
-void ender::game_renderer::destroy_render_target() {
+void ender::platform_renderer::destroy_render_target() {
     if (m_render_target_view != nullptr) {
         m_render_target_view->Release();
         m_render_target_view = nullptr;
     }
 }
 
-bool ender::game_window::create(create_function on_create, window_details details) {
+bool ender::platform_window::create(create_function on_create, window_details details) {
     m_instance = details.instance;
 
     WNDCLASSEXW wcex = {};
@@ -338,7 +338,7 @@ bool ender::game_window::create(create_function on_create, window_details detail
     }
 
     // Create and initialize the renderer.
-    m_renderer = make_unique_pointer<game_renderer>();
+    m_renderer = make_unique_pointer<platform_renderer>();
     if (m_renderer->create(m_hwnd) == false) {
         DestroyWindow(m_hwnd);
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
@@ -379,7 +379,7 @@ bool ender::game_window::create(create_function on_create, window_details detail
     return m_is_running;
 }
 
-bool ender::game_window::destroy(destroy_function on_destroy) {
+bool ender::platform_window::destroy(destroy_function on_destroy) {
     if (on_destroy != nullptr) {
         on_destroy(this);
     }
@@ -404,7 +404,7 @@ bool ender::game_window::destroy(destroy_function on_destroy) {
     return true;
 }
 
-bool ender::game_window::handle_events(handle_events_function on_handle_events) {
+bool ender::platform_window::handle_events(handle_events_function on_handle_events) {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
@@ -422,7 +422,7 @@ bool ender::game_window::handle_events(handle_events_function on_handle_events) 
     return m_is_running;
 }
 
-void ender::game_window::render_frame(render_frame_function on_render_frame) {
+void ender::platform_window::render_frame(render_frame_function on_render_frame) {
     if (m_is_running == false) {
         return;
     }
@@ -456,32 +456,32 @@ void ender::game_window::render_frame(render_frame_function on_render_frame) {
     m_renderer->post_render_frame();
 }
 
-bool ender::game_window::set_title(std::wstring_view new_title) {
+bool ender::platform_window::set_title(std::wstring_view new_title) {
     return SetWindowText(m_hwnd, new_title.data());
 }
 
-std::wstring_view ender::game_window::get_title() const {
+std::wstring_view ender::platform_window::get_title() const {
     wchar_t buffer[256];
-    GetWindowText(m_hwnd, buffer, sizeof(buffer));
+    GetWindowText(m_hwnd, buffer, 256);
     return buffer;
 }
 
-bool ender::game_window::is_running() const noexcept {
+bool ender::platform_window::is_running() const noexcept {
     return m_is_running;
 }
 
-auto ender::game_window::get_client_size() const noexcept -> vec2i {
+auto ender::platform_window::get_client_size() const noexcept -> vec2i {
     RECT rect;
     GetClientRect(m_hwnd, &rect);
     return {rect.right - rect.left, rect.bottom - rect.top};
 }
 
-auto ender::game_window::get_window_size() const noexcept -> vec2i {
+auto ender::platform_window::get_window_size() const noexcept -> vec2i {
     RECT rect;
     GetWindowRect(m_hwnd, &rect);
     return {rect.right - rect.left, rect.bottom - rect.top};
 }
 
-float ender::game_window::get_delta_time() {
+float ender::platform_window::get_delta_time() {
     return m_timer.get_delta_time();
 }

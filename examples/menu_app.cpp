@@ -7,27 +7,27 @@
 #include <imgui\imgui.h>
 #include <imgui\imgui_impl_dx11.h>
 
-bool menu_app::on_create_handler(ender::game_window* ctx) {
+bool menu_app::on_create_handler(ender::platform_window* ctx) {
     auto* app = static_cast<menu_app*>(ctx);
     return app->on_create();
 }
 
-void menu_app::on_destroy_handler(ender::game_window* ctx) {
+void menu_app::on_destroy_handler(ender::platform_window* ctx) {
     auto* app = static_cast<menu_app*>(ctx);
     app->on_destroy();
 }
 
-bool menu_app::on_handle_events_handler(ender::game_window* ctx) {
+bool menu_app::on_handle_events_handler(ender::platform_window* ctx) {
     auto* app = static_cast<menu_app*>(ctx);
     return app->on_handle_events();
 }
 
-void menu_app::on_render_frame_handler(ender::game_window* ctx) {
+void menu_app::on_render_frame_handler(ender::platform_window* ctx) {
     auto* app = static_cast<menu_app*>(ctx);
     app->on_render_frame_imgui();
 }
 
-bool menu_app::on_message_close_handler(ender::game_window* ctx) {
+bool menu_app::on_message_close_handler(ender::platform_window* ctx) {
     // Return true to confirm user exit with dialogue box in wndproc.
     return true;
 }
@@ -64,6 +64,7 @@ bool menu_app::menu_app::on_handle_events() noexcept {
 void menu_app::menu_app::on_render_frame_imgui() noexcept {
     if constexpr (ender::use_imgui == true) {
         ImGuiIO& io = ImGui::GetIO();
+
         ImFont* font_big = io.Fonts->Fonts[0];
         ImFont* font_small = io.Fonts->Fonts[1];
 
@@ -73,7 +74,6 @@ void menu_app::menu_app::on_render_frame_imgui() noexcept {
         ImGui::SetNextWindowSize(
             ImVec2{static_cast<float>(client_size.x), static_cast<float>(client_size.y)});
         ImGui::SetNextWindowPos({0, 0});
-
         if (ImGui::Begin("menu app", nullptr,
                          ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar |
                              ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize) == true) {

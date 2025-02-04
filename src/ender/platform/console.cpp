@@ -1,6 +1,6 @@
 #include "console.hpp"
 
-bool ender::console::create() {
+bool ender::platform_console::create() {
     if (AllocConsole() == FALSE) {
         return false;
     }
@@ -24,14 +24,14 @@ bool ender::console::create() {
     return true;
 }
 
-void ender::console::destroy() {
+void ender::platform_console::destroy() {
     FreeConsole();
 
     m_output = INVALID_HANDLE_VALUE;
     m_input = INVALID_HANDLE_VALUE;
 }
 
-void ender::console::write_raw(std::wstring_view text) {
+void ender::platform_console::write_raw(std::wstring_view text) {
     if (m_output == INVALID_HANDLE_VALUE) {
         return;
     }
@@ -40,23 +40,23 @@ void ender::console::write_raw(std::wstring_view text) {
     WriteConsole(m_output, text.data(), text.length(), &written, NULL);
 }
 
-void ender::console::set_window_size(vec2i new_size) {
+void ender::platform_console::set_window_size(vec2i new_size) {
     SMALL_RECT rect = {0, 0, static_cast<SHORT>(new_size.x - 1),
                        static_cast<SHORT>(new_size.y - 1)};
     SetConsoleWindowInfo(m_output, TRUE, &rect);
 }
 
-void ender::console::set_title(std::string_view new_title) {
+void ender::platform_console::set_title(std::string_view new_title) {
     SetConsoleTitle(multibyte_to_unicode(new_title).c_str());
 }
 
-std::wstring_view ender::console::get_title() {
+std::wstring_view ender::platform_console::get_title() {
     wchar_t buffer[256];
     GetConsoleTitle(buffer, 256);
     return buffer;
 }
 
-std::string ender::console::unicode_to_multibyte(std::wstring_view unicode_text) {
+std::string ender::platform_console::unicode_to_multibyte(std::wstring_view unicode_text) {
     if (unicode_text.empty() == true) {
         return {};
     }
@@ -74,7 +74,7 @@ std::string ender::console::unicode_to_multibyte(std::wstring_view unicode_text)
     return converted_text;
 }
 
-std::wstring ender::console::multibyte_to_unicode(std::string_view multibyte_text) {
+std::wstring ender::platform_console::multibyte_to_unicode(std::string_view multibyte_text) {
     if (multibyte_text.empty() == true) {
         return {};
     }

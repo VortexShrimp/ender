@@ -14,10 +14,10 @@ A 2D rendering framework for Windows, written in modern C++.
 
 ## Example
 ```cpp
-// Inheret from ender::game_window to spawn a window.
-class menu_app : public ender::game_window {
+// Inheret from ender::platform_window to easily spawn a window.
+class menu_app : public ender::platform_window {
 public:
-    menu_app() : m_current_page(pages::login), game_window() {
+    menu_app() : m_current_page(pages::login), platform_window() {
     }
 
     // Basic events to listen for.

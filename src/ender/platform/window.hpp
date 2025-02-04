@@ -13,17 +13,18 @@
 #include "../math/vectors.hpp"
 
 namespace ender {
-    class game_renderer;
-    class game_window {
+    class platform_renderer;
+    class platform_window {
     public:
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
-        using message_close_function = bool (*)(game_window* game);  // Return true to confirm exit.
+        using message_close_function =
+            bool (*)(platform_window* game);  // Return true to confirm exit.
 
-        using create_function = bool (*)(game_window* game);
-        using destroy_function = void (*)(game_window* game);
-        using handle_events_function = bool (*)(game_window* game);
-        using render_frame_function = void (*)(game_window* game);
+        using create_function = bool (*)(platform_window* game);
+        using destroy_function = void (*)(platform_window* game);
+        using handle_events_function = bool (*)(platform_window* game);
+        using render_frame_function = void (*)(platform_window* game);
 
         struct window_details {
             std::wstring_view title;
@@ -38,7 +39,7 @@ namespace ender {
             int cmd_show;
         };
 
-        game_window()
+        platform_window()
             : m_is_running(false),
               m_hwnd(nullptr),
               m_wcex(),
@@ -93,8 +94,7 @@ namespace ender {
         ATOM m_wcex;
         HINSTANCE m_instance;
 
-        unique_pointer<game_renderer> m_renderer;
+        unique_pointer<platform_renderer> m_renderer;
         high_resolution_timer m_timer;
     };
-
 }  // namespace ender
