@@ -12,7 +12,7 @@ namespace menu_app {
         bool on_create() noexcept;
         void on_destroy() noexcept;
         bool on_handle_events() noexcept;
-        void on_render_frame() noexcept;
+        void on_render_frame_imgui() noexcept;
 
         enum class pages { login, home };
 
@@ -24,5 +24,7 @@ namespace menu_app {
     void on_destroy_handler(ender::game_window* ctx);
     bool on_handle_events_handler(ender::game_window* ctx);
     void on_render_frame_handler(ender::game_window* ctx);
+
+    bool on_message_close_handler(ender::game_window* ctx);
 
 }  // namespace menu_app

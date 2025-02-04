@@ -1,6 +1,7 @@
 #include "menu_app.hpp"
 
 #include "../src/ender/ender.hpp"
+#include "../src/ender/platform/internet.hpp"
 
 // ImGui for creating the menu.
 #include <imgui\imgui.h>
@@ -23,14 +24,19 @@ bool menu_app::on_handle_events_handler(ender::game_window* ctx) {
 
 void menu_app::on_render_frame_handler(ender::game_window* ctx) {
     auto* app = static_cast<menu_app*>(ctx);
-    app->on_render_frame();
+    app->on_render_frame_imgui();
+}
+
+bool menu_app::on_message_close_handler(ender::game_window* ctx) {
+    // Return true to confirm user exit with dialogue box in wndproc.
+    return true;
 }
 
 bool menu_app::menu_app::on_create() noexcept {
     if (ender::use_imgui == true) {
         ImGuiIO& io = ImGui::GetIO();
 
-        io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/bahnschrift.ttf", 30.0f);
+        io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/bahnschrift.ttf", 32.0f);
         io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/bahnschrift.ttf", 16.0f);
 
         io.Fonts->Build();
@@ -55,7 +61,7 @@ bool menu_app::menu_app::on_handle_events() noexcept {
     return true;
 }
 
-void menu_app::menu_app::on_render_frame() noexcept {
+void menu_app::menu_app::on_render_frame_imgui() noexcept {
     if constexpr (ender::use_imgui == true) {
         ImGuiIO& io = ImGui::GetIO();
         ImFont* font_big = io.Fonts->Fonts[0];
@@ -75,16 +81,13 @@ void menu_app::menu_app::on_render_frame() noexcept {
                 case pages::login: {
                     ImGui::PushFont(font_big);
                     ImGui::Text("Welcome");
+                    ImGui::Separator();
                     ImGui::PopFont();
 
                     ImGui::PushFont(font_small);
 
                     static char username[32] = {};
                     ImGui::InputText("username", username, IM_ARRAYSIZE(username));
-
-                    static char password[32] = {};
-                    ImGui::InputText("password", password, IM_ARRAYSIZE(username),
-                                     ImGuiInputTextFlags_Password);
 
                     if (ImGui::Button("login") == true) {
                         m_current_page = pages::home;

@@ -55,6 +55,8 @@ namespace ender {
      * @brief Data that needs to be shared between Window and Message Loop.
      */
     struct engine_window_data {
+        game_window* window;  // Reference to the window.
+
         UINT resize_width;  // Resizing is handled in render loop and wndproc.
         UINT resize_height;
 
@@ -126,19 +128,18 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         // Use it to allow a user to confirm their exit.
         case WM_CLOSE: {
             if (window_data.on_message_close != nullptr) {
-                window_data.on_message_close();
-
-                // TODO: Use the above callback to let devs toggle the "confirm exit" dialogue.
-
-                // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
-                const int choice = MessageBox(hwnd, L"Would you like to exit this window?",
-                                              L"ender", MB_YESNO | MB_ICONEXCLAMATION);
-                if (choice == IDYES) {
-                    DestroyWindow(hwnd);
+                const bool should_confirm_exit = window_data.on_message_close(window_data.window);
+                if (should_confirm_exit == true) {
+                    // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
+                    const int choice = MessageBox(hwnd, L"Would you like to exit this window?",
+                                                  L"ender", MB_YESNO | MB_ICONEXCLAMATION);
+                    if (choice == IDYES) {
+                        DestroyWindow(hwnd);
+                        break;
+                    }
                 }
-            } else {
-                DestroyWindow(hwnd);
             }
+            DestroyWindow(hwnd);
             break;
         }
 
@@ -354,7 +355,8 @@ bool ender::game_window::create(create_function on_create, window_details detail
     }
 
     // Add this window to the global lookup table.
-    s_window_data[m_hwnd] = engine_window_data{.resize_width = 0,
+    s_window_data[m_hwnd] = engine_window_data{.window = this,
+                                               .resize_width = 0,
                                                .resize_height = 0,
                                                .on_message_create = details.on_message_create,
                                                .on_message_destroy = details.on_message_destroy,

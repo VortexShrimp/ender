@@ -18,7 +18,7 @@ namespace ender {
     public:
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
-        using message_close_function = void (*)();
+        using message_close_function = bool (*)(game_window* game);  // Return true to confirm exit.
 
         using create_function = bool (*)(game_window* game);
         using destroy_function = void (*)(game_window* game);
