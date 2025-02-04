@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua54.lib;fmt.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -141,7 +141,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua54.lib;fmt.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,20 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="examples\menu_app.hpp" />
-    <ClInclude Include="external\fmt\args.h" />
-    <ClInclude Include="external\fmt\base.h" />
-    <ClInclude Include="external\fmt\chrono.h" />
-    <ClInclude Include="external\fmt\color.h" />
-    <ClInclude Include="external\fmt\compile.h" />
-    <ClInclude Include="external\fmt\core.h" />
-    <ClInclude Include="external\fmt\format-inl.h" />
-    <ClInclude Include="external\fmt\format.h" />
-    <ClInclude Include="external\fmt\os.h" />
-    <ClInclude Include="external\fmt\ostream.h" />
-    <ClInclude Include="external\fmt\printf.h" />
-    <ClInclude Include="external\fmt\ranges.h" />
-    <ClInclude Include="external\fmt\std.h" />
-    <ClInclude Include="external\fmt\xchar.h" />
     <ClInclude Include="external\freetype\config\ftconfig.h" />
     <ClInclude Include="external\freetype\config\ftheader.h" />
     <ClInclude Include="external\freetype\config\ftmodule.h" />

@@ -68,6 +68,9 @@ namespace ender {
 
 /**
  * @brief Stores data that is shared between wndproc and windows.
+ *
+ * Uses HWND as a key and stores data in a structure for a each window.
+ *
  */
 static std::unordered_map<HWND, ender::engine_window_data> s_window_data;
 
@@ -133,8 +136,12 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
                     // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
                     const int choice = MessageBox(hwnd, L"Would you like to exit this window?",
                                                   L"ender", MB_YESNO | MB_ICONEXCLAMATION);
+
+                    // User clicked yes.
                     if (choice == IDYES) {
                         DestroyWindow(hwnd);
+                        break;
+                    } else {
                         break;
                     }
                 }

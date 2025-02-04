@@ -1,10 +1,17 @@
 #include "menu_app.hpp"
 
+#include "../src/ender/platform/console.hpp"
+
 namespace examples {
     constexpr bool build_menu_app = true;
 }
 
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
+    ender::console console = {};
+    console.create();
+    console.set_title("menu_app console");
+    console.write("Welcome to {}", "menu_app");
+
     if constexpr (examples::build_menu_app == true) {
         menu_app::menu_app app = {};
         if (app.create(menu_app::on_create_handler,
@@ -21,10 +28,12 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
             }
 
             app.destroy(menu_app::on_destroy_handler);
+            console.destroy();
 
             return EXIT_SUCCESS;
         }
     }
 
+    console.destroy();
     return EXIT_FAILURE;
 }

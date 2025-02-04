@@ -32,6 +32,20 @@ public:
 private:
     pages m_current_page;
 };
+
+int main() {
+    // Create and run the window.
+    menu_app app = {};
+    if (app.create(...) == true) {
+        while (app.handle_events(...) == true) {
+            app.render_frame(...);
+        }
+
+        app.destroy(...);
+    }
+
+    return 0;
+}
 ```
 ## Support
 Only supports 64-bit Windows at the moment.

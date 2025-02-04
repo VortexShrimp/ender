@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="examples\example_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="external\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,6 +48,15 @@
     <ClCompile Include="src\ender\utils\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="examples\menu_app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ender\platform\internet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\examples_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\imgui\imconfig.h">
@@ -75,48 +81,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="external\imgui\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\args.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\chrono.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\compile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\format.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\format-inl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\os.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\ostream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\printf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\ranges.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\std.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="external\fmt\xchar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ender\ender.hpp">
@@ -303,6 +267,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ender\math\vectors.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\menu_app.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ender\platform\internet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
