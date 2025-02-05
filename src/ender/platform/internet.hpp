@@ -31,7 +31,9 @@ namespace ender {
          * @param downloaded
          * @return
          */
-        bool get(std::string_view url, std::string_view objects, std::string& response);
+        bool get(std::string_view url, std::string_view objects, std::string& response_out);
+        bool post(std::string_view url, std::string_view objects, std::string_view data,
+                  std::string response_out);
 
     private:
         HINTERNET m_internet;
