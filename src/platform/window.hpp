@@ -79,6 +79,8 @@ namespace ender {
         bool is_running() const noexcept;
 
     protected:
+        bool create_lua_state();
+
         bool set_title(std::wstring_view new_title);
         std::wstring_view get_title() const;
 

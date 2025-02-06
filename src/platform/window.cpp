@@ -260,6 +260,19 @@ void ender::platform_window::render_frame(render_frame_function on_render_frame)
     m_renderer->render_frame();
 }
 
+bool ender::platform_window::create_lua_state() {
+    m_lua_state.open_libraries();
+    m_lua_state.script_file("scripts\\ender_context.lua");
+
+    auto lua_ender_context = m_lua_state["ender_context"];
+    if (lua_ender_context.valid() == true) {
+        lua_ender_context["engine_name"] = engine_name;
+        lua_ender_context["version_string"] = version_string;
+    }
+
+    return true;
+}
+
 bool ender::platform_window::set_title(std::wstring_view new_title) {
     return SetWindowText(m_hwnd, new_title.data());
 }

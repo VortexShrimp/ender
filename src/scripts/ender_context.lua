@@ -1,3 +1,4 @@
 ender_context = {
-    window_title = "ender editor"
+    engine_name = "",
+    version_string = ""
 }

@@ -22,13 +22,7 @@ a terrible experience for me so here is my attempt at an elegant solution.
 // Inheret from ender::platform_window to easily spawn a window.
 class menu_app : public ender::platform_window {
 public:
-    menu_app() : m_current_page(pages::login), platform_window() {
-    }
-
-    // Called when the window has been created.
-    bool on_create() noexcept {
-        set_window_title(L"menu app example");
-        return true;
+    menu_app() : platform_window() {
     }
 
     // Render imgui here.
@@ -36,11 +30,6 @@ public:
         ImGui::ShowDemoWindow();
     }
 };
-
-bool on_create_handler(ender::platform_window* ctx) {
-    auto app = static_cast<menu_app*>(ctx);
-    return app->on_create();
-}
 
 // These are the callbacks given to the window.
 // Use them to call custom events in the class.
@@ -54,16 +43,24 @@ void on_render_frame_handler(ender::platform_window* ctx) {
     // app->on_render_frame()
 }
 
-int main() {
+// Example Windows entry point.
+INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
     // Create and run the window.
     // Put more windows in seperate threads...
-    menu_app app = {};
-    if (app.create(on_create_handler, {...}) == true) {
-        while (app.handle_events(nullptr) == true) {
-            app.render_frame(on_render_frame);
+    auto app = ender::make_unique_pointer<menu_app>();
+    if (app->create(nullptr, {.title = L"menu app",
+                                        .width = 1280,
+                                        .height = 720,
+                                        .on_message_create = nullptr,
+                                        .on_message_destroy = nullptr,
+                                        .on_message_close = nullptr,
+                                        .instance = instance,
+                                        .cmd_show = cmd_show}) == true) {
+        while (app->handle_events(nullptr) == true) {
+            app->render_frame(on_render_frame_handler);
         }
 
-        app.destroy(nullptr);
+        app->destroy(nullptr);
     }
 
     return 0;
