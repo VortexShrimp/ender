@@ -1,6 +1,6 @@
 #include "menu_app.hpp"
 
-#include "../src/ender/platform/console.hpp"
+#include "../src/platform/console.hpp"
 
 namespace examples {
     constexpr bool build_menu_app = true;

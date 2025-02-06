@@ -1,7 +1,7 @@
 #include "menu_app.hpp"
 
-#include "../src/ender/ender.hpp"
-#include "../src/ender/platform/internet.hpp"
+#include "../src/ender.hpp"
+#include "../src/platform/internet.hpp"
 
 // ImGui for creating the menu.
 #include <imgui\imgui.h>
@@ -53,7 +53,9 @@ bool menu_app::menu_app::on_create() noexcept {
         io.FontDefault = io.Fonts->Fonts[0];
     }
 
-    m_lua_state.open_libraries(sol::lib::base);
+    m_lua_state.open_libraries();
+    m_lua_state.script_file("scripts\\ender_context.lua");
+
     m_lua_state.script_file("scripts\\example.lua");
 
     m_console.write("[menu_app::on_create] Lua state created.\n");

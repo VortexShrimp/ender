@@ -125,7 +125,8 @@
       <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)examples\scripts\*" "$(OutDir)scripts\"</Command>
+      <Command>copy "$(ProjectDir)examples\scripts\*" "$(OutDir)scripts\"
+copy "$(ProjectDir)src\scripts\*" "$(OutDir)scripts\"</Command>
       <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
     </PostBuildEvent>
     <CustomBuildStep>
@@ -155,7 +156,8 @@
       <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)examples\scripts\*" "$(OutDir)scripts\"</Command>
+      <Command>copy "$(ProjectDir)examples\scripts\*" "$(OutDir)scripts\"
+copy "$(ProjectDir)src\scripts\*" "$(OutDir)scripts\"</Command>
       <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
     </PostBuildEvent>
     <CustomBuildStep>
@@ -176,11 +178,11 @@
     <ClCompile Include="external\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="external\imgui\imgui_tables.cpp" />
     <ClCompile Include="external\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\ender\platform\console.cpp" />
-    <ClCompile Include="src\ender\platform\internet.cpp" />
-    <ClCompile Include="src\ender\platform\renderer.cpp" />
-    <ClCompile Include="src\ender\platform\window.cpp" />
-    <ClCompile Include="src\ender\utils\timer.cpp" />
+    <ClCompile Include="src\platform\console.cpp" />
+    <ClCompile Include="src\platform\internet.cpp" />
+    <ClCompile Include="src\platform\renderer.cpp" />
+    <ClCompile Include="src\platform\window.cpp" />
+    <ClCompile Include="src\utils\timer.cpp" />
     <ClCompile Include="examples\examples_main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -250,14 +252,14 @@
     <ClInclude Include="external\imgui\imstb_textedit.h" />
     <ClInclude Include="external\imgui\imstb_truetype.h" />
     <ClInclude Include="external\xorstr\xorstr.hpp" />
-    <ClInclude Include="src\ender\ender.hpp" />
-    <ClInclude Include="src\ender\math\vectors.hpp" />
-    <ClInclude Include="src\ender\platform\console.hpp" />
-    <ClInclude Include="src\ender\platform\internet.hpp" />
-    <ClInclude Include="src\ender\platform\renderer.hpp" />
-    <ClInclude Include="src\ender\platform\window.hpp" />
-    <ClInclude Include="src\ender\utils\pointers.hpp" />
-    <ClInclude Include="src\ender\utils\timer.hpp" />
+    <ClInclude Include="src\ender.hpp" />
+    <ClInclude Include="src\math\vectors.hpp" />
+    <ClInclude Include="src\platform\console.hpp" />
+    <ClInclude Include="src\platform\internet.hpp" />
+    <ClInclude Include="src\platform\renderer.hpp" />
+    <ClInclude Include="src\platform\window.hpp" />
+    <ClInclude Include="src\utils\pointers.hpp" />
+    <ClInclude Include="src\utils\timer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

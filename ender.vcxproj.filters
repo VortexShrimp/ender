@@ -36,28 +36,28 @@
     <ClCompile Include="external\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ender\platform\window.cpp">
+    <ClCompile Include="src\platform\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ender\platform\console.cpp">
+    <ClCompile Include="src\platform\console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="external\imgui\imgui_freetype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ender\utils\timer.cpp">
+    <ClCompile Include="src\utils\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="examples\menu_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ender\platform\internet.cpp">
+    <ClCompile Include="src\platform\internet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="examples\examples_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ender\platform\renderer.cpp">
+    <ClCompile Include="src\platform\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -86,16 +86,16 @@
     <ClInclude Include="external\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\ender.hpp">
+    <ClInclude Include="src\ender.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\platform\window.hpp">
+    <ClInclude Include="src\platform\window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\platform\console.hpp">
+    <ClInclude Include="src\platform\console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\utils\pointers.hpp">
+    <ClInclude Include="src\utils\pointers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="external\imgui\imgui_freetype.h">
@@ -266,22 +266,22 @@
     <ClInclude Include="external\ft2build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\utils\timer.hpp">
+    <ClInclude Include="src\utils\timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\math\vectors.hpp">
+    <ClInclude Include="src\math\vectors.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="examples\menu_app.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\platform\internet.hpp">
+    <ClInclude Include="src\platform\internet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="external\xorstr\xorstr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender\platform\renderer.hpp">
+    <ClInclude Include="src\platform\renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

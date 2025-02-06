@@ -2,8 +2,8 @@
 #include <array>
 
 // We just need a window from ender.
-#include "../src/ender/platform/window.hpp"
-#include "../src/ender/platform/console.hpp"
+#include "../src/platform/window.hpp"
+#include "../src/platform/console.hpp"
 
 namespace menu_app {
     class menu_app : public ender::platform_window {
