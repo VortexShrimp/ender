@@ -54,9 +54,13 @@ bool menu_app::menu_app::on_create() noexcept {
     }
 
     m_lua_state.open_libraries(sol::lib::base);
-    m_lua_state.script_file("scripts\\example.ender");
+    m_lua_state.script_file("scripts\\example.lua");
 
-    m_console.write("[menu_app::on_create] Success.\n");
+    const std::string title = m_lua_state["game_config"]["title"];
+    const std::string version = m_lua_state["game_config"]["version"];
+
+    m_console.write("[menu_app::on_create] Lua state created.\n Title '{}' Version '{}'\n", title,
+                    version);
 
     return true;
 }
