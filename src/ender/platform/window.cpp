@@ -10,62 +10,6 @@
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
 
-namespace ender {
-    /**
-     * @brief Currently a d3d11 renderer.
-     */
-    class platform_renderer {
-    public:
-        platform_renderer()
-            : m_device(nullptr),
-              m_device_context(nullptr),
-              m_swap_chain(nullptr),
-              m_render_target_view(nullptr),
-              m_is_swap_chain_occluded(false) {
-        }
-        ~platform_renderer();
-
-        bool create(HWND hwnd);
-        bool destroy();
-
-        bool is_swapchain_occluded();
-
-        void render_frame();
-        void post_render_frame();
-
-        void set_swap_chain_occluded(bool is_occluded);
-        void handle_resize(HWND hwnd);
-
-        ID3D11Device* get_device() const noexcept;
-        ID3D11DeviceContext* get_device_context() const noexcept;
-
-    private:
-        bool create_render_target();
-        void destroy_render_target();
-
-        ID3D11Device* m_device;
-        ID3D11DeviceContext* m_device_context;
-        IDXGISwapChain* m_swap_chain;
-        ID3D11RenderTargetView* m_render_target_view;
-
-        bool m_is_swap_chain_occluded;
-    };
-
-    /**
-     * @brief Data that needs to be shared between Window and Message Loop.
-     */
-    struct engine_window_data {
-        platform_window* window;  // Reference to the window.
-
-        UINT resize_width;  // Resizing is handled in render loop and wndproc.
-        UINT resize_height;
-
-        platform_window::message_create_function on_message_create;
-        platform_window::message_destroy_function on_message_destroy;
-        platform_window::message_close_function on_message_close;
-    };
-}  // namespace ender
-
 /**
  * @brief Stores data that is shared between wndproc and windows.
  *
@@ -73,6 +17,10 @@ namespace ender {
  *
  */
 static std::unordered_map<HWND, ender::engine_window_data> s_window_data;
+
+auto ender::get_window_data(HWND hwnd) -> engine_window_data& {
+    return s_window_data[hwnd];
+}
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND window, UINT message,
                                                              WPARAM wparam, LPARAM lparam);
@@ -173,140 +121,6 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     return 0;
 }
 
-ender::platform_renderer::~platform_renderer() {
-    destroy();
-}
-
-bool ender::platform_renderer::create(HWND hwnd) {
-    DXGI_SWAP_CHAIN_DESC sd = {};
-    sd.BufferCount = 2;
-    sd.BufferDesc.Width = 0;
-    sd.BufferDesc.Height = 0;
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    sd.BufferDesc.RefreshRate.Numerator = 60;
-    sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    sd.OutputWindow = hwnd;
-    sd.SampleDesc.Count = 1;
-    sd.SampleDesc.Quality = 0;
-    sd.Windowed = TRUE;
-    sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-
-    UINT create_device_flags = 0;
-    D3D_FEATURE_LEVEL feature_level;
-    constexpr D3D_FEATURE_LEVEL feature_level_arr[2] = {
-        D3D_FEATURE_LEVEL_11_0,
-        D3D_FEATURE_LEVEL_10_0,
-    };
-
-    HRESULT res = D3D11CreateDeviceAndSwapChain(
-        nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, create_device_flags, feature_level_arr, 2,
-        D3D11_SDK_VERSION, &sd, &m_swap_chain, &m_device, &feature_level, &m_device_context);
-    if (res == DXGI_ERROR_UNSUPPORTED) {
-        res = D3D11CreateDeviceAndSwapChain(
-            nullptr, D3D_DRIVER_TYPE_WARP, nullptr, create_device_flags, feature_level_arr, 2,
-            D3D11_SDK_VERSION, &sd, &m_swap_chain, &m_device, &feature_level, &m_device_context);
-    }
-
-    if (res != S_OK) {
-        return false;
-    }
-
-    if (create_render_target() == false) {
-        return false;
-    }
-
-    return true;
-}
-
-bool ender::platform_renderer::destroy() {
-    destroy_render_target();
-
-    if (m_swap_chain != nullptr) {
-        m_swap_chain->Release();
-        m_swap_chain = nullptr;
-    }
-
-    if (m_device_context != nullptr) {
-        m_device_context->Release();
-        m_device_context = nullptr;
-    }
-
-    if (m_device != nullptr) {
-        m_device->Release();
-        m_device = nullptr;
-    }
-
-    return true;
-}
-
-bool ender::platform_renderer::is_swapchain_occluded() {
-    return m_is_swap_chain_occluded == false &&
-           m_swap_chain->Present(0, DXGI_PRESENT_TEST) != DXGI_STATUS_OCCLUDED;
-}
-
-void ender::platform_renderer::render_frame() {
-    ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
-    const float clear_color_with_alpha[4] = {clear_color.x * clear_color.w,
-                                             clear_color.y * clear_color.w,
-                                             clear_color.z * clear_color.w, clear_color.w};
-    m_device_context->OMSetRenderTargets(1, &m_render_target_view, nullptr);
-    m_device_context->ClearRenderTargetView(m_render_target_view, clear_color_with_alpha);
-}
-
-void ender::platform_renderer::post_render_frame() {
-    HRESULT hr = m_swap_chain->Present(0, 0);
-    m_is_swap_chain_occluded = (hr == DXGI_STATUS_OCCLUDED);
-}
-
-void ender::platform_renderer::set_swap_chain_occluded(bool is_occluded) {
-    m_is_swap_chain_occluded = is_occluded;
-}
-
-void ender::platform_renderer::handle_resize(HWND hwnd) {
-    engine_window_data& window_data = s_window_data[hwnd];
-    if (window_data.resize_width != 0 && window_data.resize_height != 0) {
-        destroy_render_target();
-        m_swap_chain->ResizeBuffers(0, window_data.resize_width, window_data.resize_height,
-                                    DXGI_FORMAT_UNKNOWN, 0);
-        create_render_target();
-
-        window_data.resize_width = 0;
-        window_data.resize_height = 0;
-    }
-}
-
-ID3D11Device* ender::platform_renderer::get_device() const noexcept {
-    return m_device;
-}
-
-ID3D11DeviceContext* ender::platform_renderer::get_device_context() const noexcept {
-    return m_device_context;
-}
-
-bool ender::platform_renderer::create_render_target() {
-    ID3D11Texture2D* back_buffer;
-    if (m_swap_chain->GetBuffer(0, IID_PPV_ARGS(&back_buffer)) != S_OK) {
-        return false;
-    }
-
-    if (m_device->CreateRenderTargetView(back_buffer, nullptr, &m_render_target_view) != S_OK) {
-        return false;
-    }
-
-    back_buffer->Release();
-
-    return true;
-}
-
-void ender::platform_renderer::destroy_render_target() {
-    if (m_render_target_view != nullptr) {
-        m_render_target_view->Release();
-        m_render_target_view = nullptr;
-    }
-}
-
 bool ender::platform_window::create(create_function on_create, window_details details) {
     m_instance = details.instance;
 
@@ -338,7 +152,7 @@ bool ender::platform_window::create(create_function on_create, window_details de
     }
 
     // Create and initialize the renderer.
-    m_renderer = make_unique_pointer<platform_renderer>();
+    m_renderer = make_unique_pointer<d3d11_renderer>();
     if (m_renderer->create(m_hwnd) == false) {
         DestroyWindow(m_hwnd);
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
@@ -443,17 +257,8 @@ void ender::platform_window::render_frame(render_frame_function on_render_frame)
         on_render_frame(this);
     }
 
-    if constexpr (use_imgui == true) {
-        ImGui::Render();
-    }
-
+    m_renderer->add_rect({250.0f, 100.0f}, {350.0f, 200.0f}, {0.0f, 1.0f, 0.0f, 1.0f});
     m_renderer->render_frame();
-
-    if constexpr (use_imgui == true) {
-        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-    }
-
-    m_renderer->post_render_frame();
 }
 
 bool ender::platform_window::set_title(std::wstring_view new_title) {

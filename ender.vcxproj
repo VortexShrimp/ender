@@ -156,6 +156,7 @@
     <ClCompile Include="external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\ender\platform\console.cpp" />
     <ClCompile Include="src\ender\platform\internet.cpp" />
+    <ClCompile Include="src\ender\platform\renderer.cpp" />
     <ClCompile Include="src\ender\platform\window.cpp" />
     <ClCompile Include="src\ender\utils\timer.cpp" />
     <ClCompile Include="examples\examples_main.cpp" />
@@ -231,6 +232,7 @@
     <ClInclude Include="src\ender\math\vectors.hpp" />
     <ClInclude Include="src\ender\platform\console.hpp" />
     <ClInclude Include="src\ender\platform\internet.hpp" />
+    <ClInclude Include="src\ender\platform\renderer.hpp" />
     <ClInclude Include="src\ender\platform\window.hpp" />
     <ClInclude Include="src\ender\utils\pointers.hpp" />
     <ClInclude Include="src\ender\utils\timer.hpp" />

@@ -1,0 +1,220 @@
+#include "renderer.hpp"
+
+#include "../ender.hpp"
+#include "window.hpp"
+
+#include <imgui\imgui.h>
+#include <imgui\imgui_impl_dx11.h>
+
+ender::d3d11_renderer::~d3d11_renderer() {
+    destroy();
+}
+
+bool ender::d3d11_renderer::create(HWND hwnd) {
+    DXGI_SWAP_CHAIN_DESC sd = {};
+    sd.BufferCount = 2;
+    sd.BufferDesc.Width = 0;
+    sd.BufferDesc.Height = 0;
+    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    sd.BufferDesc.RefreshRate.Numerator = 60;
+    sd.BufferDesc.RefreshRate.Denominator = 1;
+    sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    sd.OutputWindow = hwnd;
+    sd.SampleDesc.Count = 1;
+    sd.SampleDesc.Quality = 0;
+    sd.Windowed = TRUE;
+    sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+
+    UINT create_device_flags = 0;
+    D3D_FEATURE_LEVEL feature_level;
+    constexpr D3D_FEATURE_LEVEL feature_level_arr[2] = {
+        D3D_FEATURE_LEVEL_11_0,
+        D3D_FEATURE_LEVEL_10_0,
+    };
+
+    HRESULT res = D3D11CreateDeviceAndSwapChain(
+        nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, create_device_flags, feature_level_arr, 2,
+        D3D11_SDK_VERSION, &sd, &m_swap_chain, &m_device, &feature_level, &m_device_context);
+    if (res == DXGI_ERROR_UNSUPPORTED) {
+        res = D3D11CreateDeviceAndSwapChain(
+            nullptr, D3D_DRIVER_TYPE_WARP, nullptr, create_device_flags, feature_level_arr, 2,
+            D3D11_SDK_VERSION, &sd, &m_swap_chain, &m_device, &feature_level, &m_device_context);
+    }
+
+    if (res != S_OK) {
+        return false;
+    }
+
+    if (create_render_target() == false) {
+        return false;
+    }
+
+    if (create_buffers() == false) {
+        return false;
+    }
+
+    // Set viewport
+    D3D11_VIEWPORT vp;
+    vp.Width = static_cast<float>(800);   // Adjust to your window width
+    vp.Height = static_cast<float>(600);  // Adjust to your window height
+    vp.MinDepth = 0.0f;
+    vp.MaxDepth = 1.0f;
+    vp.TopLeftX = 0;
+    vp.TopLeftY = 0;
+    m_device_context->RSSetViewports(1, &vp);
+
+    return true;
+}
+
+bool ender::d3d11_renderer::destroy() {
+    destroy_render_target();
+
+    if (m_swap_chain != nullptr) {
+        m_swap_chain->Release();
+        m_swap_chain = nullptr;
+    }
+
+    if (m_device_context != nullptr) {
+        m_device_context->Release();
+        m_device_context = nullptr;
+    }
+
+    if (m_device != nullptr) {
+        m_device->Release();
+        m_device = nullptr;
+    }
+
+    if (m_vertex_buffer != nullptr) {
+        m_vertex_buffer->Release();
+        m_vertex_buffer = nullptr;
+    }
+
+    if (m_index_buffer != nullptr) {
+        m_index_buffer->Release();
+        m_index_buffer = nullptr;
+    }
+
+    clear_primitives();
+
+    return true;
+}
+
+bool ender::d3d11_renderer::is_swapchain_occluded() {
+    return m_is_swap_chain_occluded == false &&
+           m_swap_chain->Present(0, DXGI_PRESENT_TEST) != DXGI_STATUS_OCCLUDED;
+}
+
+void ender::d3d11_renderer::render_frame() {
+    ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
+    const float clear_color_with_alpha[4] = {clear_color.x * clear_color.w,
+                                             clear_color.y * clear_color.w,
+                                             clear_color.z * clear_color.w, clear_color.w};
+    m_device_context->OMSetRenderTargets(1, &m_render_target_view, nullptr);
+    m_device_context->ClearRenderTargetView(m_render_target_view, clear_color_with_alpha);
+
+    if constexpr (use_imgui == true) {
+        ImGui::Render();
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    // Clear primitives after rendering
+    clear_primitives();
+
+    HRESULT hr = m_swap_chain->Present(1, 0);
+    m_is_swap_chain_occluded = (hr == DXGI_STATUS_OCCLUDED);
+}
+
+void ender::d3d11_renderer::set_swap_chain_occluded(bool is_occluded) {
+    m_is_swap_chain_occluded = is_occluded;
+}
+
+void ender::d3d11_renderer::handle_resize(HWND hwnd) {
+    engine_window_data& window_data = get_window_data(hwnd);
+    if (window_data.resize_width != 0 && window_data.resize_height != 0) {
+        destroy_render_target();
+        m_swap_chain->ResizeBuffers(0, window_data.resize_width, window_data.resize_height,
+                                    DXGI_FORMAT_UNKNOWN, 0);
+        create_render_target();
+
+        window_data.resize_width = 0;
+        window_data.resize_height = 0;
+    }
+}
+
+void ender::d3d11_renderer::add_rect(const DirectX::XMFLOAT2& top_left,
+                                     const DirectX::XMFLOAT2& bottom_right,
+                                     const DirectX::XMFLOAT4& color) {
+    UINT start_index = static_cast<UINT>(m_vertices.size());
+
+    m_vertices.push_back({top_left, color});
+    m_vertices.push_back({{bottom_right.x, top_left.y}, color});
+    m_vertices.push_back({bottom_right, color});
+    m_vertices.push_back({{top_left.x, bottom_right.y}, color});
+
+    m_indices.push_back(start_index);
+    m_indices.push_back(start_index + 1);
+    m_indices.push_back(start_index + 2);
+    m_indices.push_back(start_index);
+    m_indices.push_back(start_index + 2);
+    m_indices.push_back(start_index + 3);
+}
+
+void ender::d3d11_renderer::clear_primitives() {
+    m_vertices.clear();
+    m_indices.clear();
+}
+
+ID3D11Device* ender::d3d11_renderer::get_device() const noexcept {
+    return m_device;
+}
+
+ID3D11DeviceContext* ender::d3d11_renderer::get_device_context() const noexcept {
+    return m_device_context;
+}
+
+bool ender::d3d11_renderer::create_render_target() {
+    ID3D11Texture2D* back_buffer;
+    if (m_swap_chain->GetBuffer(0, IID_PPV_ARGS(&back_buffer)) != S_OK) {
+        return false;
+    }
+
+    if (m_device->CreateRenderTargetView(back_buffer, nullptr, &m_render_target_view) != S_OK) {
+        return false;
+    }
+
+    back_buffer->Release();
+
+    return true;
+}
+
+void ender::d3d11_renderer::destroy_render_target() {
+    if (m_render_target_view != nullptr) {
+        m_render_target_view->Release();
+        m_render_target_view = nullptr;
+    }
+}
+
+bool ender::d3d11_renderer::create_buffers() {
+    D3D11_BUFFER_DESC vertex_buffer_description = {};
+    vertex_buffer_description.Usage = D3D11_USAGE_DYNAMIC;
+    vertex_buffer_description.ByteWidth = sizeof(vertex) * 1000;  // Adjust size as needed
+    vertex_buffer_description.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    vertex_buffer_description.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    if (FAILED(m_device->CreateBuffer(&vertex_buffer_description, nullptr, &m_vertex_buffer))) {
+        return false;
+    }
+
+    D3D11_BUFFER_DESC index_buffer_description = {};
+    index_buffer_description.Usage = D3D11_USAGE_DYNAMIC;
+    index_buffer_description.ByteWidth = sizeof(UINT) * 1000;  // Adjust size as needed
+    index_buffer_description.BindFlags = D3D11_BIND_INDEX_BUFFER;
+    index_buffer_description.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+    if (FAILED(m_device->CreateBuffer(&index_buffer_description, nullptr, &m_index_buffer))) {
+        return false;
+    }
+
+    return true;
+}

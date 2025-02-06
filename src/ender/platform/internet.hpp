@@ -11,6 +11,10 @@
 namespace ender {
     /**
      * @brief Opens a connection to a url for simple get/post requests.
+     *
+     * TODO:
+     * - Add async get & post.
+     *
      */
     class platform_internet {
     public:

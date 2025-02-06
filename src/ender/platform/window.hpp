@@ -1,19 +1,17 @@
 #pragma once
 #include <string_view>
-#include <vector>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIn32_LEAN_AND_MEAN
 #endif  // !WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include <d3d11.h>
 
+#include "renderer.hpp"
 #include "../utils/pointers.hpp"
 #include "../utils/timer.hpp"
 #include "../math/vectors.hpp"
 
 namespace ender {
-    class platform_renderer;
     class platform_window {
     public:
         using message_create_function = void (*)();
@@ -88,13 +86,29 @@ namespace ender {
         float get_delta_time();
 
         bool m_is_running;
+        unique_pointer<d3d11_renderer> m_renderer;
 
     private:
         HWND m_hwnd;
         ATOM m_wcex;
         HINSTANCE m_instance;
 
-        unique_pointer<platform_renderer> m_renderer;
         high_resolution_timer m_timer;
     };
+
+    /**
+     * @brief Data that needs to be shared between Window and Message Loop.
+     */
+    struct engine_window_data {
+        platform_window* window;  // Reference to the window.
+
+        UINT resize_width;  // Resizing is handled in render loop and wndproc.
+        UINT resize_height;
+
+        platform_window::message_create_function on_message_create;
+        platform_window::message_destroy_function on_message_destroy;
+        platform_window::message_close_function on_message_close;
+    };
+
+    engine_window_data& get_window_data(HWND hwnd);
 }  // namespace ender
