@@ -257,7 +257,6 @@ void ender::platform_window::render_frame(render_frame_function on_render_frame)
         on_render_frame(this);
     }
 
-    m_renderer->add_rect({250.0f, 100.0f}, {350.0f, 200.0f}, {0.0f, 1.0f, 0.0f, 1.0f});
     m_renderer->render_frame();
 }
 

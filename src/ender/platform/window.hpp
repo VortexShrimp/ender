@@ -6,6 +6,8 @@
 #endif  // !WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#include <sol\sol.hpp>
+
 #include "renderer.hpp"
 #include "../utils/pointers.hpp"
 #include "../utils/timer.hpp"
@@ -87,6 +89,7 @@ namespace ender {
 
         bool m_is_running;
         unique_pointer<d3d11_renderer> m_renderer;
+        sol::state m_lua_state;
 
     private:
         HWND m_hwnd;

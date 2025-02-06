@@ -124,6 +124,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)examples\scripts\*" "$(OutDir)scripts\"</Command>
+      <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
+    </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>if not exist "$(OutDir)scripts\" mkdir "$(OutDir)scripts\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -143,6 +154,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)examples\scripts\*" "$(OutDir)scripts\"</Command>
+      <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
+    </PostBuildEvent>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>if not exist "$(OutDir)scripts\" mkdir "$(OutDir)scripts\"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="examples\menu_app.cpp" />

@@ -53,6 +53,9 @@ bool menu_app::menu_app::on_create() noexcept {
         io.FontDefault = io.Fonts->Fonts[0];
     }
 
+    m_lua_state.open_libraries(sol::lib::base);
+    m_lua_state.script_file("scripts\\example.ender");
+
     m_console.write("[menu_app::on_create] Success.\n");
 
     return true;

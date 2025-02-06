@@ -50,20 +50,6 @@ bool ender::d3d11_renderer::create(HWND hwnd) {
         return false;
     }
 
-    if (create_buffers() == false) {
-        return false;
-    }
-
-    // Set viewport
-    D3D11_VIEWPORT vp;
-    vp.Width = static_cast<float>(800);   // Adjust to your window width
-    vp.Height = static_cast<float>(600);  // Adjust to your window height
-    vp.MinDepth = 0.0f;
-    vp.MaxDepth = 1.0f;
-    vp.TopLeftX = 0;
-    vp.TopLeftY = 0;
-    m_device_context->RSSetViewports(1, &vp);
-
     return true;
 }
 
@@ -84,18 +70,6 @@ bool ender::d3d11_renderer::destroy() {
         m_device->Release();
         m_device = nullptr;
     }
-
-    if (m_vertex_buffer != nullptr) {
-        m_vertex_buffer->Release();
-        m_vertex_buffer = nullptr;
-    }
-
-    if (m_index_buffer != nullptr) {
-        m_index_buffer->Release();
-        m_index_buffer = nullptr;
-    }
-
-    clear_primitives();
 
     return true;
 }
@@ -118,9 +92,6 @@ void ender::d3d11_renderer::render_frame() {
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     }
 
-    // Clear primitives after rendering
-    clear_primitives();
-
     HRESULT hr = m_swap_chain->Present(1, 0);
     m_is_swap_chain_occluded = (hr == DXGI_STATUS_OCCLUDED);
 }
@@ -140,29 +111,6 @@ void ender::d3d11_renderer::handle_resize(HWND hwnd) {
         window_data.resize_width = 0;
         window_data.resize_height = 0;
     }
-}
-
-void ender::d3d11_renderer::add_rect(const DirectX::XMFLOAT2& top_left,
-                                     const DirectX::XMFLOAT2& bottom_right,
-                                     const DirectX::XMFLOAT4& color) {
-    UINT start_index = static_cast<UINT>(m_vertices.size());
-
-    m_vertices.push_back({top_left, color});
-    m_vertices.push_back({{bottom_right.x, top_left.y}, color});
-    m_vertices.push_back({bottom_right, color});
-    m_vertices.push_back({{top_left.x, bottom_right.y}, color});
-
-    m_indices.push_back(start_index);
-    m_indices.push_back(start_index + 1);
-    m_indices.push_back(start_index + 2);
-    m_indices.push_back(start_index);
-    m_indices.push_back(start_index + 2);
-    m_indices.push_back(start_index + 3);
-}
-
-void ender::d3d11_renderer::clear_primitives() {
-    m_vertices.clear();
-    m_indices.clear();
 }
 
 ID3D11Device* ender::d3d11_renderer::get_device() const noexcept {
@@ -193,28 +141,4 @@ void ender::d3d11_renderer::destroy_render_target() {
         m_render_target_view->Release();
         m_render_target_view = nullptr;
     }
-}
-
-bool ender::d3d11_renderer::create_buffers() {
-    D3D11_BUFFER_DESC vertex_buffer_description = {};
-    vertex_buffer_description.Usage = D3D11_USAGE_DYNAMIC;
-    vertex_buffer_description.ByteWidth = sizeof(vertex) * 1000;  // Adjust size as needed
-    vertex_buffer_description.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    vertex_buffer_description.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-    if (FAILED(m_device->CreateBuffer(&vertex_buffer_description, nullptr, &m_vertex_buffer))) {
-        return false;
-    }
-
-    D3D11_BUFFER_DESC index_buffer_description = {};
-    index_buffer_description.Usage = D3D11_USAGE_DYNAMIC;
-    index_buffer_description.ByteWidth = sizeof(UINT) * 1000;  // Adjust size as needed
-    index_buffer_description.BindFlags = D3D11_BIND_INDEX_BUFFER;
-    index_buffer_description.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-    if (FAILED(m_device->CreateBuffer(&index_buffer_description, nullptr, &m_index_buffer))) {
-        return false;
-    }
-
-    return true;
 }
