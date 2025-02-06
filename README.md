@@ -14,17 +14,24 @@ A 2D rendering framework for Windows, written in modern C++.
 
 ## Example
 ```cpp
+// include <platform/window.hpp>
+
 // Inheret from ender::platform_window to easily spawn a window.
 class menu_app : public ender::platform_window {
 public:
     menu_app() : m_current_page(pages::login), platform_window() {
     }
 
-    // Basic events to listen for.
-    bool on_create() noexcept;
-    void on_destroy() noexcept;
-    bool on_handle_events() noexcept;
-    void on_render_frame() noexcept;
+    // Called when the window has been created.
+    bool on_create() noexcept {
+        set_window_title(L"menu app example);
+        return true;
+    }
+
+    // Render imgui here.
+    void on_render_frame_imgui() noexcept {
+        ImGui::ShowDemoWindow();
+    }
 
     // Custom code for game/application.
     enum class pages { login, home };
@@ -33,15 +40,33 @@ private:
     pages m_current_page;
 };
 
+bool on_create_handler(ender::platform_window* ctx) {
+    auto app = static_cast<menu_app*>(ctx);
+    return app->on_create();
+}
+
+// These are the callbacks given to the window.
+// Use them to call custom events in the class.
+void on_render_frame_handler(ender::platform_window* ctx) {
+    auto app = static_cast<menu_app*>(ctx);
+
+    // Render ImGui event.
+    app->on_render_frame_imgui();
+
+    // Call some other custom event in your class.
+    // app->on_render_frame()
+}
+
 int main() {
     // Create and run the window.
+    // Put more windows in seperate threads...
     menu_app app = {};
-    if (app.create(...) == true) {
-        while (app.handle_events(...) == true) {
-            app.render_frame(...);
+    if (app.create(on_create_handler, {...}) == true) {
+        while (app.handle_events(nullptr) == true) {
+            app.render_frame(on_render_frame);
         }
 
-        app.destroy(...);
+        app.destroy(nullptr);
     }
 
     return 0;
