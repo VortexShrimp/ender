@@ -24,7 +24,7 @@ public:
 
     // Called when the window has been created.
     bool on_create() noexcept {
-        set_window_title(L"menu app example);
+        set_window_title(L"menu app example");
         return true;
     }
 
