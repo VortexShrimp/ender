@@ -8,6 +8,7 @@ namespace ender {
 #endif  // !_DEBUG
 
     constexpr bool use_imgui = true;
+    constexpr bool use_lua = true;
 
     constexpr const char* version_string = "0.1";
     constexpr const char* engine_name = "ender";

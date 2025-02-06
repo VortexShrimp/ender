@@ -56,22 +56,40 @@ bool menu_app::menu_app::on_create() noexcept {
     m_lua_state.open_libraries(sol::lib::base);
     m_lua_state.script_file("scripts\\example.lua");
 
-    const std::string title = m_lua_state["game_config"]["title"];
-    const std::string version = m_lua_state["game_config"]["version"];
+    m_console.write("[menu_app::on_create] Lua state created.\n");
 
-    m_console.write("[menu_app::on_create] Lua state created.\n Title '{}' Version '{}'\n", title,
-                    version);
+    auto lua_on_create = m_lua_state["game_on_create"];
+    if (lua_on_create.valid() == true) {
+        lua_on_create();
+    }
+
+    auto lua_game_config = m_lua_state["game_config"];
+    if (lua_game_config.valid() == true) {
+        const std::string title = lua_game_config["title"];
+        const std::string version = lua_game_config["version"];
+        m_console.write("[menu_app::on_create] Title '{}' Version '{}'\n", title, version);
+    }
 
     return true;
 }
 
 void menu_app::menu_app::on_destroy() noexcept {
+    auto lua_on_destroy = m_lua_state["game_on_destroy"];
+    if (lua_on_destroy.valid() == true) {
+        lua_on_destroy();
+    }
+
     m_console.destroy();
 }
 
 bool menu_app::menu_app::on_handle_events() noexcept {
     if (m_is_running == false) {
         return false;
+    }
+
+    auto lua_on_handle_events = m_lua_state["game_on_handle_events"];
+    if (lua_on_handle_events.valid() == true) {
+        lua_on_handle_events();
     }
 
     return true;
