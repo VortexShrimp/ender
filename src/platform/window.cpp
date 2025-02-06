@@ -16,9 +16,9 @@
  * Uses HWND as a key and stores data in a structure for a each window.
  *
  */
-static std::unordered_map<HWND, ender::engine_window_data> s_window_data;
+static std::unordered_map<HWND, ender::internal_window_data> s_window_data;
 
-auto ender::get_window_data(HWND hwnd) -> engine_window_data& {
+auto ender::get_internal_window_data(HWND hwnd) -> internal_window_data& {
     return s_window_data[hwnd];
 }
 
@@ -51,7 +51,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     }
 
     // Get the window data for this window from the map.
-    ender::engine_window_data& window_data = s_window_data[hwnd];
+    ender::internal_window_data& window_data = s_window_data[hwnd];
 
     switch (msg) {
         // Sent on CreateWindow(Ex).
@@ -176,12 +176,12 @@ bool ender::platform_window::create(create_function on_create, window_details de
     }
 
     // Add this window to the global lookup table.
-    s_window_data[m_hwnd] = engine_window_data{.window = this,
-                                               .resize_width = 0,
-                                               .resize_height = 0,
-                                               .on_message_create = details.on_message_create,
-                                               .on_message_destroy = details.on_message_destroy,
-                                               .on_message_close = details.on_message_close};
+    s_window_data[m_hwnd] = internal_window_data{.window = this,
+                                                 .resize_width = 0,
+                                                 .resize_height = 0,
+                                                 .on_message_create = details.on_message_create,
+                                                 .on_message_destroy = details.on_message_destroy,
+                                                 .on_message_close = details.on_message_close};
 
     m_is_running = true;
 

@@ -1,10 +1,10 @@
 #include "internet.hpp"
 
-ender::platform_internet::~platform_internet() {
+ender::internet_client::~internet_client() {
     destroy();
 }
 
-bool ender::platform_internet::create(std::wstring_view user_agent) {
+bool ender::internet_client::create(std::wstring_view user_agent) {
     m_internet = InternetOpen(user_agent.data(), INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (m_internet == INVALID_HANDLE_VALUE) {
         return false;
@@ -13,15 +13,15 @@ bool ender::platform_internet::create(std::wstring_view user_agent) {
     return true;
 }
 
-void ender::platform_internet::destroy() {
+void ender::internet_client::destroy() {
     if (m_internet != nullptr) {
         InternetCloseHandle(m_internet);
         m_internet = nullptr;
     }
 }
 
-bool ender::platform_internet::get(std::string_view url, std::string_view objects,
-                                   std::string& response) {
+bool ender::internet_client::get(std::string_view url, std::string_view objects,
+                                 std::string& response) {
     const HINTERNET connect = InternetConnectA(m_internet, url.data(), INTERNET_DEFAULT_HTTP_PORT,
                                                NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
     if (connect == INVALID_HANDLE_VALUE) {
@@ -62,8 +62,8 @@ bool ender::platform_internet::get(std::string_view url, std::string_view object
     return true;
 }
 
-bool ender::platform_internet::post(std::string_view url, std::string_view objects,
-                                    std::string_view data, std::string response_out) {
+bool ender::internet_client::post(std::string_view url, std::string_view objects,
+                                  std::string_view data, std::string response_out) {
     const HINTERNET connect = InternetConnectA(m_internet, url.data(), INTERNET_DEFAULT_HTTP_PORT,
                                                NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
     if (connect == INVALID_HANDLE_VALUE) {

@@ -1,7 +1,6 @@
 #include "menu_app.hpp"
 
 #include "../src/ender.hpp"
-#include "../src/platform/internet.hpp"
 
 // ImGui for creating the menu.
 #include <imgui\imgui.h>

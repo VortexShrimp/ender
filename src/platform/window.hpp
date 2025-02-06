@@ -102,7 +102,7 @@ namespace ender {
     /**
      * @brief Data that needs to be shared between Window and Message Loop.
      */
-    struct engine_window_data {
+    struct internal_window_data {
         platform_window* window;  // Reference to the window.
 
         UINT resize_width;  // Resizing is handled in render loop and wndproc.
@@ -113,5 +113,10 @@ namespace ender {
         platform_window::message_close_function on_message_close;
     };
 
-    engine_window_data& get_window_data(HWND hwnd);
+    /**
+     * @brief A reference to a window's internal data shared between wndproc and window.
+     * @param hwnd Handle to window for data.
+     * @return
+     */
+    internal_window_data& get_internal_window_data(HWND hwnd);
 }  // namespace ender

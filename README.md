@@ -13,6 +13,9 @@ A 2D rendering framework for Windows, written in modern C++.
 <br clear="left"/>
 
 ## Example
+Making intuitive and efficient GUI applications with C++ has been
+a terrible experience for me so here is my attempt at an elegant solution.
+
 ```cpp
 // include <platform/window.hpp>
 
@@ -32,12 +35,6 @@ public:
     void on_render_frame_imgui() noexcept {
         ImGui::ShowDemoWindow();
     }
-
-    // Custom code for game/application.
-    enum class pages { login, home };
-
-private:
-    pages m_current_page;
 };
 
 bool on_create_handler(ender::platform_window* ctx) {
@@ -72,5 +69,7 @@ int main() {
     return 0;
 }
 ```
+The example above spawns a Win32, DirectX 11 window with ImGui
+showing the demo window.
 ## Support
 Only supports 64-bit Windows at the moment.

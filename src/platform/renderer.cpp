@@ -101,7 +101,7 @@ void ender::d3d11_renderer::set_swap_chain_occluded(bool is_occluded) {
 }
 
 void ender::d3d11_renderer::handle_resize(HWND hwnd) {
-    engine_window_data& window_data = get_window_data(hwnd);
+    internal_window_data& window_data = get_internal_window_data(hwnd);
     if (window_data.resize_width != 0 && window_data.resize_height != 0) {
         destroy_render_target();
         m_swap_chain->ResizeBuffers(0, window_data.resize_width, window_data.resize_height,

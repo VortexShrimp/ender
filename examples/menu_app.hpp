@@ -3,7 +3,7 @@
 
 // We just need a window from ender.
 #include "../src/platform/window.hpp"
-#include "../src/platform/console.hpp"
+#include "../src/utils/console.hpp"
 
 namespace menu_app {
     class menu_app : public ender::platform_window {
@@ -25,7 +25,7 @@ namespace menu_app {
 
     private:
         // We want a console for example.
-        ender::platform_console m_console;
+        ender::os_console m_console;
 
         // Custom application fields.
         bool m_should_remember_me;

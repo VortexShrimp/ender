@@ -16,11 +16,11 @@ namespace ender {
      * - Add async get & post.
      *
      */
-    class platform_internet {
+    class internet_client {
     public:
-        platform_internet() : m_internet(INVALID_HANDLE_VALUE) {
+        internet_client() : m_internet(INVALID_HANDLE_VALUE) {
         }
-        ~platform_internet();
+        ~internet_client();
 
         bool create(std::wstring_view user_agent = L"WinHttpClient/1.0");
         void destroy();
