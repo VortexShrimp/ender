@@ -55,7 +55,7 @@ void on_render_frame_handler(ender::platform_window* ctx) {
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
     // Create and run the window.
     // Put more windows in seperate threads...
-    auto app = ender::make_unique_pointer<menu_app>();
+    auto app = std::make_unique<menu_app>();
     if (app->create(on_create_handler, {.title = L"menu app",
                                         .width = 1280,
                                         .height = 720,

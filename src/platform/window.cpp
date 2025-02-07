@@ -152,7 +152,7 @@ bool ender::platform_window::create(create_function on_create, window_details de
     }
 
     // Create and initialize the renderer.
-    m_renderer = make_unique_pointer<d3d11_renderer>();
+    m_renderer = std::make_unique<d3d11_renderer>();
     if (m_renderer->create(m_hwnd) == false) {
         DestroyWindow(m_hwnd);
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);

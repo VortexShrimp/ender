@@ -1,5 +1,6 @@
 #pragma once
 #include <string_view>
+#include <memory>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIn32_LEAN_AND_MEAN
@@ -9,7 +10,6 @@
 #include <sol\sol.hpp>
 
 #include "renderer.hpp"
-#include "../utils/pointers.hpp"
 #include "../utils/timer.hpp"
 #include "../math/vectors.hpp"
 
@@ -90,7 +90,7 @@ namespace ender {
         float get_delta_time();
 
         bool m_is_running;
-        unique_pointer<d3d11_renderer> m_renderer;
+        std::unique_ptr<d3d11_renderer> m_renderer;
         sol::state m_lua_state;
 
     private:
