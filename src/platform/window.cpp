@@ -183,6 +183,9 @@ bool ender::platform_window::create(create_function on_create, window_details de
                                                  .on_message_destroy = details.on_message_destroy,
                                                  .on_message_close = details.on_message_close};
 
+    create_lua_state();
+    m_lua_state.script("on_global_window_create()");
+
     m_is_running = true;
 
     // If callback exists, return based on it.
@@ -194,6 +197,8 @@ bool ender::platform_window::create(create_function on_create, window_details de
 }
 
 bool ender::platform_window::destroy(destroy_function on_destroy) {
+    m_lua_state.script("on_global_window_destroy()");
+
     if (on_destroy != nullptr) {
         on_destroy(this);
     }
@@ -229,6 +234,8 @@ bool ender::platform_window::handle_events(handle_events_function on_handle_even
         }
     }
 
+    m_lua_state.script("on_global_window_handle_events()");
+
     if (on_handle_events != nullptr) {
         return on_handle_events(this);
     }
@@ -257,18 +264,18 @@ void ender::platform_window::render_frame(render_frame_function on_render_frame)
         on_render_frame(this);
     }
 
+    m_lua_state.script("on_global_window_render_frame()");
+
     m_renderer->render_frame();
 }
 
 bool ender::platform_window::create_lua_state() {
-    m_lua_state.open_libraries();
+    m_lua_state.open_libraries(sol::lib::base);
     m_lua_state.script_file("scripts\\ender_context.lua");
+    m_lua_state.script_file("scripts\\ender_hooks.lua");
 
-    auto lua_ender_context = m_lua_state["ender_context"];
-    if (lua_ender_context.valid() == true) {
-        lua_ender_context["engine_name"] = engine_name;
-        lua_ender_context["version_string"] = version_string;
-    }
+    m_lua_state["ender_context"]["engine_name"] = engine_name;
+    m_lua_state["ender_context"]["version_string"] = version_string;
 
     return true;
 }
