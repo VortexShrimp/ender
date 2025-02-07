@@ -167,6 +167,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="examples\lua_app\lua_app.cpp" />
+    <ClCompile Include="examples\menu_app\menu_app.cpp" />
     <ClCompile Include="external\imgui\imgui.cpp" />
     <ClCompile Include="external\imgui\imgui_demo.cpp" />
     <ClCompile Include="external\imgui\imgui_draw.cpp" />
@@ -183,6 +185,8 @@
     <ClCompile Include="examples\examples_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="examples\lua_app\lua_app.hpp" />
+    <ClInclude Include="examples\menu_app\menu_app.hpp" />
     <ClInclude Include="external\freetype\config\ftconfig.h" />
     <ClInclude Include="external\freetype\config\ftheader.h" />
     <ClInclude Include="external\freetype\config\ftmodule.h" />

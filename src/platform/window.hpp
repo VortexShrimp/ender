@@ -14,17 +14,23 @@
 #include "../math/vectors.hpp"
 
 namespace ender {
-    class platform_window {
+    /**
+     * @brief Spawn a platform window.
+     *
+     * All windows of this class use the same wndproc that dispatches messages
+     * to the individual windows. This data is stored in s_window_data.
+     *
+     */
+    class window {
     public:
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
-        using message_close_function =
-            bool (*)(platform_window* game);  // Return true to confirm exit.
+        using message_close_function = bool (*)(window* game);  // Return true to confirm exit.
 
-        using create_function = bool (*)(platform_window* game);
-        using destroy_function = void (*)(platform_window* game);
-        using handle_events_function = bool (*)(platform_window* game);
-        using render_frame_function = void (*)(platform_window* game);
+        using create_function = bool (*)(window* game);
+        using destroy_function = void (*)(window* game);
+        using process_events_function = bool (*)(window* game);
+        using render_frame_function = void (*)(window* game);
 
         struct window_details {
             std::wstring_view title;
@@ -39,7 +45,7 @@ namespace ender {
             int cmd_show;
         };
 
-        platform_window()
+        window()
             : m_is_running(false),
               m_hwnd(nullptr),
               m_wcex(),
@@ -68,7 +74,7 @@ namespace ender {
          * @param on_process_input Called after system handles messages.
          * @return True to keep the game running.
          */
-        bool handle_events(handle_events_function on_handle_events);
+        bool process_events(process_events_function on_handle_events);
 
         /**
          * @brief
@@ -79,8 +85,6 @@ namespace ender {
         bool is_running() const noexcept;
 
     protected:
-        bool create_lua_state();
-
         bool set_title(std::wstring_view new_title);
         std::wstring_view get_title() const;
 
@@ -91,7 +95,6 @@ namespace ender {
 
         bool m_is_running;
         std::unique_ptr<d3d11_renderer> m_renderer;
-        sol::state m_lua_state;
 
     private:
         HWND m_hwnd;
@@ -102,17 +105,31 @@ namespace ender {
     };
 
     /**
+     * @brief Create a window with Lua state attached to it.
+     */
+    class lua_window : public window {
+    public:
+        lua_window() : window() {
+        }
+
+    protected:
+        bool create_lua_state();
+
+        sol::state m_lua_state;
+    };
+
+    /**
      * @brief Data that needs to be shared between Window and Message Loop.
      */
     struct internal_window_data {
-        platform_window* window;  // Reference to the window.
+        window* window;  // Reference to the window.
 
         UINT resize_width;  // Resizing is handled in render loop and wndproc.
         UINT resize_height;
 
-        platform_window::message_create_function on_message_create;
-        platform_window::message_destroy_function on_message_destroy;
-        platform_window::message_close_function on_message_close;
+        window::message_create_function on_message_create;
+        window::message_destroy_function on_message_destroy;
+        window::message_close_function on_message_close;
     };
 
     /**

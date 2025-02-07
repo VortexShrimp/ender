@@ -8,7 +8,7 @@ A 2D rendering framework for Windows, written in modern C++ and Lua.
 - Directx11 Windows
 ### Building
 1. Clone this repository.
-2. Get dependencies from `ender/lib`.
+2. Get dependencies from [`ender/lib`](https://github.com/VortexShrimp/ender/tree/master/lib).
 3. Build in `Release\Debug` -> `x64`
 <br clear="left"/>
 
@@ -34,7 +34,7 @@ void on_render_frame_handler(ender::platform_window*) {
 }
 
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
-    auto app = std::make_unique<menu_app>();
+    auto app = std::make_unique<ender::platform_window>();
     if (app->create(nullptr, {.title = L"menu app",
                                         .width = 1280,
                                         .height = 720,
@@ -59,7 +59,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
 
 Find more examples at [`ender/examples`](https://github.com/VortexShrimp/ender/tree/master/examples).
 
-Any class inheretting from <code>ender\::platform_window</code> can be infinitely created.
+Any class inheritting from <code>ender\::platform_window</code> can be infinitely created.
 For example, you could have <code>std::vector<menu_app*> windows</code>
 to manage many windows, just make sure they run in their own threads.
 

@@ -121,7 +121,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     return 0;
 }
 
-bool ender::platform_window::create(create_function on_create, window_details details) {
+bool ender::window::create(create_function on_create, window_details details) {
     m_instance = details.instance;
 
     WNDCLASSEXW wcex = {};
@@ -182,10 +182,6 @@ bool ender::platform_window::create(create_function on_create, window_details de
                                                  .on_message_create = details.on_message_create,
                                                  .on_message_destroy = details.on_message_destroy,
                                                  .on_message_close = details.on_message_close};
-
-    create_lua_state();
-    m_lua_state.script("on_global_window_create()");
-
     m_is_running = true;
 
     // If callback exists, return based on it.
@@ -196,9 +192,7 @@ bool ender::platform_window::create(create_function on_create, window_details de
     return m_is_running;
 }
 
-bool ender::platform_window::destroy(destroy_function on_destroy) {
-    m_lua_state.script("on_global_window_destroy()");
-
+bool ender::window::destroy(destroy_function on_destroy) {
     if (on_destroy != nullptr) {
         on_destroy(this);
     }
@@ -223,7 +217,7 @@ bool ender::platform_window::destroy(destroy_function on_destroy) {
     return true;
 }
 
-bool ender::platform_window::handle_events(handle_events_function on_handle_events) {
+bool ender::window::process_events(process_events_function on_handle_events) {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
@@ -234,8 +228,6 @@ bool ender::platform_window::handle_events(handle_events_function on_handle_even
         }
     }
 
-    m_lua_state.script("on_global_window_handle_events()");
-
     if (on_handle_events != nullptr) {
         return on_handle_events(this);
     }
@@ -243,7 +235,7 @@ bool ender::platform_window::handle_events(handle_events_function on_handle_even
     return m_is_running;
 }
 
-void ender::platform_window::render_frame(render_frame_function on_render_frame) {
+void ender::window::render_frame(render_frame_function on_render_frame) {
     if (m_is_running == false) {
         return;
     }
@@ -264,12 +256,40 @@ void ender::platform_window::render_frame(render_frame_function on_render_frame)
         on_render_frame(this);
     }
 
-    m_lua_state.script("on_global_window_render_frame()");
-
     m_renderer->render_frame();
 }
 
-bool ender::platform_window::create_lua_state() {
+bool ender::window::set_title(std::wstring_view new_title) {
+    return SetWindowText(m_hwnd, new_title.data());
+}
+
+std::wstring_view ender::window::get_title() const {
+    wchar_t buffer[256];
+    GetWindowText(m_hwnd, buffer, 256);
+    return buffer;
+}
+
+bool ender::window::is_running() const noexcept {
+    return m_is_running;
+}
+
+auto ender::window::get_client_size() const noexcept -> vec2i {
+    RECT rect;
+    GetClientRect(m_hwnd, &rect);
+    return {rect.right - rect.left, rect.bottom - rect.top};
+}
+
+auto ender::window::get_window_size() const noexcept -> vec2i {
+    RECT rect;
+    GetWindowRect(m_hwnd, &rect);
+    return {rect.right - rect.left, rect.bottom - rect.top};
+}
+
+float ender::window::get_delta_time() {
+    return m_timer.get_delta_time();
+}
+
+bool ender::lua_window::create_lua_state() {
     m_lua_state.open_libraries(sol::lib::base);
     m_lua_state.script_file("scripts\\ender_context.lua");
     m_lua_state.script_file("scripts\\ender_hooks.lua");
@@ -278,34 +298,4 @@ bool ender::platform_window::create_lua_state() {
     m_lua_state["ender_context"]["version_string"] = version_string;
 
     return true;
-}
-
-bool ender::platform_window::set_title(std::wstring_view new_title) {
-    return SetWindowText(m_hwnd, new_title.data());
-}
-
-std::wstring_view ender::platform_window::get_title() const {
-    wchar_t buffer[256];
-    GetWindowText(m_hwnd, buffer, 256);
-    return buffer;
-}
-
-bool ender::platform_window::is_running() const noexcept {
-    return m_is_running;
-}
-
-auto ender::platform_window::get_client_size() const noexcept -> vec2i {
-    RECT rect;
-    GetClientRect(m_hwnd, &rect);
-    return {rect.right - rect.left, rect.bottom - rect.top};
-}
-
-auto ender::platform_window::get_window_size() const noexcept -> vec2i {
-    RECT rect;
-    GetWindowRect(m_hwnd, &rect);
-    return {rect.right - rect.left, rect.bottom - rect.top};
-}
-
-float ender::platform_window::get_delta_time() {
-    return m_timer.get_delta_time();
 }
