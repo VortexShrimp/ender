@@ -17,36 +17,15 @@ a terrible experience for me so, here is my attempt at an elegant solution.
 
 ## Example
 ```cpp
-// include <platform/window.hpp>
+// include <ender/platform/window.hpp>
+// include <imgui/imgui.h>
 
-// Inheret from ender::platform_window to easily spawn a window.
-class menu_app : public ender::platform_window {
-public:
-    menu_app() : platform_window() {
-    }
-
-    // Render imgui here.
-    void on_render_frame_imgui() noexcept {
-        ImGui::ShowDemoWindow();
-    }
-};
-
-// These are the callbacks given to the window.
-// Use them to call custom events in the class.
-void on_render_frame_handler(ender::platform_window* ctx) {
-    auto app = static_cast<menu_app*>(ctx);
-
-    // Render ImGui event.
-    app->on_render_frame_imgui();
-
-    // Call some other custom event in your class.
-    // app->on_render_frame()
+void on_render_frame_handler(ender::platform_window*) {
+    // Run any ImGui code here.
+    ImGui::ShowDemoWindow();
 }
 
-// Example Windows entry point.
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
-    // Create and run the window.
-    // Put more windows in seperate threads...
     auto app = std::make_unique<menu_app>();
     if (app->create(nullptr, {.title = L"menu app",
                                         .width = 1280,
@@ -61,9 +40,11 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
         }
 
         app->destroy(nullptr);
+
+        return 0;
     }
 
-    return 0;
+    return 1;
 }
 ```
 <img src="data/menu_app_example.PNG" align="right" width="450px"></img>
