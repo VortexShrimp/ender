@@ -14,6 +14,11 @@ A 2D rendering framework for Windows, written in modern C++ and Lua.
 
 Making intuitive and efficient GUI applications with C++ has been
 a terrible experience for me so, here is my attempt at an elegant solution.
+## Todo
+- Complete console debug logging system with a compile-time switch to easily exclude it from compilation in `Release` builds.
+- Decent and consistent error/exception handling system to work with the logger.
+- File handling system to create/manage files and folders on the system for configurations, scripting and more.
+- Independant 2D batch sprite, primitive & text renderer built with DirectX11.
 
 ## Example
 ```cpp
