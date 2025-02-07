@@ -2,7 +2,7 @@
 <img src="data/logo.png" align="left" width="350px"/>
 
 ### About
-A 2D rendering framework for Windows, written in modern C++.
+A 2D rendering framework for Windows, written in modern C++ and Lua.
 ### Requirements
 - Visual Studio 2022 (C++ 20)
 - Directx11 Windows
@@ -12,10 +12,10 @@ A 2D rendering framework for Windows, written in modern C++.
 3. Build in `Release\Debug` -> `x64`
 <br clear="left"/>
 
-## Example
 Making intuitive and efficient GUI applications with C++ has been
-a terrible experience for me so here is my attempt at an elegant solution.
+a terrible experience for me so, here is my attempt at an elegant solution.
 
+## Example
 ```cpp
 // include <platform/window.hpp>
 
@@ -66,7 +66,19 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
     return 0;
 }
 ```
-The example above spawns a Win32, DirectX 11 window with ImGui
+<img src="data/menu_app_example.png" align="right" width="350px"></img>
+
+The example above spawns a <i>64-bit win32, directx11 window</i> with ImGui
 showing the demo window.
+
+Any class inheretting from <code>ender\::platform_window</code> can infinitely
+create windows. For example, you could have <code>std::vector<menu_app*> windows</code>
+to manage many windows, just make sure they run in their own threads.
+
+All window messages will be routed to their own callbacks, if they've been set
+during initialization.
+
+<br clear="right"/>
+
 ## Support
 Only supports 64-bit Windows at the moment.
