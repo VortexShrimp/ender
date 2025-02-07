@@ -66,7 +66,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
     return 0;
 }
 ```
-<img src="data/menu_app_example.png" align="right" width="350px"></img>
+<img src="data/menu_app_example.PNG" align="right" width="350px"></img>
 
 The example above spawns a <i>64-bit win32, directx11 window</i> with ImGui
 showing the demo window.
