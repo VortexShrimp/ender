@@ -120,6 +120,9 @@ namespace ender {
         bool create_lua_state();
 
         sol::state m_lua_state;
+
+    private:
+        void bind_imgui_functions();
     };
 
     /**

@@ -295,13 +295,18 @@ bool ender::lua_window::create_lua_state() {
 
     m_lua_state["debug_print_raw"] = debug_print_raw;
 
-    m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
-
-    m_lua_state["imgui_begin_window"] = [](const char* name) { ImGui::Begin(name); };
-    m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
-    m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
+    bind_imgui_functions();
 
     m_lua_state.script_file("scripts\\ender_global_hooks.lua");
 
     return true;
+}
+
+void ender::lua_window::bind_imgui_functions() {
+    m_lua_state["imgui_begin_window"] = [](const char* name) { return ImGui::Begin(name); };
+    m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
+    m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
+    m_lua_state["imgui_button"] = [](const char* label) { return ImGui::Button(label); };
+
+    m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
 }

@@ -1,5 +1,5 @@
 function on_global_window_create ()
-    debug_print_raw("Lua initialized.\n")
+    debug_print_raw("Hello from Lua.\n")
 end
 
 function on_global_window_destroy ()
@@ -10,7 +10,11 @@ end
 
 -- Called when every lua_window renders a frame.
 function on_global_window_render_frame ()
-    imgui_begin_window("lua window")
-    imgui_text("Hello fom Lua!")
-    imgui_end_window()
+    if imgui_begin_window("lua window") then
+        imgui_text("Hello fom Lua!")
+        if imgui_button("click me") then
+            debug_print_raw("Button clicked!\n")
+        end
+        imgui_end_window()
+    end
 end
