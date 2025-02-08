@@ -36,6 +36,9 @@ void lua_app::on_render_frame_handler(ender::window* ctx) {
 }
 
 int lua_app::run_lua_app() {
+    // Call anywhere to allocate a console in DEBUG builds.
+    ender::debug_print_raw("Welcome to ender!\n");
+
     auto app = std::make_unique<window>();
     if (app->create(on_create_handler, {.title = L"lua app",
                                         .width = 1280,

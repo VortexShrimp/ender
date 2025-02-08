@@ -103,7 +103,7 @@ auto ender::get_debug_console() -> console* {
     return &s_debug_console;
 }
 
-void ender::debug_print(std::string_view text) {
+void ender::debug_print_raw(std::string_view text) {
     if constexpr (in_debug == true) {
         get_debug_console()->print_raw(text);
     }

@@ -81,7 +81,7 @@ namespace ender {
      */
     console* get_debug_console();
 
-    void debug_print(std::string_view text);
+    void debug_print_raw(std::string_view text);
 
     /**
      * @brief Print to a debug console.

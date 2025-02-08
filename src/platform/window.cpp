@@ -293,7 +293,7 @@ float ender::window::get_delta_time() {
 bool ender::lua_window::create_lua_state() {
     m_lua_state.open_libraries(sol::lib::base);
 
-    m_lua_state["ender_debug_print"] = debug_print;
+    m_lua_state["ender_debug_print"] = debug_print_raw;
 
     m_lua_state.script_file("scripts\\ender_context.lua");
     m_lua_state.script_file("scripts\\ender_hooks.lua");
