@@ -1,9 +1,11 @@
 #include "menu_app.hpp"
 
+#include "../src/utils/console.hpp"
+
 #include <imgui\imgui.h>
 
 bool menu_app::simple_window::on_create() noexcept {
-    set_title(L"menu app example");
+    ender::debug_print_formatted("[menu_app] on_create");
 
     //// Custom fonts.
     // ImGuiIO& io = ImGui::GetIO();
@@ -23,7 +25,9 @@ bool menu_app::simple_window::on_create() noexcept {
 
 // Render ImGui here.
 void menu_app::simple_window::on_render_frame_imgui() noexcept {
-    ImGui::ShowDemoWindow();
+    if constexpr (ender::use_imgui == true) {
+        ImGui::ShowDemoWindow();
+    }
 }
 
 bool menu_app::on_create_handler(ender::window* ctx) {
@@ -42,10 +46,13 @@ void menu_app::on_render_frame_handler(ender::window* ctx) {
 }
 
 int menu_app::run_menu_app() {
+    ender::debug_print_raw("Welcome to Menu App!\n");
+
     // Create and run the window.
     // Put more windows in seperate threads...
     auto app = std::make_unique<simple_window>();
     if (app->create(on_create_handler, {.title = L"menu app",
+                                        .class_name = L"menu_app",
                                         .width = 1280,
                                         .height = 720,
                                         .on_message_create = nullptr,

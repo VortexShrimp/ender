@@ -8,6 +8,7 @@
 #include <windows.h>
 
 #include <sol\sol.hpp>
+#include <imgui\imgui.h>
 
 #include "renderer.hpp"
 #include "../utils/timer.hpp"
@@ -34,6 +35,8 @@ namespace ender {
 
         struct window_details {
             std::wstring_view title;
+            std::wstring_view class_name;
+
             int width;
             int height;
 

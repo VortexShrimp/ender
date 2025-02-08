@@ -11,6 +11,34 @@
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
 
+class imgui_font_atlas {
+public:
+    imgui_font_atlas() : m_atlas(new ImFontAtlas()) {
+    }
+    ~imgui_font_atlas() {
+        delete m_atlas;
+    }
+
+    inline ImFontAtlas* get() const {
+        return m_atlas;
+    }
+
+private:
+    ImFontAtlas* m_atlas;
+};
+
+static ImFontAtlas* get_shared_font_atlas() {
+    static imgui_font_atlas atlas{};
+    static bool once = true;
+    if (once == true) {
+        atlas.get()->AddFontDefault();
+        atlas.get()->Build();
+        once == false;
+    }
+
+    return atlas.get();
+}
+
 /**
  * @brief Stores data that is shared between wndproc and windows.
  *
@@ -136,11 +164,13 @@ bool ender::window::create(create_function on_create, window_details details) {
     wcex.hCursor = nullptr;
     wcex.hbrBackground = nullptr;
     wcex.lpszMenuName = nullptr;
-    wcex.lpszClassName = L"ender_window";
+    wcex.lpszClassName = details.class_name.data();
     wcex.hIconSm = nullptr;
 
     m_wcex = RegisterClassExW(&wcex);
     if (m_wcex == ATOM{}) {
+        debug_print_formatted("[error] Failed to register window class. Last error -> {}\n",
+                              GetLastError());
         return false;
     }
 
@@ -164,16 +194,16 @@ bool ender::window::create(create_function on_create, window_details details) {
     UpdateWindow(m_hwnd);
 
     if constexpr (use_imgui == true) {
-        // Initialize ImGui.
         ImGui::CreateContext();
+
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
         io.IniFilename = NULL;                                 // Disable .ini config saving.
 
-        ImGui::StyleColorsDark();
-
         ImGui_ImplWin32_Init(m_hwnd);
         ImGui_ImplDX11_Init(m_renderer->get_device(), m_renderer->get_device_context());
+
+        ImGui::StyleColorsDark();
     }
 
     // Add this window to the global lookup table.
@@ -291,18 +321,49 @@ float ender::window::get_delta_time() {
 }
 
 bool ender::lua_window::lua_create_state() {
+    debug_print_formatted("--- Lua Start ---\n");
+
+    // Initialize Lua context and bind ender functions.
     m_lua_state.open_libraries(sol::lib::base);
-
     m_lua_state["debug_print_raw"] = debug_print_raw;
-
-    bind_imgui_functions();
-
-    // For some reason, debug builds run in a different directory.
-    if constexpr (in_debug == true) {
-        m_lua_state.script_file("build\\x64\\scripts\\ender_global_hooks.lua");
-    } else {
-        m_lua_state.script_file("scripts\\ender_global_hooks.lua");
+    if constexpr (use_imgui == true) {
+        bind_imgui_functions();
     }
+
+    // Folder relative to the .exe to look for scripts in.
+    constexpr auto scripts_folder_name = "scripts";
+    auto current_directory = std::filesystem::current_path();
+    auto script_directory = std::filesystem::current_path().append(scripts_folder_name);
+    debug_print_formatted("[lua] Current path -> '{}'\n[lua] Script path -> '{}'\n",
+                          current_directory.string(), script_directory.string());
+
+    int script_count = 0;
+
+    // Create and loop through the script directory.
+    std::filesystem::create_directory(script_directory);
+    for (auto& entry : std::filesystem::recursive_directory_iterator(script_directory)) {
+        // Currently ignore folders.
+        if (entry.is_regular_file() == false) {
+            continue;
+        }
+
+        auto entry_path = entry.path();
+        if (entry_path.has_extension() == true) {
+            // Load files with "lua" or "ender" extensions.
+            if (entry_path.extension().compare(".lua") == 0 ||
+                entry_path.extension().compare(".ender") == 0) {
+                debug_print_formatted("- Loaded '{}' -> [{} bytes]\n",
+                                      entry_path.filename().string(), entry.file_size());
+                // Load the script into Lua state.
+                m_lua_state.script_file(std::string(scripts_folder_name) + std::string("\\") +
+                                        entry_path.filename().string());
+                script_count += 1;
+            }
+        }
+    }
+
+    debug_print_formatted("Total scripts {}\n", script_count);
+    debug_print_formatted("--- Lua End ---\n");
 
     return true;
 }
