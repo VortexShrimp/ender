@@ -28,14 +28,14 @@ that *ender* is cleaning up.
 // include <ender/platform/window.hpp>
 // include <imgui/imgui.h>
 
-void on_render_frame_handler(ender::platform_window*) {
+void on_render_frame(ender::window*) {
     // Run any ImGui code here.
     ImGui::ShowDemoWindow();
 }
 
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
-    auto app = std::make_unique<ender::platform_window>();
-    if (app->create(nullptr, {.title = L"menu app",
+    auto app = std::make_unique<ender::window>();
+    if (app->create(nullptr, {.title = L"imgui demo window",
                                         .width = 1280,
                                         .height = 720,
                                         .on_message_create = nullptr,
@@ -44,7 +44,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
                                         .instance = instance,
                                         .cmd_show = cmd_show}) == true) {
         while (app->handle_events(nullptr) == true) {
-            app->render_frame(on_render_frame_handler);
+            app->render_frame(on_render_frame);
         }
 
         app->destroy(nullptr);
@@ -59,8 +59,8 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
 
 Find more examples at [`ender/examples`](https://github.com/VortexShrimp/ender/tree/master/examples).
 
-Any class inheritting from <code>ender\::platform_window</code> can be infinitely created.
-For example, you could have <code>std::vector<menu_app*> windows</code>
+Any class inheritting from <code>ender\::window</code> can be infinitely created.
+For example, you could have <code>std::vector<ender\::window*> windows</code>
 to manage many windows, just make sure they run in their own threads.
 
 All window messages will be routed through their own callbacks, if they've been set
