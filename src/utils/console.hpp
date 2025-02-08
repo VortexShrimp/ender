@@ -7,13 +7,15 @@
 #endif  // !WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#include "../ender.hpp"
 #include "../math/vectors.hpp"
 
 namespace ender {
-    class os_console {
+    class console {
     public:
-        os_console() : m_output(nullptr), m_input(nullptr) {
+        console() : m_output(nullptr), m_input(nullptr) {
         }
+        ~console();
 
         /**
          * @brief Allocates and initializes the console.
@@ -29,7 +31,7 @@ namespace ender {
          * @param ...args
          */
         template <typename... Args>
-        void write(std::string_view format, Args&&... args);
+        void print(std::string_view format, Args&&... args);
 
         void set_window_size(vec2i new_size);
 
@@ -48,17 +50,49 @@ namespace ender {
         static std::string unicode_to_multibyte(std::wstring_view unicode_text);
         static std::wstring multibyte_to_unicode(std::string_view multibyte_text);
 
-    private:
-        void write_raw(std::wstring_view text) noexcept;
+        /**
+         * @brief Print directly to the console output buffer.
+         *
+         * Multibyte text is converted to Unicode just before its printed.
+         *
+         * @param text
+         */
+        void print_raw(std::string_view text) noexcept;
 
+    private:
         HANDLE m_output;
         HANDLE m_input;
     };
 
-    template <typename... Args>
-    inline void os_console::write(std::string_view format, Args&&... args) {
+    template <class... Args>
+    inline void console::print(std::string_view format, Args&&... args) {
         const std::string formatted =
             std::vformat(std::string(format), std::make_format_args(std::forward<Args>(args)...));
-        write_raw(multibyte_to_unicode(formatted));
+        print_raw(formatted);
+    }
+
+    /**
+     * @brief Print to a debug console.
+     *
+     * If compiled, creates a console on first use. Does not compile in debug mode.
+     *
+     * @todo Pass rvalues instead of copies?
+     * `Args...` -> `Args&&...`.
+     *
+     * @tparam ...Args
+     * @param format
+     * @param ...args
+     */
+    template <class... Args>
+    inline void debug_print(std::string_view format, Args... args) {
+        if constexpr (in_debug == true) {
+            static console debug_console = {};
+            if (static bool once = true; once == true) {
+                debug_console.create();
+                once = false;
+            }
+
+            debug_console.print(format, args...);
+        }
     }
 }  // namespace ender

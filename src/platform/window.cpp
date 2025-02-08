@@ -5,6 +5,7 @@
 #include <string>
 
 #include "../ender.hpp"
+#include "../utils/console.hpp"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_dx11.h>
@@ -183,6 +184,8 @@ bool ender::window::create(create_function on_create, window_details details) {
                                                  .on_message_destroy = details.on_message_destroy,
                                                  .on_message_close = details.on_message_close};
     m_is_running = true;
+
+    debug_print("Window '{}' created.\n", console::unicode_to_multibyte(get_title()));
 
     // If callback exists, return based on it.
     if (on_create != nullptr) {

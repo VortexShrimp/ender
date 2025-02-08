@@ -8,9 +8,6 @@ namespace lua_app {
         bool on_create();
         void on_destroy();
         void on_render_frame();
-
-    private:
-        ender::os_console m_console;
     };
 
     bool on_create_handler(ender::window* ctx);

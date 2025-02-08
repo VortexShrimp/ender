@@ -1,10 +1,6 @@
 #include "lua_app.hpp"
 
 bool lua_app::window::on_create() {
-    if (m_console.create() == false) {
-        return false;
-    }
-
     if (create_lua_state() == false) {
         return false;
     }
@@ -16,7 +12,6 @@ bool lua_app::window::on_create() {
 
 void lua_app::window::on_destroy() {
     m_lua_state.script("on_global_window_destroy()");
-    m_console.destroy();
 }
 
 void lua_app::window::on_render_frame() {

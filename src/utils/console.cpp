@@ -1,6 +1,10 @@
 #include "console.hpp"
 
-bool ender::os_console::create() {
+ender::console::~console() {
+    destroy();
+}
+
+bool ender::console::create() {
     if (AllocConsole() == FALSE) {
         return false;
     }
@@ -16,39 +20,41 @@ bool ender::os_console::create() {
     return true;
 }
 
-void ender::os_console::destroy() {
+void ender::console::destroy() {
     FreeConsole();
 
     m_output = INVALID_HANDLE_VALUE;
     m_input = INVALID_HANDLE_VALUE;
 }
 
-void ender::os_console::write_raw(std::wstring_view text) noexcept {
+void ender::console::print_raw(std::string_view text) noexcept {
     if (m_output == INVALID_HANDLE_VALUE) {
         return;
     }
 
+    std::wstring converted = multibyte_to_unicode(text);
+
     DWORD written;
-    WriteConsole(m_output, text.data(), text.length(), &written, NULL);
+    WriteConsole(m_output, converted.data(), converted.length(), &written, NULL);
 }
 
-void ender::os_console::set_window_size(vec2i new_size) {
+void ender::console::set_window_size(vec2i new_size) {
     SMALL_RECT rect = {0, 0, static_cast<SHORT>(new_size.x - 1),
                        static_cast<SHORT>(new_size.y - 1)};
     SetConsoleWindowInfo(m_output, TRUE, &rect);
 }
 
-void ender::os_console::set_title(std::string_view new_title) {
+void ender::console::set_title(std::string_view new_title) {
     SetConsoleTitle(multibyte_to_unicode(new_title).c_str());
 }
 
-std::wstring_view ender::os_console::get_title() {
+std::wstring_view ender::console::get_title() {
     wchar_t buffer[256];
     GetConsoleTitle(buffer, 256);
     return buffer;
 }
 
-std::string ender::os_console::unicode_to_multibyte(std::wstring_view unicode_text) {
+std::string ender::console::unicode_to_multibyte(std::wstring_view unicode_text) {
     if (unicode_text.empty() == true) {
         return {};
     }
@@ -66,7 +72,7 @@ std::string ender::os_console::unicode_to_multibyte(std::wstring_view unicode_te
     return converted_text;
 }
 
-std::wstring ender::os_console::multibyte_to_unicode(std::string_view multibyte_text) {
+std::wstring ender::console::multibyte_to_unicode(std::string_view multibyte_text) {
     if (multibyte_text.empty() == true) {
         return {};
     }
