@@ -90,21 +90,29 @@ std::wstring ender::console::multibyte_to_unicode(std::string_view multibyte_tex
     return converted_text;
 }
 
-static ender::console s_debug_console;
-
 auto ender::get_debug_console() -> console* {
+    static ender::console s_debug_console;
+
     static bool once = true;
     if (once == true) {
         s_debug_console = {};
         s_debug_console.create();
+        s_debug_console.set_title("debug console");
+
         once = false;
     }
 
     return &s_debug_console;
 }
 
+std::mutex& ender::get_debug_console_mutex() {
+    static std::mutex s_console_mutex;
+    return s_console_mutex;
+}
+
 void ender::debug_print_raw(std::string_view text) {
     if constexpr (in_debug == true) {
+        std::lock_guard lock(get_debug_console_mutex());
         get_debug_console()->print_raw(text);
     }
 }

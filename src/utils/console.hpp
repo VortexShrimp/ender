@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <format>
+#include <mutex>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -81,6 +82,8 @@ namespace ender {
      */
     console* get_debug_console();
 
+    std::mutex& get_debug_console_mutex();
+
     void debug_print_raw(std::string_view text);
 
     /**
@@ -98,6 +101,7 @@ namespace ender {
     template <class... Args>
     inline void debug_print_formatted(std::string_view format, Args... args) {
         if constexpr (in_debug == true) {
+            std::lock_guard lock(get_debug_console_mutex());
             get_debug_console()->print_formatted(format, args...);
         }
     }

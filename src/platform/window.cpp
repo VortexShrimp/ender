@@ -293,13 +293,15 @@ float ender::window::get_delta_time() {
 bool ender::lua_window::create_lua_state() {
     m_lua_state.open_libraries(sol::lib::base);
 
-    m_lua_state["ender_debug_print"] = debug_print_raw;
+    m_lua_state["debug_print_raw"] = debug_print_raw;
 
-    m_lua_state.script_file("scripts\\ender_context.lua");
-    m_lua_state.script_file("scripts\\ender_hooks.lua");
+    m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
 
-    m_lua_state["ender_context"]["engine_name"] = engine_name;
-    m_lua_state["ender_context"]["version_string"] = version_string;
+    m_lua_state["imgui_begin_window"] = [](const char* name) { ImGui::Begin(name); };
+    m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
+    m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
+
+    m_lua_state.script_file("scripts\\ender_global_hooks.lua");
 
     return true;
 }

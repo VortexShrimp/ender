@@ -66,7 +66,7 @@ to manage many windows, just make sure they run in their own threads.
 All window messages will be routed through their own callbacks, if they've been set
 during initialization. Use them to change what your windows do.
 
-Each *ender* window also has a Lua context attached to it. Use the handlers and
+Each <code>ender\::lua_window</code> has a Lua context attached to it. Use the handlers and
 callbacks to create event structures in Lua that can communicate with C++.
 
 <br clear="right"/>
