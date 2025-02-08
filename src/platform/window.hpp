@@ -82,6 +82,10 @@ namespace ender {
          */
         void render_frame(render_frame_function on_render_frame);
 
+        /**
+         * @brief Is the window supposed to be running?
+         * @return True if the window should run.
+         */
         bool is_running() const noexcept;
 
     protected:
@@ -97,9 +101,9 @@ namespace ender {
         std::unique_ptr<d3d11_renderer> m_renderer;
 
     private:
-        HWND m_hwnd;
-        ATOM m_wcex;
-        HINSTANCE m_instance;
+        HWND m_hwnd;           // Win32 handle to the window.
+        ATOM m_wcex;           // Window class ATOM.
+        HINSTANCE m_instance;  // Instance (if any) that the window belongs to.
 
         high_resolution_timer m_timer;
     };
@@ -122,9 +126,9 @@ namespace ender {
      * @brief Data that needs to be shared between Window and Message Loop.
      */
     struct internal_window_data {
-        window* window;  // Reference to the window.
+        window* window;  // Reference to the ender window incase it's needed.
 
-        UINT resize_width;  // Resizing is handled in render loop and wndproc.
+        UINT resize_width;
         UINT resize_height;
 
         window::message_create_function on_message_create;

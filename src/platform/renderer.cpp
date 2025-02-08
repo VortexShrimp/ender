@@ -6,6 +6,12 @@
 #include <imgui\imgui.h>
 #include <imgui\imgui_impl_dx11.h>
 
+#define SAFE_RELEASE(ptr) \
+    if (ptr) {            \
+        ptr->Release();   \
+        ptr = nullptr;    \
+    }
+
 ender::d3d11_renderer::~d3d11_renderer() {
     destroy();
 }
@@ -56,20 +62,9 @@ bool ender::d3d11_renderer::create(HWND hwnd) {
 bool ender::d3d11_renderer::destroy() {
     destroy_render_target();
 
-    if (m_swap_chain != nullptr) {
-        m_swap_chain->Release();
-        m_swap_chain = nullptr;
-    }
-
-    if (m_device_context != nullptr) {
-        m_device_context->Release();
-        m_device_context = nullptr;
-    }
-
-    if (m_device != nullptr) {
-        m_device->Release();
-        m_device = nullptr;
-    }
+    SAFE_RELEASE(m_swap_chain)
+    SAFE_RELEASE(m_device_context)
+    SAFE_RELEASE(m_device)
 
     return true;
 }
@@ -137,8 +132,5 @@ bool ender::d3d11_renderer::create_render_target() {
 }
 
 void ender::d3d11_renderer::destroy_render_target() {
-    if (m_render_target_view != nullptr) {
-        m_render_target_view->Release();
-        m_render_target_view = nullptr;
-    }
+    SAFE_RELEASE(m_render_target_view)
 }

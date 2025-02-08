@@ -89,3 +89,22 @@ std::wstring ender::console::multibyte_to_unicode(std::string_view multibyte_tex
 
     return converted_text;
 }
+
+static ender::console s_debug_console;
+
+auto ender::get_debug_console() -> console* {
+    static bool once = true;
+    if (once == true) {
+        s_debug_console = {};
+        s_debug_console.create();
+        once = false;
+    }
+
+    return &s_debug_console;
+}
+
+void ender::debug_print(std::string_view text) {
+    if constexpr (in_debug == true) {
+        get_debug_console()->print_raw(text);
+    }
+}

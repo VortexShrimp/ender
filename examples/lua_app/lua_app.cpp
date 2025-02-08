@@ -1,5 +1,7 @@
 #include "lua_app.hpp"
 
+#include "../src/utils/console.hpp"
+
 bool lua_app::window::on_create() {
     if (create_lua_state() == false) {
         return false;

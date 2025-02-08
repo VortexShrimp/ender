@@ -1,8 +1,8 @@
 #include "window.hpp"
 
 #include <unordered_map>
-#include <vector>
 #include <string>
+#include <filesystem>
 
 #include "../ender.hpp"
 #include "../utils/console.hpp"
@@ -185,8 +185,6 @@ bool ender::window::create(create_function on_create, window_details details) {
                                                  .on_message_close = details.on_message_close};
     m_is_running = true;
 
-    debug_print("Window '{}' created.\n", console::unicode_to_multibyte(get_title()));
-
     // If callback exists, return based on it.
     if (on_create != nullptr) {
         return on_create(this);
@@ -294,6 +292,9 @@ float ender::window::get_delta_time() {
 
 bool ender::lua_window::create_lua_state() {
     m_lua_state.open_libraries(sol::lib::base);
+
+    m_lua_state["ender_debug_print"] = debug_print;
+
     m_lua_state.script_file("scripts\\ender_context.lua");
     m_lua_state.script_file("scripts\\ender_hooks.lua");
 

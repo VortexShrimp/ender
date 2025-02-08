@@ -31,7 +31,7 @@ namespace ender {
          * @param ...args
          */
         template <typename... Args>
-        void print(std::string_view format, Args&&... args);
+        void print_formatted(std::string_view format, Args&&... args);
 
         void set_window_size(vec2i new_size);
 
@@ -65,11 +65,23 @@ namespace ender {
     };
 
     template <class... Args>
-    inline void console::print(std::string_view format, Args&&... args) {
+    inline void console::print_formatted(std::string_view format, Args&&... args) {
         const std::string formatted =
             std::vformat(std::string(format), std::make_format_args(std::forward<Args>(args)...));
         print_raw(formatted);
     }
+
+    /**
+     * @brief Access the internal debug console.
+     *
+     * You shouldn't really use this. It's mainly here to expose it
+     * to debug_print_formatted.
+     *
+     * @return Pointer to internal console class.
+     */
+    console* get_debug_console();
+
+    void debug_print(std::string_view text);
 
     /**
      * @brief Print to a debug console.
@@ -84,15 +96,9 @@ namespace ender {
      * @param ...args
      */
     template <class... Args>
-    inline void debug_print(std::string_view format, Args... args) {
+    inline void debug_print_formatted(std::string_view format, Args... args) {
         if constexpr (in_debug == true) {
-            static console debug_console = {};
-            if (static bool once = true; once == true) {
-                debug_console.create();
-                once = false;
-            }
-
-            debug_console.print(format, args...);
+            get_debug_console()->print_formatted(format, args...);
         }
     }
 }  // namespace ender
