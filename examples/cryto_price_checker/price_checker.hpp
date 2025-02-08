@@ -2,6 +2,8 @@
 
 #include "../src/platform/lua_window.hpp"
 
+// https://www.coinlore.com/cryptocurrency-data-api
+
 namespace crypto_price_checker {
     bool create_handler(ender::window* ctx);
     void destroy_handler(ender::window* ctx);

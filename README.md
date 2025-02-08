@@ -16,10 +16,11 @@ Making intuitive and efficient GUI applications with C++ has been
 a terrible experience for me so, here is my attempt at an elegant solution.
 
 ### Roadmap
-- [ ] Complete console debug logging system with a compile-time switch.
+- [x] Complete console debug logging system with a compile-time switch.
 - [ ] Consistent error or exception handling system.
 - [ ] File handling system for configurations, scripting and more.
 - [ ] Independant 2D batch sprite, primitive & text renderer.
+- [ ] Script compressing on disk for distribution and Lua encryption.
 ## Example
 ### Simple Window
 The example below spawns a 64-bit Win32, Directx11 window running ImGui.

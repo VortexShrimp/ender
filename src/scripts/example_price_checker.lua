@@ -7,7 +7,7 @@ end
 function crypto_on_process_events ()
 end
 
--- Called when every lua_window renders a frame.
+-- Page number is stored in the C++ class.
 function crypto_on_render_imgui(page_number)
     if page_number == 0 then
         imgui_begin_window("start window")
