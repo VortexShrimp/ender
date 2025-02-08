@@ -66,6 +66,9 @@
     <ClCompile Include="src\platform\lua_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="examples\cryto_price_checker\price_checker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\imgui\imconfig.h">
@@ -291,6 +294,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\platform\lua_window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\cryto_price_checker\price_checker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,8 @@ bool lua_app::window::on_create() {
             m_lua_state.script("on_global_create()");
         }
 
+        ender::debug_print_formatted("[crypto] Window created successfully\n");
+
         return true;
     } catch (std::exception& e) {
         ender::debug_print_formatted("Exception: {}\n", e.what());

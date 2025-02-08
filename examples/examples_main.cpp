@@ -2,6 +2,7 @@
 #include <thread>
 
 // Include the examples.
+#include "cryto_price_checker\price_checker.hpp"
 #include "menu_app\menu_app.hpp"
 #include "lua_app\lua_app.hpp"
 
@@ -12,7 +13,7 @@ INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show)
     // std::thread menu_app(menu_app::run_menu_app);
     // menu_app.detach();
 
-    lua_app::run_lua_app();
+    crypto_price_checker::run_example();
 
     return 1;
 }
