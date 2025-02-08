@@ -3,21 +3,48 @@
 #include "../src/utils/console.hpp"
 
 bool lua_app::window::on_create() {
-    if (create_lua_state() == false) {
-        return false;
+    try {
+        lua_create_state();
+        m_lua_state.script("on_global_create()");
+
+        return true;
+    } catch (std::exception& e) {
+        ender::debug_print_formatted("Exception: {}\n", e.what());
+        return true;
     }
-
-    m_lua_state.script("on_global_window_create()");
-
-    return true;
 }
 
 void lua_app::window::on_destroy() {
-    m_lua_state.script("on_global_window_destroy()");
+    try {
+        m_lua_state.script("on_global_destroy()");
+    } catch (std::exception& e) {
+        ender::debug_print_formatted("Exception: {}\n", e.what());
+    }
+}
+
+void lua_app::window::on_process_events() {
+#ifdef _DEBUG
+    try {
+#endif  // _DEBUG
+        m_lua_state.script("on_global_process_events()");
+        m_lua_state.collect_garbage();
+#ifdef _DEBUG
+    } catch (std::exception& e) {
+        ender::debug_print_formatted("Exception: {}\n", e.what());
+    }
+#endif  // _DEBUG
 }
 
 void lua_app::window::on_render_frame() {
-    m_lua_state.script("on_global_window_render_frame()");
+#ifdef _DEBUG
+    try {
+#endif  // _DEBUG
+        m_lua_state.script("on_global_render_frame()");
+#ifdef _DEBUG
+    } catch (std::exception& e) {
+        ender::debug_print_formatted("Exception: {}\n", e.what());
+    }
+#endif  // _DEBUG
 }
 
 bool lua_app::on_create_handler(ender::window* ctx) {
@@ -28,6 +55,11 @@ bool lua_app::on_create_handler(ender::window* ctx) {
 void lua_app::on_destroy_handler(ender::window* ctx) {
     auto app = static_cast<window*>(ctx);
     app->on_destroy();
+}
+
+void lua_app::on_process_events_handler(ender::window* ctx) {
+    auto app = static_cast<window*>(ctx);
+    app->on_process_events();
 }
 
 void lua_app::on_render_frame_handler(ender::window* ctx) {

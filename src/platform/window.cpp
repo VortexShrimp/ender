@@ -290,14 +290,19 @@ float ender::window::get_delta_time() {
     return m_timer.get_delta_time();
 }
 
-bool ender::lua_window::create_lua_state() {
+bool ender::lua_window::lua_create_state() {
     m_lua_state.open_libraries(sol::lib::base);
 
     m_lua_state["debug_print_raw"] = debug_print_raw;
 
     bind_imgui_functions();
 
-    m_lua_state.script_file("scripts\\ender_global_hooks.lua");
+    // For some reason, debug builds run in a different directory.
+    if constexpr (in_debug == true) {
+        m_lua_state.script_file("build\\x64\\scripts\\ender_global_hooks.lua");
+    } else {
+        m_lua_state.script_file("scripts\\ender_global_hooks.lua");
+    }
 
     return true;
 }

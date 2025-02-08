@@ -75,19 +75,26 @@ namespace ender {
     /**
      * @brief Access the internal debug console.
      *
-     * You shouldn't really use this. It's mainly here to expose it
-     * to debug_print_formatted.
+     * You shouldn't really use this. It's here for debug_print_formatted.
      *
      * @return Pointer to internal console class.
      */
     console* get_debug_console();
 
+    /**
+     * @brief Access the internal debug console's mutex.
+     * @return
+     */
     std::mutex& get_debug_console_mutex();
 
+    /**
+     * @brief Directly prints to the debug console's buffer. Useful for lua binding.
+     * @param text
+     */
     void debug_print_raw(std::string_view text);
 
     /**
-     * @brief Print to a debug console.
+     * @brief Print to the debug console with formatting.
      *
      * If compiled, creates a console on first use. Does not compile in debug mode.
      *

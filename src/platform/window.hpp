@@ -110,6 +110,7 @@ namespace ender {
 
     /**
      * @brief Create a window with Lua state attached to it.
+     * @todo Move this?
      */
     class lua_window : public window {
     public:
@@ -117,7 +118,7 @@ namespace ender {
         }
 
     protected:
-        bool create_lua_state();
+        bool lua_create_state();
 
         sol::state m_lua_state;
 
