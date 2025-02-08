@@ -11,34 +11,6 @@
 #include <imgui/imgui_impl_dx11.h>
 #include <imgui/imgui_impl_win32.h>
 
-class imgui_font_atlas {
-public:
-    imgui_font_atlas() : m_atlas(new ImFontAtlas()) {
-    }
-    ~imgui_font_atlas() {
-        delete m_atlas;
-    }
-
-    inline ImFontAtlas* get() const {
-        return m_atlas;
-    }
-
-private:
-    ImFontAtlas* m_atlas;
-};
-
-static ImFontAtlas* get_shared_font_atlas() {
-    static imgui_font_atlas atlas{};
-    static bool once = true;
-    if (once == true) {
-        atlas.get()->AddFontDefault();
-        atlas.get()->Build();
-        once == false;
-    }
-
-    return atlas.get();
-}
-
 /**
  * @brief Stores data that is shared between wndproc and windows.
  *
