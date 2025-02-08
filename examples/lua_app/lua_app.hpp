@@ -1,5 +1,5 @@
 #pragma once
-#include "../../src/platform/window.hpp"
+#include "../../src/platform/lua_window.hpp"
 #include "../../src/utils/console.hpp"
 
 namespace lua_app {

@@ -150,6 +150,8 @@ bool ender::window::create(create_function on_create, window_details details) {
         CreateWindowW(wcex.lpszClassName, details.title.data(), WS_OVERLAPPEDWINDOW, 100, 100,
                       details.width, details.height, nullptr, nullptr, details.instance, nullptr);
     if (m_hwnd == nullptr) {
+        debug_print_formatted("[error] Failed to create window class. Last error -> {}\n",
+                              GetLastError());
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
         return false;
     }
@@ -157,6 +159,8 @@ bool ender::window::create(create_function on_create, window_details details) {
     // Create and initialize the renderer.
     m_renderer = std::make_unique<d3d11_renderer>();
     if (m_renderer->create(m_hwnd) == false) {
+        debug_print_formatted("[error] Failed to create renderer. Last error -> {}\n",
+                              GetLastError());
         DestroyWindow(m_hwnd);
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
         return false;
@@ -290,61 +294,4 @@ auto ender::window::get_window_size() const noexcept -> vec2i {
 
 float ender::window::get_delta_time() {
     return m_timer.get_delta_time();
-}
-
-bool ender::lua_window::lua_create_state() {
-    debug_print_formatted("--- Lua Start ---\n");
-
-    // Initialize Lua context and bind ender functions.
-    m_lua_state.open_libraries(sol::lib::base);
-    m_lua_state["debug_print_raw"] = debug_print_raw;
-    if constexpr (use_imgui == true) {
-        bind_imgui_functions();
-    }
-
-    // Folder relative to the .exe to look for scripts in.
-    constexpr auto scripts_folder_name = "scripts";
-    auto current_directory = std::filesystem::current_path();
-    auto script_directory = std::filesystem::current_path().append(scripts_folder_name);
-    debug_print_formatted("[lua] Current path -> '{}'\n[lua] Script path -> '{}'\n",
-                          current_directory.string(), script_directory.string());
-
-    int script_count = 0;
-
-    // Create and loop through the script directory.
-    std::filesystem::create_directory(script_directory);
-    for (auto& entry : std::filesystem::recursive_directory_iterator(script_directory)) {
-        // Currently ignore folders.
-        if (entry.is_regular_file() == false) {
-            continue;
-        }
-
-        auto entry_path = entry.path();
-        if (entry_path.has_extension() == true) {
-            // Load files with "lua" or "ender" extensions.
-            if (entry_path.extension().compare(".lua") == 0 ||
-                entry_path.extension().compare(".ender") == 0) {
-                debug_print_formatted("- Loaded '{}' -> [{} bytes]\n",
-                                      entry_path.filename().string(), entry.file_size());
-                // Load the script into Lua state.
-                m_lua_state.script_file(std::string(scripts_folder_name) + std::string("\\") +
-                                        entry_path.filename().string());
-                script_count += 1;
-            }
-        }
-    }
-
-    debug_print_formatted("Total scripts {}\n", script_count);
-    debug_print_formatted("--- Lua End ---\n");
-
-    return true;
-}
-
-void ender::lua_window::bind_imgui_functions() {
-    m_lua_state["imgui_begin_window"] = [](const char* name) { return ImGui::Begin(name); };
-    m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
-    m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
-    m_lua_state["imgui_button"] = [](const char* label) { return ImGui::Button(label); };
-
-    m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
 }

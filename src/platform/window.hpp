@@ -7,7 +7,6 @@
 #endif  // !WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <sol\sol.hpp>
 #include <imgui\imgui.h>
 
 #include "renderer.hpp"
@@ -109,24 +108,6 @@ namespace ender {
         HINSTANCE m_instance;  // Instance (if any) that the window belongs to.
 
         high_resolution_timer m_timer;
-    };
-
-    /**
-     * @brief Create a window with Lua state attached to it.
-     * @todo Move this?
-     */
-    class lua_window : public window {
-    public:
-        lua_window() : window() {
-        }
-
-    protected:
-        bool lua_create_state();
-
-        sol::state m_lua_state;
-
-    private:
-        void bind_imgui_functions();
     };
 
     /**

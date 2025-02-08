@@ -63,6 +63,9 @@
     <ClCompile Include="examples\lua_app\lua_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\platform\lua_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\imgui\imconfig.h">
@@ -285,6 +288,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="examples\lua_app\lua_app.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform\lua_window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

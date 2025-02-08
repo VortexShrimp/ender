@@ -178,6 +178,7 @@
     <ClCompile Include="external\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="external\imgui\imgui_tables.cpp" />
     <ClCompile Include="external\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\platform\lua_window.cpp" />
     <ClCompile Include="src\utils\console.cpp" />
     <ClCompile Include="src\utils\internet.cpp" />
     <ClCompile Include="src\platform\renderer.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="external\xorstr\xorstr.hpp" />
     <ClInclude Include="src\ender.hpp" />
     <ClInclude Include="src\math\vectors.hpp" />
+    <ClInclude Include="src\platform\lua_window.hpp" />
     <ClInclude Include="src\utils\console.hpp" />
     <ClInclude Include="src\utils\internet.hpp" />
     <ClInclude Include="src\platform\renderer.hpp" />

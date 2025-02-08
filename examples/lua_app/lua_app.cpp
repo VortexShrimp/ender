@@ -5,7 +5,7 @@
 bool lua_app::window::on_create() {
     try {
         // Setup Lua.
-        if (lua_create_state() == true) {
+        if (lua_create() == true) {
             m_lua_state.script("on_global_create()");
         }
 
