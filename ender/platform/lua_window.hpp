@@ -1,7 +1,7 @@
 #pragma once
 #include "window.hpp"
 
-#include <sol\sol.hpp>
+#include "../external/sol/sol.hpp"
 
 namespace ender {
     /**

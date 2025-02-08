@@ -7,9 +7,9 @@
 #include "../ender.hpp"
 #include "../utils/console.hpp"
 
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_dx11.h>
-#include <imgui/imgui_impl_win32.h>
+#include "../external/imgui/imgui.h"
+#include "../external/imgui/imgui_impl_dx11.h"
+#include "../external/imgui/imgui_impl_win32.h"
 
 /**
  * @brief Stores data that is shared between wndproc and windows.

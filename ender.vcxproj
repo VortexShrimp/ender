@@ -73,14 +73,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Platform)\intermediates\</IntDir>
-    <IncludePath>$(SolutionDir)external\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ender\external\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ender\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)build\$(Platform)\intermediates\</IntDir>
-    <IncludePath>$(SolutionDir)external\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ender\external\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ender\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,7 +125,7 @@
       <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)src\scripts\*" "$(OutDir)scripts\"</Command>
+      <Command>copy "$(ProjectDir)scripts\*" "$(OutDir)scripts\"</Command>
       <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
     </PostBuildEvent>
     <CustomBuildStep>
@@ -156,7 +156,7 @@
       <AdditionalDependencies>lua54.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)src\scripts\*" "$(OutDir)scripts\"</Command>
+      <Command>copy "$(ProjectDir)scripts\*" "$(OutDir)scripts\"</Command>
       <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
     </PostBuildEvent>
     <CustomBuildStep>
@@ -171,99 +171,267 @@
     <ClCompile Include="examples\cryto_price_checker\price_checker.cpp" />
     <ClCompile Include="examples\lua_app\lua_app.cpp" />
     <ClCompile Include="examples\menu_app\menu_app.cpp" />
-    <ClCompile Include="external\imgui\imgui.cpp" />
-    <ClCompile Include="external\imgui\imgui_demo.cpp" />
-    <ClCompile Include="external\imgui\imgui_draw.cpp" />
-    <ClCompile Include="external\imgui\imgui_freetype.cpp" />
-    <ClCompile Include="external\imgui\imgui_impl_dx11.cpp" />
-    <ClCompile Include="external\imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="external\imgui\imgui_tables.cpp" />
-    <ClCompile Include="external\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\platform\lua_window.cpp" />
-    <ClCompile Include="src\utils\console.cpp" />
-    <ClCompile Include="src\utils\internet.cpp" />
-    <ClCompile Include="src\platform\renderer.cpp" />
-    <ClCompile Include="src\platform\window.cpp" />
-    <ClCompile Include="src\utils\timer.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui_demo.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui_draw.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui_freetype.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui_tables.cpp" />
+    <ClCompile Include="ender\external\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ender\platform\lua_window.cpp" />
+    <ClCompile Include="ender\utils\console.cpp" />
+    <ClCompile Include="ender\utils\internet.cpp" />
+    <ClCompile Include="ender\platform\renderer.cpp" />
+    <ClCompile Include="ender\platform\window.cpp" />
+    <ClCompile Include="ender\utils\timer.cpp" />
     <ClCompile Include="examples\examples_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ender\external\lua\lauxlib.h" />
+    <ClInclude Include="ender\external\lua\lua.h" />
+    <ClInclude Include="ender\external\lua\lua.hpp" />
+    <ClInclude Include="ender\external\lua\luaconf.h" />
+    <ClInclude Include="ender\external\lua\lualib.h" />
+    <ClInclude Include="ender\external\nlohmann\adl_serializer.hpp" />
+    <ClInclude Include="ender\external\nlohmann\byte_container_with_subtype.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\abi_macros.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\conversions\from_json.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\conversions\to_chars.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\conversions\to_json.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\exceptions.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\hash.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\input\binary_reader.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\input\input_adapters.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\input\json_sax.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\input\lexer.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\input\parser.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\input\position_t.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\internal_iterator.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\iteration_proxy.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\iterator_traits.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\iter_impl.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\json_reverse_iterator.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\primitive_iterator.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\json_custom_base_class.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\json_pointer.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\json_ref.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\macro_scope.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\macro_unscope.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\call_std\begin.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\call_std\end.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\cpp_future.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\detected.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\identity_tag.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\is_sax.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\std_fs.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\type_traits.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\meta\void_t.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\output\binary_writer.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\output\output_adapters.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\output\serializer.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\string_concat.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\string_escape.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\string_utils.hpp" />
+    <ClInclude Include="ender\external\nlohmann\detail\value_t.hpp" />
+    <ClInclude Include="ender\external\nlohmann\json.hpp" />
+    <ClInclude Include="ender\external\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="ender\external\nlohmann\ordered_map.hpp" />
+    <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley.hpp" />
+    <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
+    <ClInclude Include="ender\external\sol\abort.hpp" />
+    <ClInclude Include="ender\external\sol\assert.hpp" />
+    <ClInclude Include="ender\external\sol\as_args.hpp" />
+    <ClInclude Include="ender\external\sol\as_returns.hpp" />
+    <ClInclude Include="ender\external\sol\base_traits.hpp" />
+    <ClInclude Include="ender\external\sol\bind_traits.hpp" />
+    <ClInclude Include="ender\external\sol\bytecode.hpp" />
+    <ClInclude Include="ender\external\sol\call.hpp" />
+    <ClInclude Include="ender\external\sol\compatibility.hpp" />
+    <ClInclude Include="ender\external\sol\compatibility\compat-5.3.c.h" />
+    <ClInclude Include="ender\external\sol\compatibility\compat-5.3.h" />
+    <ClInclude Include="ender\external\sol\compatibility\compat-5.4.h" />
+    <ClInclude Include="ender\external\sol\compatibility\lua_version.hpp" />
+    <ClInclude Include="ender\external\sol\config.hpp" />
+    <ClInclude Include="ender\external\sol\coroutine.hpp" />
+    <ClInclude Include="ender\external\sol\debug.hpp" />
+    <ClInclude Include="ender\external\sol\demangle.hpp" />
+    <ClInclude Include="ender\external\sol\deprecate.hpp" />
+    <ClInclude Include="ender\external\sol\detail\build_version.hpp" />
+    <ClInclude Include="ender\external\sol\dump_handler.hpp" />
+    <ClInclude Include="ender\external\sol\ebco.hpp" />
+    <ClInclude Include="ender\external\sol\environment.hpp" />
+    <ClInclude Include="ender\external\sol\epilogue.hpp" />
+    <ClInclude Include="ender\external\sol\error.hpp" />
+    <ClInclude Include="ender\external\sol\error_handler.hpp" />
+    <ClInclude Include="ender\external\sol\forward.hpp" />
+    <ClInclude Include="ender\external\sol\forward_as.hpp" />
+    <ClInclude Include="ender\external\sol\forward_detail.hpp" />
+    <ClInclude Include="ender\external\sol\function.hpp" />
+    <ClInclude Include="ender\external\sol\function_result.hpp" />
+    <ClInclude Include="ender\external\sol\function_types.hpp" />
+    <ClInclude Include="ender\external\sol\function_types_core.hpp" />
+    <ClInclude Include="ender\external\sol\function_types_overloaded.hpp" />
+    <ClInclude Include="ender\external\sol\function_types_stateful.hpp" />
+    <ClInclude Include="ender\external\sol\function_types_stateless.hpp" />
+    <ClInclude Include="ender\external\sol\function_types_templated.hpp" />
+    <ClInclude Include="ender\external\sol\inheritance.hpp" />
+    <ClInclude Include="ender\external\sol\in_place.hpp" />
+    <ClInclude Include="ender\external\sol\load_result.hpp" />
+    <ClInclude Include="ender\external\sol\lua_table.hpp" />
+    <ClInclude Include="ender\external\sol\lua_value.hpp" />
+    <ClInclude Include="ender\external\sol\make_reference.hpp" />
+    <ClInclude Include="ender\external\sol\metatable.hpp" />
+    <ClInclude Include="ender\external\sol\object.hpp" />
+    <ClInclude Include="ender\external\sol\object_base.hpp" />
+    <ClInclude Include="ender\external\sol\optional.hpp" />
+    <ClInclude Include="ender\external\sol\optional_implementation.hpp" />
+    <ClInclude Include="ender\external\sol\overload.hpp" />
+    <ClInclude Include="ender\external\sol\packaged_coroutine.hpp" />
+    <ClInclude Include="ender\external\sol\pairs_iterator.hpp" />
+    <ClInclude Include="ender\external\sol\pointer_like.hpp" />
+    <ClInclude Include="ender\external\sol\policies.hpp" />
+    <ClInclude Include="ender\external\sol\prologue.hpp" />
+    <ClInclude Include="ender\external\sol\property.hpp" />
+    <ClInclude Include="ender\external\sol\protect.hpp" />
+    <ClInclude Include="ender\external\sol\protected_function.hpp" />
+    <ClInclude Include="ender\external\sol\protected_function_result.hpp" />
+    <ClInclude Include="ender\external\sol\protected_handler.hpp" />
+    <ClInclude Include="ender\external\sol\proxy_base.hpp" />
+    <ClInclude Include="ender\external\sol\raii.hpp" />
+    <ClInclude Include="ender\external\sol\reference.hpp" />
+    <ClInclude Include="ender\external\sol\resolve.hpp" />
+    <ClInclude Include="ender\external\sol\sol.hpp" />
+    <ClInclude Include="ender\external\sol\stack.hpp" />
+    <ClInclude Include="ender\external\sol\stack\detail\pairs.hpp" />
+    <ClInclude Include="ender\external\sol\stack_check.hpp" />
+    <ClInclude Include="ender\external\sol\stack_check_get.hpp" />
+    <ClInclude Include="ender\external\sol\stack_check_get_qualified.hpp" />
+    <ClInclude Include="ender\external\sol\stack_check_get_unqualified.hpp" />
+    <ClInclude Include="ender\external\sol\stack_check_qualified.hpp" />
+    <ClInclude Include="ender\external\sol\stack_check_unqualified.hpp" />
+    <ClInclude Include="ender\external\sol\stack_core.hpp" />
+    <ClInclude Include="ender\external\sol\stack_field.hpp" />
+    <ClInclude Include="ender\external\sol\stack_get.hpp" />
+    <ClInclude Include="ender\external\sol\stack_get_qualified.hpp" />
+    <ClInclude Include="ender\external\sol\stack_get_unqualified.hpp" />
+    <ClInclude Include="ender\external\sol\stack_guard.hpp" />
+    <ClInclude Include="ender\external\sol\stack_iterator.hpp" />
+    <ClInclude Include="ender\external\sol\stack_pop.hpp" />
+    <ClInclude Include="ender\external\sol\stack_probe.hpp" />
+    <ClInclude Include="ender\external\sol\stack_proxy.hpp" />
+    <ClInclude Include="ender\external\sol\stack_proxy_base.hpp" />
+    <ClInclude Include="ender\external\sol\stack_push.hpp" />
+    <ClInclude Include="ender\external\sol\stack_reference.hpp" />
+    <ClInclude Include="ender\external\sol\state.hpp" />
+    <ClInclude Include="ender\external\sol\state_handling.hpp" />
+    <ClInclude Include="ender\external\sol\state_view.hpp" />
+    <ClInclude Include="ender\external\sol\string_view.hpp" />
+    <ClInclude Include="ender\external\sol\table.hpp" />
+    <ClInclude Include="ender\external\sol\table_core.hpp" />
+    <ClInclude Include="ender\external\sol\table_iterator.hpp" />
+    <ClInclude Include="ender\external\sol\table_proxy.hpp" />
+    <ClInclude Include="ender\external\sol\thread.hpp" />
+    <ClInclude Include="ender\external\sol\tie.hpp" />
+    <ClInclude Include="ender\external\sol\traits.hpp" />
+    <ClInclude Include="ender\external\sol\trampoline.hpp" />
+    <ClInclude Include="ender\external\sol\tuple.hpp" />
+    <ClInclude Include="ender\external\sol\types.hpp" />
+    <ClInclude Include="ender\external\sol\unicode.hpp" />
+    <ClInclude Include="ender\external\sol\unique_usertype_traits.hpp" />
+    <ClInclude Include="ender\external\sol\unreachable.hpp" />
+    <ClInclude Include="ender\external\sol\unsafe_function.hpp" />
+    <ClInclude Include="ender\external\sol\unsafe_function_result.hpp" />
+    <ClInclude Include="ender\external\sol\userdata.hpp" />
+    <ClInclude Include="ender\external\sol\usertype.hpp" />
+    <ClInclude Include="ender\external\sol\usertype_container.hpp" />
+    <ClInclude Include="ender\external\sol\usertype_container_launch.hpp" />
+    <ClInclude Include="ender\external\sol\usertype_core.hpp" />
+    <ClInclude Include="ender\external\sol\usertype_proxy.hpp" />
+    <ClInclude Include="ender\external\sol\usertype_storage.hpp" />
+    <ClInclude Include="ender\external\sol\usertype_traits.hpp" />
+    <ClInclude Include="ender\external\sol\utility\is_integer.hpp" />
+    <ClInclude Include="ender\external\sol\utility\to_string.hpp" />
+    <ClInclude Include="ender\external\sol\variadic_args.hpp" />
+    <ClInclude Include="ender\external\sol\variadic_results.hpp" />
+    <ClInclude Include="ender\external\sol\version.hpp" />
+    <ClInclude Include="ender\external\sol\wrapper.hpp" />
     <ClInclude Include="examples\lua_app\lua_app.hpp" />
     <ClInclude Include="examples\cryto_price_checker\price_checker.hpp" />
     <ClInclude Include="examples\menu_app\menu_app.hpp" />
-    <ClInclude Include="external\freetype\config\ftconfig.h" />
-    <ClInclude Include="external\freetype\config\ftheader.h" />
-    <ClInclude Include="external\freetype\config\ftmodule.h" />
-    <ClInclude Include="external\freetype\config\ftoption.h" />
-    <ClInclude Include="external\freetype\config\ftstdlib.h" />
-    <ClInclude Include="external\freetype\config\integer-types.h" />
-    <ClInclude Include="external\freetype\config\mac-support.h" />
-    <ClInclude Include="external\freetype\config\public-macros.h" />
-    <ClInclude Include="external\freetype\freetype.h" />
-    <ClInclude Include="external\freetype\ftadvanc.h" />
-    <ClInclude Include="external\freetype\ftbbox.h" />
-    <ClInclude Include="external\freetype\ftbdf.h" />
-    <ClInclude Include="external\freetype\ftbitmap.h" />
-    <ClInclude Include="external\freetype\ftbzip2.h" />
-    <ClInclude Include="external\freetype\ftcache.h" />
-    <ClInclude Include="external\freetype\ftchapters.h" />
-    <ClInclude Include="external\freetype\ftcid.h" />
-    <ClInclude Include="external\freetype\ftcolor.h" />
-    <ClInclude Include="external\freetype\ftdriver.h" />
-    <ClInclude Include="external\freetype\fterrdef.h" />
-    <ClInclude Include="external\freetype\fterrors.h" />
-    <ClInclude Include="external\freetype\ftfntfmt.h" />
-    <ClInclude Include="external\freetype\ftgasp.h" />
-    <ClInclude Include="external\freetype\ftglyph.h" />
-    <ClInclude Include="external\freetype\ftgxval.h" />
-    <ClInclude Include="external\freetype\ftgzip.h" />
-    <ClInclude Include="external\freetype\ftimage.h" />
-    <ClInclude Include="external\freetype\ftincrem.h" />
-    <ClInclude Include="external\freetype\ftlcdfil.h" />
-    <ClInclude Include="external\freetype\ftlist.h" />
-    <ClInclude Include="external\freetype\ftlogging.h" />
-    <ClInclude Include="external\freetype\ftlzw.h" />
-    <ClInclude Include="external\freetype\ftmac.h" />
-    <ClInclude Include="external\freetype\ftmm.h" />
-    <ClInclude Include="external\freetype\ftmodapi.h" />
-    <ClInclude Include="external\freetype\ftmoderr.h" />
-    <ClInclude Include="external\freetype\ftotval.h" />
-    <ClInclude Include="external\freetype\ftoutln.h" />
-    <ClInclude Include="external\freetype\ftparams.h" />
-    <ClInclude Include="external\freetype\ftpfr.h" />
-    <ClInclude Include="external\freetype\ftrender.h" />
-    <ClInclude Include="external\freetype\ftsizes.h" />
-    <ClInclude Include="external\freetype\ftsnames.h" />
-    <ClInclude Include="external\freetype\ftstroke.h" />
-    <ClInclude Include="external\freetype\ftsynth.h" />
-    <ClInclude Include="external\freetype\ftsystem.h" />
-    <ClInclude Include="external\freetype\fttrigon.h" />
-    <ClInclude Include="external\freetype\fttypes.h" />
-    <ClInclude Include="external\freetype\ftwinfnt.h" />
-    <ClInclude Include="external\freetype\otsvg.h" />
-    <ClInclude Include="external\freetype\t1tables.h" />
-    <ClInclude Include="external\freetype\ttnameid.h" />
-    <ClInclude Include="external\freetype\tttables.h" />
-    <ClInclude Include="external\freetype\tttags.h" />
-    <ClInclude Include="external\ft2build.h" />
-    <ClInclude Include="external\imgui\imconfig.h" />
-    <ClInclude Include="external\imgui\imgui.h" />
-    <ClInclude Include="external\imgui\imgui_freetype.h" />
-    <ClInclude Include="external\imgui\imgui_impl_dx11.h" />
-    <ClInclude Include="external\imgui\imgui_impl_win32.h" />
-    <ClInclude Include="external\imgui\imgui_internal.h" />
-    <ClInclude Include="external\imgui\imstb_rectpack.h" />
-    <ClInclude Include="external\imgui\imstb_textedit.h" />
-    <ClInclude Include="external\imgui\imstb_truetype.h" />
-    <ClInclude Include="external\xorstr\xorstr.hpp" />
-    <ClInclude Include="src\ender.hpp" />
-    <ClInclude Include="src\math\vectors.hpp" />
-    <ClInclude Include="src\platform\lua_window.hpp" />
-    <ClInclude Include="src\utils\console.hpp" />
-    <ClInclude Include="src\utils\internet.hpp" />
-    <ClInclude Include="src\platform\renderer.hpp" />
-    <ClInclude Include="src\platform\window.hpp" />
-    <ClInclude Include="src\utils\timer.hpp" />
+    <ClInclude Include="ender\external\freetype\config\ftconfig.h" />
+    <ClInclude Include="ender\external\freetype\config\ftheader.h" />
+    <ClInclude Include="ender\external\freetype\config\ftmodule.h" />
+    <ClInclude Include="ender\external\freetype\config\ftoption.h" />
+    <ClInclude Include="ender\external\freetype\config\ftstdlib.h" />
+    <ClInclude Include="ender\external\freetype\config\integer-types.h" />
+    <ClInclude Include="ender\external\freetype\config\mac-support.h" />
+    <ClInclude Include="ender\external\freetype\config\public-macros.h" />
+    <ClInclude Include="ender\external\freetype\freetype.h" />
+    <ClInclude Include="ender\external\freetype\ftadvanc.h" />
+    <ClInclude Include="ender\external\freetype\ftbbox.h" />
+    <ClInclude Include="ender\external\freetype\ftbdf.h" />
+    <ClInclude Include="ender\external\freetype\ftbitmap.h" />
+    <ClInclude Include="ender\external\freetype\ftbzip2.h" />
+    <ClInclude Include="ender\external\freetype\ftcache.h" />
+    <ClInclude Include="ender\external\freetype\ftchapters.h" />
+    <ClInclude Include="ender\external\freetype\ftcid.h" />
+    <ClInclude Include="ender\external\freetype\ftcolor.h" />
+    <ClInclude Include="ender\external\freetype\ftdriver.h" />
+    <ClInclude Include="ender\external\freetype\fterrdef.h" />
+    <ClInclude Include="ender\external\freetype\fterrors.h" />
+    <ClInclude Include="ender\external\freetype\ftfntfmt.h" />
+    <ClInclude Include="ender\external\freetype\ftgasp.h" />
+    <ClInclude Include="ender\external\freetype\ftglyph.h" />
+    <ClInclude Include="ender\external\freetype\ftgxval.h" />
+    <ClInclude Include="ender\external\freetype\ftgzip.h" />
+    <ClInclude Include="ender\external\freetype\ftimage.h" />
+    <ClInclude Include="ender\external\freetype\ftincrem.h" />
+    <ClInclude Include="ender\external\freetype\ftlcdfil.h" />
+    <ClInclude Include="ender\external\freetype\ftlist.h" />
+    <ClInclude Include="ender\external\freetype\ftlogging.h" />
+    <ClInclude Include="ender\external\freetype\ftlzw.h" />
+    <ClInclude Include="ender\external\freetype\ftmac.h" />
+    <ClInclude Include="ender\external\freetype\ftmm.h" />
+    <ClInclude Include="ender\external\freetype\ftmodapi.h" />
+    <ClInclude Include="ender\external\freetype\ftmoderr.h" />
+    <ClInclude Include="ender\external\freetype\ftotval.h" />
+    <ClInclude Include="ender\external\freetype\ftoutln.h" />
+    <ClInclude Include="ender\external\freetype\ftparams.h" />
+    <ClInclude Include="ender\external\freetype\ftpfr.h" />
+    <ClInclude Include="ender\external\freetype\ftrender.h" />
+    <ClInclude Include="ender\external\freetype\ftsizes.h" />
+    <ClInclude Include="ender\external\freetype\ftsnames.h" />
+    <ClInclude Include="ender\external\freetype\ftstroke.h" />
+    <ClInclude Include="ender\external\freetype\ftsynth.h" />
+    <ClInclude Include="ender\external\freetype\ftsystem.h" />
+    <ClInclude Include="ender\external\freetype\fttrigon.h" />
+    <ClInclude Include="ender\external\freetype\fttypes.h" />
+    <ClInclude Include="ender\external\freetype\ftwinfnt.h" />
+    <ClInclude Include="ender\external\freetype\otsvg.h" />
+    <ClInclude Include="ender\external\freetype\t1tables.h" />
+    <ClInclude Include="ender\external\freetype\ttnameid.h" />
+    <ClInclude Include="ender\external\freetype\tttables.h" />
+    <ClInclude Include="ender\external\freetype\tttags.h" />
+    <ClInclude Include="ender\external\ft2build.h" />
+    <ClInclude Include="ender\external\imgui\imconfig.h" />
+    <ClInclude Include="ender\external\imgui\imgui.h" />
+    <ClInclude Include="ender\external\imgui\imgui_freetype.h" />
+    <ClInclude Include="ender\external\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="ender\external\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="ender\external\imgui\imgui_internal.h" />
+    <ClInclude Include="ender\external\imgui\imstb_rectpack.h" />
+    <ClInclude Include="ender\external\imgui\imstb_textedit.h" />
+    <ClInclude Include="ender\external\imgui\imstb_truetype.h" />
+    <ClInclude Include="ender\external\xorstr\xorstr.hpp" />
+    <ClInclude Include="ender\ender.hpp" />
+    <ClInclude Include="ender\math\vectors.hpp" />
+    <ClInclude Include="ender\platform\lua_window.hpp" />
+    <ClInclude Include="ender\utils\console.hpp" />
+    <ClInclude Include="ender\utils\internet.hpp" />
+    <ClInclude Include="ender\platform\renderer.hpp" />
+    <ClInclude Include="ender\platform\window.hpp" />
+    <ClInclude Include="ender\utils\timer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

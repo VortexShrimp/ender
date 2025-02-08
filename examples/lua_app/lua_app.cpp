@@ -1,6 +1,6 @@
 #include "lua_app.hpp"
 
-#include "../src/utils/console.hpp"
+#include "../utils/console.hpp"
 
 bool lua_app::window::on_create() {
     try {

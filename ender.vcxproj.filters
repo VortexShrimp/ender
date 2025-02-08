@@ -15,46 +15,46 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="external\imgui\imgui.cpp">
+    <ClCompile Include="ender\external\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="external\imgui\imgui_demo.cpp">
+    <ClCompile Include="ender\external\imgui\imgui_demo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="external\imgui\imgui_draw.cpp">
+    <ClCompile Include="ender\external\imgui\imgui_draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="external\imgui\imgui_impl_dx11.cpp">
+    <ClCompile Include="ender\external\imgui\imgui_impl_dx11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="external\imgui\imgui_impl_win32.cpp">
+    <ClCompile Include="ender\external\imgui\imgui_impl_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="external\imgui\imgui_tables.cpp">
+    <ClCompile Include="ender\external\imgui\imgui_tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="external\imgui\imgui_widgets.cpp">
+    <ClCompile Include="ender\external\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\window.cpp">
+    <ClCompile Include="ender\platform\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\console.cpp">
+    <ClCompile Include="ender\utils\console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="external\imgui\imgui_freetype.cpp">
+    <ClCompile Include="ender\external\imgui\imgui_freetype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\timer.cpp">
+    <ClCompile Include="ender\utils\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\internet.cpp">
+    <ClCompile Include="ender\utils\internet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="examples\examples_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\renderer.cpp">
+    <ClCompile Include="ender\platform\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="examples\menu_app\menu_app.cpp">
@@ -63,7 +63,7 @@
     <ClCompile Include="examples\lua_app\lua_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\platform\lua_window.cpp">
+    <ClCompile Include="ender\platform\lua_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="examples\cryto_price_checker\price_checker.cpp">
@@ -71,220 +71,220 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="external\imgui\imconfig.h">
+    <ClInclude Include="ender\external\imgui\imconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imgui.h">
+    <ClInclude Include="ender\external\imgui\imgui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imgui_impl_dx11.h">
+    <ClInclude Include="ender\external\imgui\imgui_impl_dx11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imgui_impl_win32.h">
+    <ClInclude Include="ender\external\imgui\imgui_impl_win32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imgui_internal.h">
+    <ClInclude Include="ender\external\imgui\imgui_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imstb_rectpack.h">
+    <ClInclude Include="ender\external\imgui\imstb_rectpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imstb_textedit.h">
+    <ClInclude Include="ender\external\imgui\imstb_textedit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imstb_truetype.h">
+    <ClInclude Include="ender\external\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ender.hpp">
+    <ClInclude Include="ender\ender.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\platform\window.hpp">
+    <ClInclude Include="ender\platform\window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\console.hpp">
+    <ClInclude Include="ender\utils\console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\imgui\imgui_freetype.h">
+    <ClInclude Include="ender\external\imgui\imgui_freetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\ftconfig.h">
+    <ClInclude Include="ender\external\freetype\config\ftconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\ftheader.h">
+    <ClInclude Include="ender\external\freetype\config\ftheader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\ftmodule.h">
+    <ClInclude Include="ender\external\freetype\config\ftmodule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\ftoption.h">
+    <ClInclude Include="ender\external\freetype\config\ftoption.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\ftstdlib.h">
+    <ClInclude Include="ender\external\freetype\config\ftstdlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\integer-types.h">
+    <ClInclude Include="ender\external\freetype\config\integer-types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\mac-support.h">
+    <ClInclude Include="ender\external\freetype\config\mac-support.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\config\public-macros.h">
+    <ClInclude Include="ender\external\freetype\config\public-macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\freetype.h">
+    <ClInclude Include="ender\external\freetype\freetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftadvanc.h">
+    <ClInclude Include="ender\external\freetype\ftadvanc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftbbox.h">
+    <ClInclude Include="ender\external\freetype\ftbbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftbdf.h">
+    <ClInclude Include="ender\external\freetype\ftbdf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftbitmap.h">
+    <ClInclude Include="ender\external\freetype\ftbitmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftbzip2.h">
+    <ClInclude Include="ender\external\freetype\ftbzip2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftcache.h">
+    <ClInclude Include="ender\external\freetype\ftcache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftchapters.h">
+    <ClInclude Include="ender\external\freetype\ftchapters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftcid.h">
+    <ClInclude Include="ender\external\freetype\ftcid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftcolor.h">
+    <ClInclude Include="ender\external\freetype\ftcolor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftdriver.h">
+    <ClInclude Include="ender\external\freetype\ftdriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\fterrdef.h">
+    <ClInclude Include="ender\external\freetype\fterrdef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\fterrors.h">
+    <ClInclude Include="ender\external\freetype\fterrors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftfntfmt.h">
+    <ClInclude Include="ender\external\freetype\ftfntfmt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftgasp.h">
+    <ClInclude Include="ender\external\freetype\ftgasp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftglyph.h">
+    <ClInclude Include="ender\external\freetype\ftglyph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftgxval.h">
+    <ClInclude Include="ender\external\freetype\ftgxval.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftgzip.h">
+    <ClInclude Include="ender\external\freetype\ftgzip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftimage.h">
+    <ClInclude Include="ender\external\freetype\ftimage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftincrem.h">
+    <ClInclude Include="ender\external\freetype\ftincrem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftlcdfil.h">
+    <ClInclude Include="ender\external\freetype\ftlcdfil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftlist.h">
+    <ClInclude Include="ender\external\freetype\ftlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftlogging.h">
+    <ClInclude Include="ender\external\freetype\ftlogging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftlzw.h">
+    <ClInclude Include="ender\external\freetype\ftlzw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftmac.h">
+    <ClInclude Include="ender\external\freetype\ftmac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftmm.h">
+    <ClInclude Include="ender\external\freetype\ftmm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftmodapi.h">
+    <ClInclude Include="ender\external\freetype\ftmodapi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftmoderr.h">
+    <ClInclude Include="ender\external\freetype\ftmoderr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftotval.h">
+    <ClInclude Include="ender\external\freetype\ftotval.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftoutln.h">
+    <ClInclude Include="ender\external\freetype\ftoutln.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftparams.h">
+    <ClInclude Include="ender\external\freetype\ftparams.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftpfr.h">
+    <ClInclude Include="ender\external\freetype\ftpfr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftrender.h">
+    <ClInclude Include="ender\external\freetype\ftrender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftsizes.h">
+    <ClInclude Include="ender\external\freetype\ftsizes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftsnames.h">
+    <ClInclude Include="ender\external\freetype\ftsnames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftstroke.h">
+    <ClInclude Include="ender\external\freetype\ftstroke.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftsynth.h">
+    <ClInclude Include="ender\external\freetype\ftsynth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftsystem.h">
+    <ClInclude Include="ender\external\freetype\ftsystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\fttrigon.h">
+    <ClInclude Include="ender\external\freetype\fttrigon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\fttypes.h">
+    <ClInclude Include="ender\external\freetype\fttypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ftwinfnt.h">
+    <ClInclude Include="ender\external\freetype\ftwinfnt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\otsvg.h">
+    <ClInclude Include="ender\external\freetype\otsvg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\t1tables.h">
+    <ClInclude Include="ender\external\freetype\t1tables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\ttnameid.h">
+    <ClInclude Include="ender\external\freetype\ttnameid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\tttables.h">
+    <ClInclude Include="ender\external\freetype\tttables.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\freetype\tttags.h">
+    <ClInclude Include="ender\external\freetype\tttags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\ft2build.h">
+    <ClInclude Include="ender\external\ft2build.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\timer.hpp">
+    <ClInclude Include="ender\utils\timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\math\vectors.hpp">
+    <ClInclude Include="ender\math\vectors.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\internet.hpp">
+    <ClInclude Include="ender\utils\internet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="external\xorstr\xorstr.hpp">
+    <ClInclude Include="ender\external\xorstr\xorstr.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\platform\renderer.hpp">
+    <ClInclude Include="ender\platform\renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="examples\menu_app\menu_app.hpp">
@@ -293,10 +293,514 @@
     <ClInclude Include="examples\lua_app\lua_app.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\platform\lua_window.hpp">
+    <ClInclude Include="ender\platform\lua_window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="examples\cryto_price_checker\price_checker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\lua\lauxlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\lua\lua.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\lua\lua.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\lua\luaconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\lua\lualib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\conversions\from_json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\conversions\to_chars.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\conversions\to_json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\input\binary_reader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\input\input_adapters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\input\json_sax.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\input\lexer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\input\parser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\input\position_t.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\internal_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\iter_impl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\iteration_proxy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\iterator_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\json_reverse_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\iterators\primitive_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\call_std\begin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\call_std\end.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\cpp_future.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\detected.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\identity_tag.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\is_sax.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\std_fs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\type_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\meta\void_t.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\output\binary_writer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\output\output_adapters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\output\serializer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\abi_macros.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\exceptions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\hash.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\json_custom_base_class.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\json_pointer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\json_ref.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\macro_scope.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\macro_unscope.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\string_concat.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\string_escape.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\string_utils.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\detail\value_t.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley_undef.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\adl_serializer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\byte_container_with_subtype.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\json_fwd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\nlohmann\ordered_map.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\compatibility\compat-5.3.c.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\compatibility\compat-5.3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\compatibility\compat-5.4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\compatibility\lua_version.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\detail\build_version.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack\detail\pairs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\utility\is_integer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\utility\to_string.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\abort.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\as_args.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\as_returns.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\assert.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\base_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\bind_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\bytecode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\call.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\compatibility.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\coroutine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\debug.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\demangle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\deprecate.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\dump_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\ebco.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\environment.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\epilogue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\error.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\error_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\forward.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\forward_as.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\forward_detail.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function_result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function_types_core.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function_types_overloaded.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function_types_stateful.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function_types_stateless.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\function_types_templated.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\in_place.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\inheritance.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\load_result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\lua_table.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\lua_value.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\make_reference.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\metatable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\object.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\object_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\optional.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\optional_implementation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\overload.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\packaged_coroutine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\pairs_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\pointer_like.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\policies.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\prologue.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\property.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\protect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\protected_function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\protected_function_result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\protected_handler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\proxy_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\raii.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\reference.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\resolve.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\sol.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_check.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_check_get.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_check_get_qualified.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_check_get_unqualified.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_check_qualified.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_check_unqualified.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_core.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_field.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_get.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_get_qualified.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_get_unqualified.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_guard.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_pop.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_probe.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_proxy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_proxy_base.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_push.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\stack_reference.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\state.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\state_handling.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\state_view.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\string_view.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\table.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\table_core.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\table_iterator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\table_proxy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\thread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\tie.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\trampoline.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\tuple.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\unicode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\unique_usertype_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\unreachable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\unsafe_function.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\unsafe_function_result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\userdata.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\usertype.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\usertype_container.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\usertype_container_launch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\usertype_core.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\usertype_proxy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\usertype_storage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\usertype_traits.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\variadic_args.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\variadic_results.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\version.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\external\sol\wrapper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

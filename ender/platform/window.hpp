@@ -7,7 +7,7 @@
 #endif  // !WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#include <imgui\imgui.h>
+#include "../external/imgui/imgui.h"
 
 #include "renderer.hpp"
 #include "../utils/timer.hpp"

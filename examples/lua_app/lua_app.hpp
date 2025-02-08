@@ -1,6 +1,6 @@
 #pragma once
-#include "../../src/platform/lua_window.hpp"
-#include "../../src/utils/console.hpp"
+#include "../platform/lua_window.hpp"
+#include "../utils/console.hpp"
 
 namespace lua_app {
     class window : public ender::lua_window {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../src/platform/window.hpp"
+#include "../../ender/platform/window.hpp"
 
 namespace menu_app {
     class simple_window : public ender::window {

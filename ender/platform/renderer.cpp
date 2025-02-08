@@ -3,8 +3,8 @@
 #include "../ender.hpp"
 #include "window.hpp"
 
-#include <imgui\imgui.h>
-#include <imgui\imgui_impl_dx11.h>
+#include "../external/imgui/imgui.h"
+#include "../external/imgui/imgui_impl_dx11.h"
 
 #define SAFE_RELEASE(ptr) \
     if (ptr) {            \

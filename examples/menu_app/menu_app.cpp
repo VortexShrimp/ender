@@ -1,6 +1,6 @@
 #include "menu_app.hpp"
 
-#include "../src/utils/console.hpp"
+#include "../utils/console.hpp"
 
 #include <imgui\imgui.h>
 
