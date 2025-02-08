@@ -62,21 +62,28 @@ Find more examples at [`ender/examples`](https://github.com/VortexShrimp/ender/t
 
 Any class inheritting from <code>ender\::window</code> can be infinitely created.
 For example, you could have <code>std::vector<ender\::window*> windows</code>
-to manage many windows, just make sure they run in their own threads.
+to manage many windows.
 
 All window messages will be routed through their own callbacks, if they've been set
 during initialization. Use them to change what your windows do.
 
+This example is using *ender* as a window framework with ImGui, but its much
+more capable than that.
+
 <br clear="right"/>
 
 ### Lua Window
-The example above is very simple, but *ender* is capable of much more.
+The example below spawns a similar window, but this time with Lua.
+See [`examples/lua_app`](https://github.com/VortexShrimp/ender/tree/master/examples/lua_app) for the implementation details. 
+
 ```lua
 function on_window_create ()
+    -- Prints from Lua to ender's global debug console.
     debug_print_raw("Hello, from Lua")
 end
 
 function on_window_render ()
+    -- Create a custom ImGui window easily.
     imgui_begin_window("lua example")
     imgui_text("hello, from lua!")
     imgui_end_window()
