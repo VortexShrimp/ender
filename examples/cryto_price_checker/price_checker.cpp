@@ -2,6 +2,7 @@
 
 // For debug printing.
 #include "../utils/console.hpp"
+#include "../utils/internet.hpp"
 
 bool crypto_price_checker::create_handler(ender::window* ctx) {
     auto app = static_cast<app_window*>(ctx);
@@ -54,6 +55,10 @@ bool crypto_price_checker::app_window::on_create_window() {
                 set_page_number(new_number);
             };
 
+            m_lua_state["get_request"] = [this](std::string_view url, std::string_view objects) {
+                return get_request(url, objects);
+            };
+
             m_lua_state.script("crypto_on_create()");
         }
 
@@ -96,4 +101,16 @@ void crypto_price_checker::app_window::on_render_frame() {
 
 void crypto_price_checker::app_window::set_page_number(int new_number) {
     m_page_number = new_number;
+}
+
+std::string crypto_price_checker::app_window::get_request(std::string_view url,
+                                                          std::string_view objects) {
+    std::string response = "";
+
+    ender::internet_client client = {};
+    if (client.create() == true) {
+        client.get(url, objects, response);
+    }
+
+    return response;
 }

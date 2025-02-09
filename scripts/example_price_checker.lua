@@ -1,5 +1,8 @@
 function crypto_on_create ()
-    
+    -- Test get request from Lua.
+    local response = get_request("jsonplaceholder.typicode.com", "/todos/1")
+    debug_print_raw(response)
+    debug_print_raw("\n")
 end
 
 function crypto_on_destroy ()
@@ -11,7 +14,7 @@ end
 -- Page number is stored in the C++ class.
 function crypto_on_render_imgui(page_number)
     -- Make the ImGui window the same size the os window.
-    imgui_set_next_window_position()
+    imgui_set_next_window_position(0, 0)
     imgui_set_next_window_size_to_client_size()
 
     imgui_begin_window("crypto_window")

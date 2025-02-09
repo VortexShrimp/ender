@@ -23,6 +23,7 @@ namespace crypto_price_checker {
 
     private:
         void set_page_number(int new_number);
+        std::string get_request(std::string_view url, std::string_view objects);
 
         int m_page_number;
     };
