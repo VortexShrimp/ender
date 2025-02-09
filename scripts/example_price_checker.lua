@@ -1,6 +1,6 @@
 function crypto_on_create ()
     -- Handle the request & json parsing in C++.
-    crypto_get_and_parse_global_response()
+    crypto_get_and_parse_api()
 
     -- Add fonts.
     imgui_add_font_from_file_ttf("C:\\Windows\\Fonts\\bahnschrift.ttf", 36)
@@ -44,20 +44,16 @@ function crypto_on_render_imgui(page_number)
     elseif page_number == 1 then
         imgui_push_font(0)
         imgui_text("Home")
-        imgui_separator()
-        imgui_spacing()
         imgui_pop_font()
 
         -- Display all the global endpoint data.
         imgui_push_font(1)
-        imgui_text("Coins Count [ " .. global_coins_count .. " ]\n")
-        imgui_text("Active Markets [ " .. global_active_markets .. " ]\n")
-        imgui_spacing()
-        imgui_text("BTC Dominance [ " .. global_bitcoin_dominance .. " ]\n")
-        imgui_text("ETH Dominance [ " .. global_etherium_dominance .. " ]\n")
-        imgui_spacing()
-        imgui_text("Average Change [ " .. global_change_percent .. " ]\n")
+        imgui_text("There are " .. global_coins_count .." coins available on\n" .. global_active_markets .. " markets.\n")
+        imgui_text("The market consists of " .. global_bitcoin_dominance .. " percent\nBTC and " .. global_etherium_dominance .. " percent ETC.\n")
+        imgui_text("The volume changed by " .. global_volume_change .. " with\nan average change of " .. global_change_percent .. ".\n")
 
+        imgui_separator()
+        imgui_spacing()
 
         if imgui_button("back") then
             set_page_number(0)
