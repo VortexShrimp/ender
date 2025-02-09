@@ -32,10 +32,6 @@ function crypto_on_render_imgui(page_number)
 
         imgui_push_font(1)
         imgui_text("Enter a coin ID below")
-
-        -- imgui_text("There are " .. global_coins_count .." coins available on\n" .. global_active_markets .. " markets.\n")
-        -- imgui_text("The market consists of " .. global_bitcoin_dominance .. " percent\nBTC and " .. global_etherium_dominance .. " percent ETC.\n")
-        -- imgui_text("The volume changed by " .. global_volume_change .. " with\nan average change of " .. global_change_percent .. ".\n")
         imgui_coin_id_input("coin id")
         if imgui_button("begin") then
             set_page_number(1)

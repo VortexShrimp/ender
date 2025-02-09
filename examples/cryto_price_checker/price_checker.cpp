@@ -137,23 +137,25 @@ std::string crypto_price_checker::app_window::get_request(std::string_view url,
 
 void crypto_price_checker::app_window::get_and_parse_global_response() {
     // https://www.coinlore.com/cryptocurrency-data-api#global
-    std::string global_json = get_request("api.coinlore.net", "/api/global");
-    nlohmann::json global_data = nlohmann::json::parse(global_json);
+    const std::string global_json = get_request("api.coinlore.net", "/api/global");
+    const nlohmann::json global_data = nlohmann::json::parse(global_json);
 
-    const int coins_count = global_data[0]["coins_count"];
-    m_lua_state["global_coins_count"] = coins_count;
+    sol::table global_data_table = m_lua_state.create_table("global_data");
+
+    int coins_count = global_data[0]["coins_count"];
+    global_data_table["coins"] = coins_count;
     const int active_markets = global_data[0]["active_markets"];
-    m_lua_state["global_active_markets"] = active_markets;
+    global_data_table["markets"] = active_markets;
 
-    std::string bitcoin_dominance = global_data[0]["btc_d"];
-    m_lua_state["global_bitcoin_dominance"] = bitcoin_dominance;
-    std::string etherium_dominance = global_data[0]["eth_d"];
-    m_lua_state["global_etherium_dominance"] = etherium_dominance;
+    const std::string bitcoin_dominance = global_data[0]["btc_d"];
+    global_data_table["btc_dominance"] = bitcoin_dominance;
+    const std::string etherium_dominance = global_data[0]["eth_d"];
+    global_data_table["eth_dominance"] = etherium_dominance;
 
-    std::string volume_change = global_data[0]["volume_change"];
-    m_lua_state["global_volume_change"] = volume_change;
-    std::string average_change_percent = global_data[0]["avg_change_percent"];
-    m_lua_state["global_change_percent"] = average_change_percent;
+    const std::string volume_change = global_data[0]["volume_change"];
+    global_data_table["volume_change"] = volume_change;
+    const std::string average_change_percent = global_data[0]["avg_change_percent"];
+    global_data_table["average_change_percent"] = average_change_percent;
 
     // Create it here to avoid copies.
     m_lua_state.create_table("current_coin");
@@ -162,28 +164,28 @@ void crypto_price_checker::app_window::get_and_parse_global_response() {
 void crypto_price_checker::app_window::get_and_update_current_coin(int index) {
     // https://www.coinlore.com/cryptocurrency-data-api#global
     // https://api.coinlore.net/api/ticker/?id=90
-    std::string url_objects = std::format("/api/ticker/?id={}", index);
-    std::string coin_json = get_request("api.coinlore.net", url_objects);
-    nlohmann::json coin_data = nlohmann::json::parse(coin_json);
+    const std::string url_objects = std::format("/api/ticker/?id={}", index);
+    const std::string coin_json = get_request("api.coinlore.net", url_objects);
+    const nlohmann::json coin_data = nlohmann::json::parse(coin_json);
 
-    std::string coin_name = coin_data[0]["name"];
+    const std::string coin_name = coin_data[0]["name"];
     m_lua_state["current_coin"]["name"] = coin_name;
 
-    int coin_rank = coin_data[0]["rank"];
+    const int coin_rank = coin_data[0]["rank"];
     m_lua_state["current_coin"]["rank"] = coin_rank;
 
-    std::string coin_price_usd = coin_data[0]["price_usd"];
+    const std::string coin_price_usd = coin_data[0]["price_usd"];
     m_lua_state["current_coin"]["price"] = coin_price_usd;
 
-    std::string coin_change_1h = coin_data[0]["percent_change_1h"];
+    const std::string coin_change_1h = coin_data[0]["percent_change_1h"];
     m_lua_state["current_coin"]["change_1h"] = coin_change_1h;
 
-    std::string coin_change_24h = coin_data[0]["percent_change_24h"];
+    const std::string coin_change_24h = coin_data[0]["percent_change_24h"];
     m_lua_state["current_coin"]["change_24h"] = coin_change_24h;
 
-    std::string coin_change_7d = coin_data[0]["percent_change_7d"];
+    const std::string coin_change_7d = coin_data[0]["percent_change_7d"];
     m_lua_state["current_coin"]["change_7d"] = coin_change_7d;
 
-    std::string coin_price_bitcoin = coin_data[0]["price_btc"];
+    const std::string coin_price_bitcoin = coin_data[0]["price_btc"];
     m_lua_state["current_coin"]["price_bitcoin"] = coin_price_bitcoin;
 }
