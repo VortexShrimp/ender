@@ -29,7 +29,9 @@ namespace ender {
         sol::state m_lua_state;
 
     private:
-        void lua_bind_functions();
-        void lua_bind_imgui_functions();
+        void lua_bind_core_api();
+        void lua_bind_imgui_api();
+
+        std::vector<ImFont*> m_imgui_fonts;
     };
 }  // namespace ender

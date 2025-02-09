@@ -12,10 +12,10 @@ bool ender::lua_window::lua_create() {
     m_lua_state.open_libraries(sol::lib::base);
 
     // Nind ender functions to Lua.s
-    lua_bind_functions();
+    lua_bind_core_api();
 
     if constexpr (use_imgui == true) {
-        lua_bind_imgui_functions();
+        lua_bind_imgui_api();
     }
 
     // Load all the script files in the folder specified.
@@ -60,11 +60,11 @@ void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_nam
     debug_print_formatted("Total scripts loaded -> {}\n", script_count);
 }
 
-void ender::lua_window::lua_bind_functions() {
+void ender::lua_window::lua_bind_core_api() {
     m_lua_state["debug_print_raw"] = debug_print_raw;
 }
 
-void ender::lua_window::lua_bind_imgui_functions() {
+void ender::lua_window::lua_bind_imgui_api() {
     // ImGui window rendering functions.
     if (use_imgui == true) {
         m_lua_state["imgui_set_next_window_collapsed"] = [](bool collapsed) {
@@ -81,15 +81,40 @@ void ender::lua_window::lua_bind_imgui_functions() {
             ImGui::SetNextWindowPos({posx, posy});
             ImGui::SetNextWindowSize({sizex, sizey});
         };
+        m_lua_state["imgui_push_font"] = [this](int font_index) {
+            ImGui::PushFont(m_imgui_fonts[font_index]);
+        };
+        m_lua_state["imgui_pop_font"] = []() { ImGui::PopFont(); };
+
+        // Sets the next window to the size of the client drawing area.
         m_lua_state["imgui_set_next_window_size_to_client_size"] = [this]() {
             const auto [x, y] = get_client_size();
             ImGui::SetNextWindowSize({static_cast<float>(x), static_cast<float>(y)});
         };
 
-        m_lua_state["imgui_begin_window"] = [](const char* name) { return ImGui::Begin(name); };
+        m_lua_state["imgui_add_font_from_file_ttf"] = [this](const char* file_name,
+                                                             float size_pixels) {
+            m_imgui_fonts.push_back(
+                ImGui::GetIO().Fonts->AddFontFromFileTTF(file_name, size_pixels));
+        };
+
+        m_lua_state["imgui_set_defualt_font"] = [this](int font_index) {
+            ImGui::GetIO().FontDefault = m_imgui_fonts[font_index];
+        };
+
+        // ImGuiWindowFlags_NoMove = 4
+        // ImGuiWindowFlags_NoCollapse = 3
+        // ImGuiWindowFlags_NoResize = 2
+        // ImGuiWindowFlags_NoTitleBar = 1
+        m_lua_state["imgui_begin_window"] = [](const char* name, int flags) {
+            return ImGui::Begin(name, nullptr, flags);
+        };
         m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
         m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
         m_lua_state["imgui_button"] = [](const char* label) { return ImGui::Button(label); };
+
+        m_lua_state["imgui_separator"] = []() { ImGui::Separator(); };
+        m_lua_state["imgui_spacing"] = []() { ImGui::Spacing(); };
 
         m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
     }
