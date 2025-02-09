@@ -13,9 +13,12 @@ namespace ender {
         high_resolution_timer();
 
         float get_delta_time();
+        float get_elapsed_time_seconds();
+        float get_elapsed_time_milliseconds();
 
     private:
         LARGE_INTEGER m_frequency;
+        LARGE_INTEGER m_start_time;
         LARGE_INTEGER m_last_time;
     };
 }  // namespace ender

@@ -65,12 +65,22 @@ bool crypto_price_checker::app_window::on_create_window() {
                 return get_and_parse_global_response();
             };
 
+            m_lua_state["get_and_update_current_coin"] = [this]() {
+                get_and_update_current_coin(m_coin_id);
+            };
+
+            m_lua_state["imgui_coin_id_input"] = [this](const char* label) {
+                ImGui::InputInt(label, &m_coin_id);
+            };
+
             m_lua_state.script("crypto_on_create()");
         }
 
         return true;
-    } catch (std::exception& e) {
-        ender::debug_print_formatted("Exception: {}\n", e.what());
+    } catch (std::exception& ex) {
+        ender::debug_print_formatted("Exception: {}\n", ex.what());
+        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(),
+                   L"Lua Exception", MB_ICONERROR);
         return true;
     }
 }
@@ -80,6 +90,8 @@ void crypto_price_checker::app_window::on_destroy_window() {
         m_lua_state.script("crypto_on_destroy()");
     } catch (std::exception& ex) {
         ender::debug_print_formatted("Exception: {}\n", ex.what());
+        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(),
+                   L"Lua Exception", MB_ICONERROR);
     }
 }
 
@@ -92,6 +104,8 @@ bool crypto_price_checker::app_window::on_process_events() {
         m_lua_state.script("crypto_on_process_events()");
     } catch (std::exception& ex) {
         ender::debug_print_formatted("Exception: {}\n", ex.what());
+        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(),
+                   L"Lua Exception", MB_ICONERROR);
     }
 
     return true;
@@ -122,25 +136,54 @@ std::string crypto_price_checker::app_window::get_request(std::string_view url,
 }
 
 void crypto_price_checker::app_window::get_and_parse_global_response() {
-    {
-        std::string json = get_request("api.coinlore.net", "/api/global");
-        nlohmann::json json_data = nlohmann::json::parse(json);
+    // https://www.coinlore.com/cryptocurrency-data-api#global
+    std::string global_json = get_request("api.coinlore.net", "/api/global");
+    nlohmann::json global_data = nlohmann::json::parse(global_json);
 
-        const int coins_count = json_data[0]["coins_count"];
-        m_lua_state["global_coins_count"] = coins_count;
-        const int active_markets = json_data[0]["active_markets"];
-        m_lua_state["global_active_markets"] = active_markets;
+    const int coins_count = global_data[0]["coins_count"];
+    m_lua_state["global_coins_count"] = coins_count;
+    const int active_markets = global_data[0]["active_markets"];
+    m_lua_state["global_active_markets"] = active_markets;
 
-        std::string bitcoin_dominance = json_data[0]["btc_d"];
-        m_lua_state["global_bitcoin_dominance"] = bitcoin_dominance;
-        std::string etherium_dominance = json_data[0]["eth_d"];
-        m_lua_state["global_etherium_dominance"] = etherium_dominance;
+    std::string bitcoin_dominance = global_data[0]["btc_d"];
+    m_lua_state["global_bitcoin_dominance"] = bitcoin_dominance;
+    std::string etherium_dominance = global_data[0]["eth_d"];
+    m_lua_state["global_etherium_dominance"] = etherium_dominance;
 
-        std::string volume_change = json_data[0]["volume_change"];
-        m_lua_state["global_volume_change"] = volume_change;
-        std::string average_change_percent = json_data[0]["avg_change_percent"];
-        m_lua_state["global_change_percent"] = average_change_percent;
-    }
+    std::string volume_change = global_data[0]["volume_change"];
+    m_lua_state["global_volume_change"] = volume_change;
+    std::string average_change_percent = global_data[0]["avg_change_percent"];
+    m_lua_state["global_change_percent"] = average_change_percent;
 
-    {}
+    // Create it here to avoid copies.
+    m_lua_state.create_table("current_coin");
+}
+
+void crypto_price_checker::app_window::get_and_update_current_coin(int index) {
+    // https://www.coinlore.com/cryptocurrency-data-api#global
+    // https://api.coinlore.net/api/ticker/?id=90
+    std::string url_objects = std::format("/api/ticker/?id={}", index);
+    std::string coin_json = get_request("api.coinlore.net", url_objects);
+    nlohmann::json coin_data = nlohmann::json::parse(coin_json);
+
+    std::string coin_name = coin_data[0]["name"];
+    m_lua_state["current_coin"]["name"] = coin_name;
+
+    int coin_rank = coin_data[0]["rank"];
+    m_lua_state["current_coin"]["rank"] = coin_rank;
+
+    std::string coin_price_usd = coin_data[0]["price_usd"];
+    m_lua_state["current_coin"]["price"] = coin_price_usd;
+
+    std::string coin_change_1h = coin_data[0]["percent_change_1h"];
+    m_lua_state["current_coin"]["change_1h"] = coin_change_1h;
+
+    std::string coin_change_24h = coin_data[0]["percent_change_24h"];
+    m_lua_state["current_coin"]["change_24h"] = coin_change_24h;
+
+    std::string coin_change_7d = coin_data[0]["percent_change_7d"];
+    m_lua_state["current_coin"]["change_7d"] = coin_change_7d;
+
+    std::string coin_price_bitcoin = coin_data[0]["price_btc"];
+    m_lua_state["current_coin"]["price_bitcoin"] = coin_price_bitcoin;
 }

@@ -115,6 +115,7 @@ void ender::lua_window::lua_bind_imgui_api() {
 
         m_lua_state["imgui_separator"] = []() { ImGui::Separator(); };
         m_lua_state["imgui_spacing"] = []() { ImGui::Spacing(); };
+        m_lua_state["imgui_same_line"] = []() { ImGui::SameLine(); };
 
         m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
     }

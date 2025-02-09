@@ -12,7 +12,7 @@ namespace crypto_price_checker {
 
     class app_window : public ender::lua_window {
     public:
-        app_window() : m_page_number(0), lua_window() {
+        app_window() : m_page_number(0), m_coin_id(0), lua_window() {
         }
 
         bool on_create_window();
@@ -25,8 +25,10 @@ namespace crypto_price_checker {
         void set_page_number(int new_number);
         std::string get_request(std::string_view url, std::string_view objects);
         void get_and_parse_global_response();
+        void get_and_update_current_coin(int index);
 
         int m_page_number;
+        int m_coin_id;
     };
 
     int run_example();

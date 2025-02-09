@@ -8,6 +8,8 @@
 #include <windows.h>
 #include <wininet.h>
 
+#include "timer.hpp"
+
 namespace ender {
     /**
      * @brief Opens a connection to a url for simple get/post requests.
@@ -26,7 +28,7 @@ namespace ender {
         void destroy();
 
         /**
-         * @brief Make a get request to a url.
+         * @brief Make a (blocking) get request to a url.
          *
          * @example client.get("jsonplaceholder.typicode.com", "/todos/1", response)
          *

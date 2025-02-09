@@ -1,5 +1,7 @@
 #include "internet.hpp"
 
+#include "console.hpp"
+
 ender::internet_client::~internet_client() {
     destroy();
 }
@@ -22,6 +24,11 @@ void ender::internet_client::destroy() {
 
 bool ender::internet_client::get(std::string_view url, std::string_view objects,
                                  std::string& response) {
+    debug_print_formatted("--- HTTP GET START ---\n");
+    debug_print_formatted("url -> '{}'\n", url);
+
+    high_resolution_timer timer = {};
+
     const HINTERNET connect = InternetConnectA(m_internet, url.data(), INTERNET_DEFAULT_HTTP_PORT,
                                                NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
     if (connect == INVALID_HANDLE_VALUE) {
@@ -58,6 +65,9 @@ bool ender::internet_client::get(std::string_view url, std::string_view objects,
 
     InternetCloseHandle(request);
     InternetCloseHandle(connect);
+
+    debug_print_formatted("Completed in {} seconds.\n", timer.get_elapsed_time_seconds());
+    debug_print_formatted("--- HTTP GET END ---\n");
 
     return true;
 }

@@ -24,39 +24,47 @@ function crypto_on_render_imgui(page_number)
     -- The random numbers are ImGui window flags.
     -- TODO: Possibly make them variables?
     imgui_begin_window("crypto_window", 1 | 2 | 4 | 32)
-    -- Start page.
+    -- Home page.
     if page_number == 0 then
         imgui_push_font(0)
-        imgui_text("Crypto App\n")
-
+        imgui_text("Welcome")
         imgui_pop_font()
+
         imgui_push_font(1)
+        imgui_text("Enter a coin ID below")
 
-        imgui_text("price checker\n")
-        imgui_separator()
-        imgui_spacing()
-
-        if imgui_button("start") then
+        -- imgui_text("There are " .. global_coins_count .." coins available on\n" .. global_active_markets .. " markets.\n")
+        -- imgui_text("The market consists of " .. global_bitcoin_dominance .. " percent\nBTC and " .. global_etherium_dominance .. " percent ETC.\n")
+        -- imgui_text("The volume changed by " .. global_volume_change .. " with\nan average change of " .. global_change_percent .. ".\n")
+        imgui_coin_id_input("coin id")
+        if imgui_button("begin") then
             set_page_number(1)
+            get_and_update_current_coin()
         end
         imgui_pop_font()
-    -- Home page.
+    -- Bitcoin page.
     elseif page_number == 1 then
         imgui_push_font(0)
-        imgui_text("Home")
+        imgui_text(current_coin.name .. "\n")
         imgui_pop_font()
 
-        -- Display all the global endpoint data.
         imgui_push_font(1)
-        imgui_text("There are " .. global_coins_count .." coins available on\n" .. global_active_markets .. " markets.\n")
-        imgui_text("The market consists of " .. global_bitcoin_dominance .. " percent\nBTC and " .. global_etherium_dominance .. " percent ETC.\n")
-        imgui_text("The volume changed by " .. global_volume_change .. " with\nan average change of " .. global_change_percent .. ".\n")
+        imgui_text("rank " .. current_coin.rank .. "\n")
+        imgui_pop_font()
+
+        imgui_push_font(1)
+        imgui_separator()
+
+        -- Display the coin info.
+        imgui_text("Price $" .. current_coin.price .. "\n")
+        imgui_text("1h " .. current_coin.change_1h .. "\n")
+        imgui_text("24h " .. current_coin.change_24h .. "\n")
+        imgui_text("7d " .. current_coin.change_7d .. "\n")
 
         imgui_separator()
-        imgui_spacing()
-
-        if imgui_button("back") then
-            set_page_number(0)
+        imgui_coin_id_input("coin id")
+        if imgui_button("refresh") then
+           get_and_update_current_coin()
         end
         imgui_pop_font()
     end
