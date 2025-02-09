@@ -1,5 +1,7 @@
 #include "price_checker.hpp"
 
+#include <nlohmann\json.hpp>
+
 // For debug printing.
 #include "../utils/console.hpp"
 #include "../utils/internet.hpp"
@@ -59,6 +61,10 @@ bool crypto_price_checker::app_window::on_create_window() {
                 return get_request(url, objects);
             };
 
+            m_lua_state["crypto_get_and_parse_global_response"] = [this]() {
+                return get_and_parse_global_response();
+            };
+
             m_lua_state.script("crypto_on_create()");
         }
 
@@ -113,4 +119,22 @@ std::string crypto_price_checker::app_window::get_request(std::string_view url,
     }
 
     return response;
+}
+
+void crypto_price_checker::app_window::get_and_parse_global_response() {
+    std::string json = get_request("api.coinlore.net", "/api/global");
+    nlohmann::json json_data = nlohmann::json::parse(json);
+
+    const int coins_count = json_data[0]["coins_count"];
+    m_lua_state["global_coins_count"] = coins_count;
+    const int active_markets = json_data[0]["active_markets"];
+    m_lua_state["global_active_markets"] = active_markets;
+
+    std::string bitcoin_dominance = json_data[0]["btc_d"];
+    m_lua_state["global_bitcoin_dominance"] = bitcoin_dominance;
+    std::string etherium_dominance = json_data[0]["eth_d"];
+    m_lua_state["global_etherium_dominance"] = etherium_dominance;
+
+    std::string average_change_percent = json_data[0]["avg_change_percent"];
+    m_lua_state["global_change_percent"] = average_change_percent;
 }

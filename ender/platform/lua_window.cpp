@@ -103,7 +103,7 @@ void ender::lua_window::lua_bind_imgui_api() {
         };
 
         // ImGuiWindowFlags_NoMove = 4
-        // ImGuiWindowFlags_NoCollapse = 3
+        // ImGuiWindowFlags_NoCollapse = 32
         // ImGuiWindowFlags_NoResize = 2
         // ImGuiWindowFlags_NoTitleBar = 1
         m_lua_state["imgui_begin_window"] = [](const char* name, int flags) {
