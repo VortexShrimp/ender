@@ -35,16 +35,15 @@ void on_render_frame(ender::window*) {
     ImGui::ShowDemoWindow();
 }
 
-INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
+INT WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, INT) {
     auto app = std::make_unique<ender::window>();
-    if (app->create(nullptr, {.title = L"imgui demo window",
-                                        .width = 1280,
-                                        .height = 720,
-                                        .on_message_create = nullptr,
-                                        .on_message_destroy = nullptr,
-                                        .on_message_close = nullptr,
-                                        .instance = instance,
-                                        .cmd_show = cmd_show}) == true) {
+    if (app->create(nullptr, {.title = L"simple window",
+                              .class_name = L"simple_class",
+                              .width = 1280,
+                              .height = 720,
+                              .on_message_create = nullptr,
+                              .on_message_destroy = nullptr,
+                              .on_message_close = nullptr}) == true) {
         while (app->handle_events(nullptr) == true) {
             app->render_frame(on_render_frame);
         }

@@ -71,9 +71,7 @@ int lua_app::run_lua_app() {
                                         .height = 720,
                                         .on_message_create = nullptr,
                                         .on_message_destroy = nullptr,
-                                        .on_message_close = nullptr,
-                                        .instance = nullptr,
-                                        .cmd_show = SW_SHOWDEFAULT}) == true) {
+                                        .on_message_close = nullptr}) == true) {
         while (app->process_events(nullptr) == true) {
             app->render_frame(on_render_frame_handler);
         }

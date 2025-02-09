@@ -42,9 +42,6 @@ namespace ender {
             message_create_function on_message_create;
             message_destroy_function on_message_destroy;
             message_close_function on_message_close;
-
-            HINSTANCE instance;
-            int cmd_show;
         };
 
         window()
@@ -76,7 +73,7 @@ namespace ender {
          * @param on_process_input Called after system handles messages.
          * @return True to keep the game running.
          */
-        bool process_events(process_events_function on_handle_events);
+        bool process_events(process_events_function on_process_events);
 
         /**
          * @brief

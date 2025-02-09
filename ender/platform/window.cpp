@@ -123,7 +123,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
 }
 
 bool ender::window::create(create_function on_create, window_details details) {
-    m_instance = details.instance;
+    m_instance = nullptr;
 
     WNDCLASSEXW wcex = {};
     wcex.cbSize = sizeof(wcex);
@@ -146,9 +146,8 @@ bool ender::window::create(create_function on_create, window_details details) {
         return false;
     }
 
-    m_hwnd =
-        CreateWindowW(wcex.lpszClassName, details.title.data(), WS_OVERLAPPEDWINDOW, 100, 100,
-                      details.width, details.height, nullptr, nullptr, details.instance, nullptr);
+    m_hwnd = CreateWindowW(wcex.lpszClassName, details.title.data(), WS_OVERLAPPEDWINDOW, 100, 100,
+                           details.width, details.height, nullptr, nullptr, m_instance, nullptr);
     if (m_hwnd == nullptr) {
         debug_print_formatted("[error] Failed to create window class. Last error -> {}\n",
                               GetLastError());
@@ -166,7 +165,7 @@ bool ender::window::create(create_function on_create, window_details details) {
         return false;
     }
 
-    ShowWindow(m_hwnd, details.cmd_show);
+    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
     UpdateWindow(m_hwnd);
 
     if constexpr (use_imgui == true) {

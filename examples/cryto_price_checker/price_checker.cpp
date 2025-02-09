@@ -1,7 +1,7 @@
 #include "price_checker.hpp"
 
 // For debug printing.
-#include "../src/utils/console.hpp"
+#include "../utils/console.hpp"
 
 bool crypto_price_checker::create_handler(ender::window* ctx) {
     auto app = static_cast<app_window*>(ctx);
@@ -27,13 +27,11 @@ int crypto_price_checker::run_example() {
     auto app = std::make_unique<app_window>();
     if (app->create(create_handler, {.title = L"price checker | ender",
                                      .class_name = L"cryto_miner",
-                                     .width = 1280,
-                                     .height = 720,
+                                     .width = 300,
+                                     .height = 400,
                                      .on_message_create = nullptr,
                                      .on_message_destroy = nullptr,
-                                     .on_message_close = nullptr,
-                                     .instance = nullptr,
-                                     .cmd_show = SW_SHOWDEFAULT}) == true) {
+                                     .on_message_close = nullptr}) == true) {
         while (app->process_events(process_events_handler) == true) {
             app->render_frame(render_frame_handler);
         }
@@ -47,8 +45,11 @@ int crypto_price_checker::run_example() {
 
 bool crypto_price_checker::app_window::on_create_window() {
     try {
-        // Setup Lua state.
         if (lua_create() == true) {
+            //
+            // Setup custom Lua API here.
+            //
+
             m_lua_state["set_page_number"] = [this](int new_number) {
                 set_page_number(new_number);
             };

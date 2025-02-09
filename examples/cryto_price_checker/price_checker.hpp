@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/platform/lua_window.hpp"
+#include "../platform/lua_window.hpp"
 
 // https://www.coinlore.com/cryptocurrency-data-api
 

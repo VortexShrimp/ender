@@ -67,6 +67,25 @@ void ender::lua_window::lua_bind_functions() {
 void ender::lua_window::lua_bind_imgui_functions() {
     // ImGui window rendering functions.
     if (use_imgui == true) {
+        m_lua_state["imgui_set_next_window_collapsed"] = [](bool collapsed) {
+            ImGui::SetNextWindowCollapsed(collapsed);
+        };
+        m_lua_state["imgui_set_next_window_position"] = [](float x, float y) {
+            ImGui::SetNextWindowPos({x, y});
+        };
+        m_lua_state["imgui_set_next_window_size"] = [](float x, float y) {
+            ImGui::SetNextWindowSize({x, y});
+        };
+        m_lua_state["imgui_set_next_window_size_and_position"] = [](float posx, float posy,
+                                                                    float sizex, float sizey) {
+            ImGui::SetNextWindowPos({posx, posy});
+            ImGui::SetNextWindowSize({sizex, sizey});
+        };
+        m_lua_state["imgui_set_next_window_size_to_client_size"] = [this]() {
+            const auto [x, y] = get_client_size();
+            ImGui::SetNextWindowSize({static_cast<float>(x), static_cast<float>(y)});
+        };
+
         m_lua_state["imgui_begin_window"] = [](const char* name) { return ImGui::Begin(name); };
         m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
         m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
