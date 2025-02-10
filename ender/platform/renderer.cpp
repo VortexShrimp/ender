@@ -61,8 +61,7 @@ bool ender::d3d11_renderer::create(HWND hwnd) {
 }
 
 bool ender::d3d11_renderer::destroy() {
-    destroy_render_target();
-
+    SAFE_RELEASE(m_render_target_view)
     SAFE_RELEASE(m_swap_chain)
     SAFE_RELEASE(m_device_context)
     SAFE_RELEASE(m_device)
@@ -108,7 +107,7 @@ void ender::d3d11_renderer::set_swap_chain_occluded(bool is_occluded) {
 void ender::d3d11_renderer::handle_resize(HWND hwnd) {
     internal_window_data& window_data = get_internal_window_data(hwnd);
     if (window_data.resize_width != 0 && window_data.resize_height != 0) {
-        destroy_render_target();
+        SAFE_RELEASE(m_render_target_view)
         m_swap_chain->ResizeBuffers(0, window_data.resize_width, window_data.resize_height,
                                     DXGI_FORMAT_UNKNOWN, 0);
         create_render_target();
@@ -139,8 +138,4 @@ bool ender::d3d11_renderer::create_render_target() {
     back_buffer->Release();
 
     return true;
-}
-
-void ender::d3d11_renderer::destroy_render_target() {
-    SAFE_RELEASE(m_render_target_view)
 }

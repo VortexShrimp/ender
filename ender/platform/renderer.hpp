@@ -39,7 +39,6 @@ namespace ender {
 
     private:
         bool create_render_target();
-        void destroy_render_target();
 
         ID3D11Device* m_device;
         ID3D11DeviceContext* m_device_context;
