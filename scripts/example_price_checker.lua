@@ -18,12 +18,12 @@ end
 -- Page number is stored in the C++ class.
 function crypto_on_render_imgui(page_number)
     -- Make the ImGui window the same size the os window.
-    imgui_set_next_window_position(0, 0)
+    imgui_set_next_window_position_relative(0, 0)
     imgui_set_next_window_size_to_client_size()
 
     -- The random numbers are ImGui window flags.
     -- TODO: Possibly make them variables?
-    imgui_begin_window("crypto_window", 1 | 2 | 4 | 32)
+    imgui_begin_window("crypto_window", 1 | 2 | 32)
     -- Home page.
     if page_number == 0 then
         imgui_push_font(0)

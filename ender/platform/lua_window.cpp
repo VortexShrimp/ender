@@ -70,8 +70,12 @@ void ender::lua_window::lua_bind_imgui_api() {
         m_lua_state["imgui_set_next_window_collapsed"] = [](bool collapsed) {
             ImGui::SetNextWindowCollapsed(collapsed);
         };
-        m_lua_state["imgui_set_next_window_position"] = [](float x, float y) {
+        m_lua_state["imgui_set_next_window_position_absolute"] = [](float x, float y) {
             ImGui::SetNextWindowPos({x, y});
+        };
+        m_lua_state["imgui_set_next_window_position_relative"] = [](float x, float y) {
+            ImGui::SetNextWindowPos(
+                {ImGui::GetMainViewport()->Pos.x + x, ImGui::GetMainViewport()->Pos.y + y});
         };
         m_lua_state["imgui_set_next_window_size"] = [](float x, float y) {
             ImGui::SetNextWindowSize({x, y});

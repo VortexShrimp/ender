@@ -59,7 +59,7 @@ int menu_app::run_menu_app() {
                                         .on_message_destroy = nullptr,
                                         .on_message_close = nullptr}) == true) {
         while (app->process_events(nullptr) == true) {
-            app->render_frame(on_render_frame_handler);
+            app->render_frame(/*on_render_frame_handler*/ nullptr);
         }
 
         app->destroy(nullptr);

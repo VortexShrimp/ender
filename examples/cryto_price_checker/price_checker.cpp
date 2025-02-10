@@ -57,10 +57,6 @@ bool crypto_price_checker::app_window::on_create_window() {
                 set_page_number(new_number);
             };
 
-            m_lua_state["get_request"] = [this](std::string_view url, std::string_view objects) {
-                return get_request(url, objects);
-            };
-
             m_lua_state["crypto_get_and_parse_api"] = [this]() {
                 return get_and_parse_global_response();
             };

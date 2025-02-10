@@ -115,6 +115,17 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
             break;
         }
 
+        case WM_DPICHANGED: {
+            if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports) {
+                const RECT* suggested_rect = (RECT*)lparam;
+                SetWindowPos(hwnd, nullptr, suggested_rect->left, suggested_rect->top,
+                             suggested_rect->right - suggested_rect->left,
+                             suggested_rect->bottom - suggested_rect->top,
+                             SWP_NOZORDER | SWP_NOACTIVATE);
+            }
+            break;
+        }
+
         default:
             return DefWindowProc(hwnd, msg, wparam, lparam);
     }
@@ -169,16 +180,29 @@ bool ender::window::create(create_function on_create, window_details details) {
     UpdateWindow(m_hwnd);
 
     if constexpr (use_imgui == true) {
-        ImGui::CreateContext();
+        static bool once = true;
+        if (once == true) {
+            ImGui::CreateContext();
+            ImGuiIO& io = ImGui::GetIO();
+            io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
+            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
+            io.ConfigFlags |=
+                ImGuiConfigFlags_ViewportsEnable;  // Enable Multi-Viewport / Platform Windows
+            io.IniFilename = NULL;                 // Disable .ini config saving.
 
-        ImGuiIO& io = ImGui::GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
-        io.IniFilename = NULL;                                 // Disable .ini config saving.
+            ImGui::StyleColorsDark();
 
-        ImGui_ImplWin32_Init(m_hwnd);
-        ImGui_ImplDX11_Init(m_renderer->get_device(), m_renderer->get_device_context());
+            ImGuiStyle& style = ImGui::GetStyle();
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+                style.WindowRounding = 0.0f;
+                style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+            }
 
-        ImGui::StyleColorsDark();
+            ImGui_ImplWin32_Init(m_hwnd);
+            ImGui_ImplDX11_Init(m_renderer->get_device(), m_renderer->get_device_context());
+
+            once = false;
+        }
     }
 
     // Add this window to the global lookup table.

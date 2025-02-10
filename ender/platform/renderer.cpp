@@ -5,6 +5,7 @@
 
 #include "../external/imgui/imgui.h"
 #include "../external/imgui/imgui_impl_dx11.h"
+#include "../external/imgui/imgui_impl_win32.h"
 
 #define SAFE_RELEASE(ptr) \
     if (ptr) {            \
@@ -75,7 +76,11 @@ bool ender::d3d11_renderer::is_swapchain_occluded() {
 }
 
 void ender::d3d11_renderer::render_frame() {
-    ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
+    if constexpr (use_imgui == true) {
+        ImGui::Render();
+    }
+
+    constexpr ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
     const float clear_color_with_alpha[4] = {clear_color.x * clear_color.w,
                                              clear_color.y * clear_color.w,
                                              clear_color.z * clear_color.w, clear_color.w};
@@ -83,8 +88,13 @@ void ender::d3d11_renderer::render_frame() {
     m_device_context->ClearRenderTargetView(m_render_target_view, clear_color_with_alpha);
 
     if constexpr (use_imgui == true) {
-        ImGui::Render();
+        ImGuiIO& io = ImGui::GetIO();
+
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+        }
     }
 
     HRESULT hr = m_swap_chain->Present(1, 0);
