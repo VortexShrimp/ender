@@ -35,7 +35,8 @@ void ender::console::print_raw(std::string_view text) noexcept {
     std::wstring converted = multibyte_to_unicode(text);
 
     DWORD written;
-    WriteConsole(m_output, converted.data(), converted.length(), &written, NULL);
+    WriteConsole(m_output, converted.data(), static_cast<DWORD>(converted.length()), &written,
+                 NULL);
 }
 
 void ender::console::set_window_size(vec2i new_size) {
@@ -59,14 +60,15 @@ std::string ender::console::unicode_to_multibyte(std::wstring_view unicode_text)
         return {};
     }
 
-    const int size = WideCharToMultiByte(CP_UTF8, 0, unicode_text.data(), unicode_text.length(),
-                                         nullptr, 0, nullptr, nullptr);
+    const int size =
+        WideCharToMultiByte(CP_UTF8, 0, unicode_text.data(),
+                            static_cast<int>(unicode_text.length()), nullptr, 0, nullptr, nullptr);
     if (size == 0) {
         return {};
     }
 
     std::string converted_text(size, '\0');
-    WideCharToMultiByte(CP_UTF8, 0, unicode_text.data(), unicode_text.length(),
+    WideCharToMultiByte(CP_UTF8, 0, unicode_text.data(), static_cast<int>(unicode_text.length()),
                         converted_text.data(), size, nullptr, nullptr);
 
     return converted_text;

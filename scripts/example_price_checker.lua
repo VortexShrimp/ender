@@ -32,6 +32,7 @@ function crypto_on_render_imgui(page_number)
 
         imgui_push_font(1)
         imgui_text("Enter a coin ID below")
+        -- Handle the iput through the C++ class.
         imgui_coin_id_input("coin id")
         if imgui_button("begin") then
             set_page_number(1)
