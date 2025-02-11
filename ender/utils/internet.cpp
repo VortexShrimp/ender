@@ -126,8 +126,8 @@ std::string ender::get_request(std::string_view url, std::string_view objects) {
     internet client = {};
     if (client.create() == true) {
         client.get(url, objects, response);
+        client.destroy();
     }
-    client.destroy();
 
     return response;
 }
@@ -141,6 +141,6 @@ void ender::get_request_callback(std::string_view url, std::string_view objects,
         if (client.get(url, objects, response) == true) {
             callback(response);
         }
+        client.destroy();
     }
-    client.destroy();
 }
