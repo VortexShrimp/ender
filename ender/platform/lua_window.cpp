@@ -70,24 +70,32 @@ void ender::lua_window::lua_bind_imgui_api() {
         m_lua_state["imgui_set_next_window_collapsed"] = [](bool collapsed) {
             ImGui::SetNextWindowCollapsed(collapsed);
         };
+
+        // Relative to the screen.
         m_lua_state["imgui_set_next_window_position_absolute"] = [](float x, float y) {
             ImGui::SetNextWindowPos({x, y});
         };
+
+        // Relative to the window.
         m_lua_state["imgui_set_next_window_position_relative"] = [](float x, float y) {
             ImGui::SetNextWindowPos(
                 {ImGui::GetMainViewport()->Pos.x + x, ImGui::GetMainViewport()->Pos.y + y});
         };
+
         m_lua_state["imgui_set_next_window_size"] = [](float x, float y) {
             ImGui::SetNextWindowSize({x, y});
         };
+
         m_lua_state["imgui_set_next_window_size_and_position"] = [](float posx, float posy,
                                                                     float sizex, float sizey) {
             ImGui::SetNextWindowPos({posx, posy});
             ImGui::SetNextWindowSize({sizex, sizey});
         };
+
         m_lua_state["imgui_push_font"] = [this](int font_index) {
             ImGui::PushFont(m_imgui_fonts[font_index]);
         };
+
         m_lua_state["imgui_pop_font"] = []() { ImGui::PopFont(); };
 
         // Sets the next window to the size of the client drawing area.
@@ -113,9 +121,20 @@ void ender::lua_window::lua_bind_imgui_api() {
         m_lua_state["imgui_begin_window"] = [](const char* name, int flags) {
             return ImGui::Begin(name, nullptr, flags);
         };
+
         m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
-        m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
+
         m_lua_state["imgui_button"] = [](const char* label) { return ImGui::Button(label); };
+
+        m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
+        m_lua_state["imgui_text_centered_x"] = [](const char* text) {
+            const ImVec2 window_size = ImGui::GetWindowSize();
+            const ImVec2 text_size = ImGui::CalcTextSize(text);
+
+            const float text_x = (window_size.x - text_size.x) * 0.5f;
+            ImGui::SetCursorPos({text_x, ImGui::GetCursorPosY()});
+            ImGui::Text(text);
+        };
 
         m_lua_state["imgui_separator"] = []() { ImGui::Separator(); };
         m_lua_state["imgui_spacing"] = []() { ImGui::Spacing(); };

@@ -24,7 +24,7 @@ function crypto_on_render_imgui(page_number)
     -- Home page.
     if page_number == 0 then
         imgui_push_font(0)
-        imgui_text("Welcome")
+        imgui_text_centered_x("Welcome")
         imgui_pop_font()
 
         imgui_push_font(1)
@@ -41,11 +41,11 @@ function crypto_on_render_imgui(page_number)
     elseif page_number == 1 then
         if current_coin ~= nil then
             imgui_push_font(0)
-            imgui_text(current_coin.name .. "\n")
+            imgui_text_centered_x(current_coin.name .. "\n")
             imgui_pop_font()
 
             imgui_push_font(1)
-            imgui_text("rank " .. current_coin.rank .. "\n")
+            imgui_text_centered_x("rank " .. current_coin.rank .. "\n")
             imgui_pop_font()
 
             imgui_push_font(1)
