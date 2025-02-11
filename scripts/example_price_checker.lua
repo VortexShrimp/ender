@@ -1,7 +1,4 @@
 function crypto_on_create ()
-    -- Handle the request & json parsing in C++.
-    crypto_get_and_parse_api()
-
     -- Add fonts.
     imgui_add_font_from_file_ttf("C:\\Windows\\Fonts\\bahnschrift.ttf", 36)
     imgui_add_font_from_file_ttf("C:\\Windows\\Fonts\\bahnschrift.ttf", 16)
@@ -36,34 +33,37 @@ function crypto_on_render_imgui(page_number)
         imgui_coin_id_input("coin id")
         if imgui_button("begin") then
             set_page_number(1)
+            create_coin_table()
             get_and_update_current_coin()
         end
         imgui_pop_font()
     -- Bitcoin page.
     elseif page_number == 1 then
-        imgui_push_font(0)
-        imgui_text(current_coin.name .. "\n")
-        imgui_pop_font()
+        if current_coin ~= nil then
+            imgui_push_font(0)
+            imgui_text(current_coin.name .. "\n")
+            imgui_pop_font()
 
-        imgui_push_font(1)
-        imgui_text("rank " .. current_coin.rank .. "\n")
-        imgui_pop_font()
+            imgui_push_font(1)
+            imgui_text("rank " .. current_coin.rank .. "\n")
+            imgui_pop_font()
 
-        imgui_push_font(1)
-        imgui_separator()
+            imgui_push_font(1)
+            imgui_separator()
 
         -- Display the coin info.
-        imgui_text("Price $" .. current_coin.price .. "\n")
-        imgui_text("1h " .. current_coin.change_1h .. "\n")
-        imgui_text("24h " .. current_coin.change_24h .. "\n")
-        imgui_text("7d " .. current_coin.change_7d .. "\n")
+            imgui_text("Price $" .. current_coin.price .. "\n")
+            imgui_text("1h " .. current_coin.change_1h .. "\n")
+            imgui_text("24h " .. current_coin.change_24h .. "\n")
+            imgui_text("7d " .. current_coin.change_7d .. "\n")
 
-        imgui_separator()
-        imgui_coin_id_input("coin id")
-        if imgui_button("refresh") then
-           get_and_update_current_coin()
+            imgui_separator()
+            imgui_coin_id_input("coin id")
+            if imgui_button("refresh") then
+                get_and_update_current_coin()
+            end
+            imgui_pop_font()
         end
-        imgui_pop_font()
     end
     imgui_end_window()
 end

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../platform/lua_window.hpp"
+#include "../../ender/platform/lua_window.hpp"
+
+#include "../../ender/utils/internet.hpp"
 
 // https://www.coinlore.com/cryptocurrency-data-api
 
@@ -23,8 +25,7 @@ namespace crypto_price_checker {
 
     private:
         void set_page_number(int new_number);
-        std::string get_request(std::string_view url, std::string_view objects);
-        void get_and_parse_global_response();
+        void create_coin_table_lua();
         void get_and_update_current_coin(int index);
 
         int m_page_number;

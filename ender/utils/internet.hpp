@@ -8,6 +8,8 @@
 #include <windows.h>
 #include <wininet.h>
 
+#include <sol\sol.hpp>
+
 #include "timer.hpp"
 
 namespace ender {
@@ -18,19 +20,19 @@ namespace ender {
      * - Add async get & post.
      *
      */
-    class internet_client {
+    class internet {
     public:
-        internet_client() : m_internet(INVALID_HANDLE_VALUE) {
+        internet() : m_internet(INVALID_HANDLE_VALUE) {
         }
-        ~internet_client();
+        ~internet();
 
-        bool create(std::wstring_view user_agent = L"WinHttpClient/1.0");
+        bool create(std::string_view user_agent = "WinHttpClient/1.0");
         void destroy();
 
+        using on_get_request_complete_callback = void (*)(std::string response, sol::state& state);
+
         /**
-         * @brief Make a (blocking) get request to a url.
-         *
-         * @example client.get("jsonplaceholder.typicode.com", "/todos/1", response)
+         * @brief Make a get request to a url.
          *
          * @param url
          * @param objects
@@ -41,7 +43,26 @@ namespace ender {
         bool post(std::string_view url, std::string_view objects, std::string_view data,
                   std::string response_out);
 
+        HINTERNET get_internet_handle() const;
+
     private:
         HINTERNET m_internet;
     };
+
+    /**
+     * @brief Get request to url.
+     * @param url
+     * @param objects
+     * @return
+     */
+    std::string get_request(std::string_view url, std::string_view objects);
+
+    /**
+     * @brief
+     * @param url Get request to url with callback.
+     * @param objects
+     * @param callback Called once the response is recieved.
+     */
+    void get_request_callback(std::string_view url, std::string_view objects,
+                              std::function<void(std::string)> callback);
 }  // namespace ender
