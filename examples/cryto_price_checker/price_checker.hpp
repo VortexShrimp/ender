@@ -1,10 +1,6 @@
 #pragma once
-
 #include "../../ender/platform/lua_window.hpp"
-
 #include "../../ender/utils/internet.hpp"
-
-// https://www.coinlore.com/cryptocurrency-data-api
 
 namespace crypto_price_checker {
     bool create_handler(ender::window* ctx);
@@ -19,9 +15,12 @@ namespace crypto_price_checker {
 
         bool on_create_window();
         void on_destroy_window();
-
         bool on_process_events();
         void on_render_frame();
+
+        //
+        // Custom window code.
+        //
 
     private:
         void set_page_number(int new_number);

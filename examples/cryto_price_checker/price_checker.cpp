@@ -31,7 +31,7 @@ int crypto_price_checker::run_example() {
     if (app->create(create_handler, {.title = L"price checker | ender",
                                      .class_name = L"cryto_miner",
                                      .width = 300,
-                                     .height = 400,
+                                     .height = 300,
                                      .on_message_create = nullptr,
                                      .on_message_destroy = nullptr,
                                      .on_message_close = nullptr}) == true) {
@@ -63,6 +63,7 @@ bool crypto_price_checker::app_window::on_create_window() {
                 get_and_update_current_coin(m_coin_id);
             };
 
+            // Custom imgui API.
             m_lua_state["imgui_coin_id_input"] = [this](const char* label) {
                 ImGui::InputInt(label, &m_coin_id);
             };

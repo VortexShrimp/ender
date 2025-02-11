@@ -8,11 +8,6 @@
 
 // Example Windows entry point.
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
-    // TODO: Put these windows in their own threads.
-
-    // std::thread menu_app(menu_app::run_menu_app);
-    // menu_app.detach();
-
     crypto_price_checker::run_example();
 
     return 1;
