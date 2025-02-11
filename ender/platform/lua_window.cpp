@@ -4,6 +4,7 @@
 
 #include "../ender.hpp"
 #include "../utils/console.hpp"
+#include "../utils/internet.hpp"
 
 bool ender::lua_window::lua_create() {
     debug_print_formatted("--- Lua Start ---\n");
@@ -61,7 +62,13 @@ void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_nam
 }
 
 void ender::lua_window::lua_bind_core_api() {
-    m_lua_state["debug_print_raw"] = debug_print_raw;
+    // Print to the debug console. (if available)
+    // debug_print("Hello from Lua!")
+    m_lua_state["debug_print"] = debug_print_raw;
+
+    // Does a (blocking) get request.
+    // local response = get_request("url.com", "/todos/1")
+    m_lua_state["get_request"] = get_request;
 }
 
 void ender::lua_window::lua_bind_imgui_api() {

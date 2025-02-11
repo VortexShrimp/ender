@@ -72,24 +72,16 @@ more capable than that.
 
 <br clear="right"/>
 
-### Lua Window
-The example below spawns a similar window, but this time with Lua.
-See [`examples/lua_app`](https://github.com/VortexShrimp/ender/tree/master/examples/lua_app) for the implementation details. 
+### Crypto Price Checker
+<img src="data/price_checker_example.PNG" align="left" width="300px"></img>
+This project's user interface is scripted with Lua by setting up an `ender::lua_window`.
+See [`examples/crypto_price_checker`](https://github.com/VortexShrimp/ender/tree/master/examples/crypto_price_checker)
+for the source code.
 
-```lua
-function on_window_create ()
-    -- Prints from Lua to ender's global debug console.
-    debug_print_raw("Hello, from Lua")
-end
+It makes asynchronous get requests to a crypto REST API and parses
+the json before displaying the coin's information.
 
-function on_window_render ()
-    -- Create a custom ImGui window easily.
-    imgui_begin_window("lua example")
-    imgui_text("hello, from lua!")
-    imgui_end_window()
-end
-```
-Create custom Lua APIs that interface with your application for easy developing.
+<br clear="left"/>
 
 ## Distribution
 Applications created with *ender* are fully self containing. Projects created

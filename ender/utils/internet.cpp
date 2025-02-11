@@ -139,7 +139,9 @@ void ender::get_request_callback(std::string_view url, std::string_view objects,
     internet client = {};
     if (client.create() == true) {
         if (client.get(url, objects, response) == true) {
-            callback(response);
+            if (response.empty() == false) {
+                callback(response);
+            }
         }
         client.destroy();
     }
