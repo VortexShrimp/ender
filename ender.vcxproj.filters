@@ -272,9 +272,6 @@
     <ClInclude Include="ender\utils\timer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ender\math\vectors.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ender\utils\internet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -6,12 +6,12 @@
 #define WIn32_LEAN_AND_MEAN
 #endif  // !WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <directxmath.h>
 
 #include "../external/imgui/imgui.h"
 
 #include "renderer.hpp"
 #include "../utils/timer.hpp"
-#include "../math/vectors.hpp"
 
 namespace ender {
     /**
@@ -91,8 +91,8 @@ namespace ender {
         bool set_title(std::wstring_view new_title);
         std::wstring_view get_title() const;
 
-        vec2i get_client_size() const noexcept;
-        vec2i get_window_size() const noexcept;
+        DirectX::XMINT2 get_client_size() const noexcept;
+        DirectX::XMINT2 get_window_size() const noexcept;
 
         float get_delta_time();
 

@@ -423,7 +423,6 @@
     <ClInclude Include="ender\external\imgui\imstb_truetype.h" />
     <ClInclude Include="ender\external\xorstr\xorstr.hpp" />
     <ClInclude Include="ender\ender.hpp" />
-    <ClInclude Include="ender\math\vectors.hpp" />
     <ClInclude Include="ender\platform\lua_window.hpp" />
     <ClInclude Include="ender\utils\console.hpp" />
     <ClInclude Include="ender\utils\internet.hpp" />

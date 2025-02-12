@@ -303,13 +303,13 @@ bool ender::window::is_running() const noexcept {
     return m_is_running;
 }
 
-auto ender::window::get_client_size() const noexcept -> vec2i {
+auto ender::window::get_client_size() const noexcept -> DirectX::XMINT2 {
     RECT rect;
     GetClientRect(m_hwnd, &rect);
     return {rect.right - rect.left, rect.bottom - rect.top};
 }
 
-auto ender::window::get_window_size() const noexcept -> vec2i {
+auto ender::window::get_window_size() const noexcept -> DirectX::XMINT2 {
     RECT rect;
     GetWindowRect(m_hwnd, &rect);
     return {rect.right - rect.left, rect.bottom - rect.top};

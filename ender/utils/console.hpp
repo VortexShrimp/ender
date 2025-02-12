@@ -9,7 +9,6 @@
 #include <windows.h>
 
 #include "../ender.hpp"
-#include "../math/vectors.hpp"
 
 namespace ender {
     class console {

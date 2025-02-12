@@ -42,14 +42,10 @@ bool ender::lua_window::lua_create() {
 }
 
 void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_name) {
-    const auto current_directory = std::filesystem::current_path();
-    const auto script_directory = std::filesystem::current_path().append(folder_name);
-    debug_print_formatted("[lua] Current path -> '{}'\n[lua] Script path -> '{}'\n",
-                          current_directory.string(), script_directory.string());
-
     int script_count = 0;
 
     // Create and loop through the script directory.
+    const auto script_directory = std::filesystem::current_path().append(folder_name);
     std::filesystem::create_directory(script_directory);
     for (auto& entry : std::filesystem::recursive_directory_iterator(script_directory)) {
         // Currently ignore folders.
