@@ -6,7 +6,10 @@
 namespace ender {
     /**
      * @brief Create a window with Lua state attached to it.
-     * @todo Move this?
+     *
+     * This is seperate from `ender::window` to preserve the simplicity of
+     * `ender::window`.
+     *
      */
     class lua_window : public window {
     public:

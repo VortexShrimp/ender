@@ -2,6 +2,8 @@ function crypto_on_create ()
     -- Add fonts.
     imgui_add_font_from_file_ttf("C:\\Windows\\Fonts\\bahnschrift.ttf", 36)
     imgui_add_font_from_file_ttf("C:\\Windows\\Fonts\\bahnschrift.ttf", 16)
+    imgui_add_font_from_file_ttf("C:\\Windows\\Fonts\\tahomabd.ttf", 28)
+    imgui_add_font_from_file_ttf("C:\\Windows\\Fonts\\tahoma.ttf", 18)
 
     imgui_set_defualt_font(1)
 
@@ -23,11 +25,11 @@ function crypto_on_render_imgui(page_number)
 
     -- The random numbers are ImGui window flags.
     -- TODO: Possibly make them variables?
-    imgui_begin_window("crypto_window", 1 | 2 | 32)
+    imgui_begin_window("crypto_window", 1 | 2 | 4 | 32)
     -- Home page.
     if page_number == 0 then
         if current_coin ~= nil then
-            imgui_push_font(0)
+            imgui_push_font(2)
             imgui_text_centered_x(current_coin.name .. "\n")
             imgui_pop_font()
 
@@ -37,7 +39,7 @@ function crypto_on_render_imgui(page_number)
 
             imgui_pop_font()
 
-            imgui_push_font(1)
+            imgui_push_font(3)
             imgui_separator()
 
         -- Display the coin info.
@@ -49,7 +51,7 @@ function crypto_on_render_imgui(page_number)
 
             imgui_separator()
             imgui_coin_id_input("coin id")
-            if imgui_button("refresh") then
+            if imgui_button("Update Coin") then
                 get_and_update_current_coin()
             end
             imgui_pop_font()

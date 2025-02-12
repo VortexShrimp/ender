@@ -103,7 +103,7 @@ void ender::lua_window::lua_bind_imgui_api() {
             ImGui::PushFont(m_imgui_fonts[font_index]);
         };
 
-        m_lua_state["imgui_pop_font"] = []() { ImGui::PopFont(); };
+        m_lua_state["imgui_pop_font"] = ImGui::PopFont;
 
         // Sets the next window to the size of the client drawing area.
         m_lua_state["imgui_set_next_window_size_to_client_size"] = [this]() {
@@ -129,9 +129,12 @@ void ender::lua_window::lua_bind_imgui_api() {
             return ImGui::Begin(name, nullptr, flags);
         };
 
-        m_lua_state["imgui_end_window"] = []() { ImGui::End(); };
+        m_lua_state["imgui_end_window"] = ImGui::End;
 
         m_lua_state["imgui_button"] = [](const char* label) { return ImGui::Button(label); };
+        m_lua_state["imgui_button_size"] = [](const char* label, float x, float y) {
+            return ImGui::Button(label, {x, y});
+        };
 
         m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
         m_lua_state["imgui_text_centered_x"] = [](const char* text) {
@@ -143,8 +146,8 @@ void ender::lua_window::lua_bind_imgui_api() {
             ImGui::Text(text);
         };
 
-        m_lua_state["imgui_separator"] = []() { ImGui::Separator(); };
-        m_lua_state["imgui_spacing"] = []() { ImGui::Spacing(); };
+        m_lua_state["imgui_separator"] = ImGui::Separator;
+        m_lua_state["imgui_spacing"] = ImGui::Spacing;
         m_lua_state["imgui_same_line"] = []() { ImGui::SameLine(); };
 
         m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };

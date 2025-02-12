@@ -95,6 +95,7 @@ std::wstring ender::console::multibyte_to_unicode(std::string_view multibyte_tex
 auto ender::debug_console() -> console& {
     static ender::console s_debug_console;
 
+    // Create the console once.
     static bool once = true;
     if (once == true) {
         s_debug_console = {};

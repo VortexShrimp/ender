@@ -73,9 +73,10 @@ namespace ender {
     }
 
     /**
-     * @brief Access the internal debug console.
+     * @brief Access the debug console singleton.
+     * The console is created the fist time this function is called.
      *
-     * You shouldn't use this. It's here to expose the console for debug_print_formatted.
+     * @warning You shouldn't use this. It's here to expose the console for debug_print_formatted.
      *
      * @return Pointer to internal console class.
      */
@@ -84,7 +85,7 @@ namespace ender {
     /**
      * @brief Access the internal debug console's mutex.
      *
-     *  You shouldn't use this. It's here to expose the console for debug_print_formatted.
+     * @warning You shouldn't use this. It's here to expose the console for debug_print_formatted.
      *
      * @return
      */
