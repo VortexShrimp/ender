@@ -2,7 +2,7 @@
 #include <thread>
 
 // Include the examples.
-#include "cryto_price_checker\price_checker.hpp"
+#include "crypto_price_checker\price_checker.hpp"
 #include "menu_app\menu_app.hpp"
 #include "lua_app\lua_app.hpp"
 

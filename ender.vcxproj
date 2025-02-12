@@ -168,7 +168,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="examples\cryto_price_checker\price_checker.cpp" />
+    <ClCompile Include="examples\crypto_price_checker\price_checker.cpp" />
     <ClCompile Include="examples\lua_app\lua_app.cpp" />
     <ClCompile Include="examples\menu_app\menu_app.cpp" />
     <ClCompile Include="ender\external\imgui\imgui.cpp" />
@@ -357,7 +357,7 @@
     <ClInclude Include="ender\external\sol\version.hpp" />
     <ClInclude Include="ender\external\sol\wrapper.hpp" />
     <ClInclude Include="examples\lua_app\lua_app.hpp" />
-    <ClInclude Include="examples\cryto_price_checker\price_checker.hpp" />
+    <ClInclude Include="examples\crypto_price_checker\price_checker.hpp" />
     <ClInclude Include="examples\menu_app\menu_app.hpp" />
     <ClInclude Include="ender\external\freetype\config\ftconfig.h" />
     <ClInclude Include="ender\external\freetype\config\ftheader.h" />

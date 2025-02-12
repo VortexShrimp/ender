@@ -134,6 +134,9 @@ void crypto_price_checker::app_window::get_and_update_current_coin(int coin_inde
     // https://www.coinlore.com/cryptocurrency-data-api#global
     auto callback = [this](std::string http_response) {
         const nlohmann::json coin_data = nlohmann::json::parse(http_response);
+        if (coin_data.empty() == true) {
+            return;
+        }
 
         const std::string coin_name = coin_data[0]["name"];
         m_lua_state["current_coin"]["name"] = coin_name;

@@ -66,7 +66,7 @@
     <ClCompile Include="ender\platform\lua_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="examples\cryto_price_checker\price_checker.cpp">
+    <ClCompile Include="examples\crypto_price_checker\price_checker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -296,7 +296,7 @@
     <ClInclude Include="ender\platform\lua_window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="examples\cryto_price_checker\price_checker.hpp">
+    <ClInclude Include="examples\crypto_price_checker\price_checker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ender\external\lua\lauxlib.h">
