@@ -92,7 +92,7 @@ std::wstring ender::console::multibyte_to_unicode(std::string_view multibyte_tex
     return converted_text;
 }
 
-auto ender::get_debug_console() -> console* {
+auto ender::debug_console() -> console& {
     static ender::console s_debug_console;
 
     static bool once = true;
@@ -104,17 +104,10 @@ auto ender::get_debug_console() -> console* {
         once = false;
     }
 
-    return &s_debug_console;
+    return s_debug_console;
 }
 
-std::mutex& ender::get_debug_console_mutex() {
+std::mutex& ender::debug_console_mutex() {
     static std::mutex s_console_mutex;
     return s_console_mutex;
-}
-
-void ender::debug_print_raw(std::string_view text) {
-    if constexpr (in_debug == true) {
-        std::lock_guard lock(get_debug_console_mutex());
-        get_debug_console()->print_raw(text);
-    }
 }

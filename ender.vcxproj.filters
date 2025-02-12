@@ -60,9 +60,6 @@
     <ClCompile Include="examples\menu_app\menu_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="examples\lua_app\lua_app.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ender\platform\lua_window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -288,9 +285,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="examples\menu_app\menu_app.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="examples\lua_app\lua_app.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ender\platform\lua_window.hpp">

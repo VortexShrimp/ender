@@ -169,7 +169,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="examples\crypto_price_checker\price_checker.cpp" />
-    <ClCompile Include="examples\lua_app\lua_app.cpp" />
     <ClCompile Include="examples\menu_app\menu_app.cpp" />
     <ClCompile Include="ender\external\imgui\imgui.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_demo.cpp" />
@@ -356,7 +355,6 @@
     <ClInclude Include="ender\external\sol\variadic_results.hpp" />
     <ClInclude Include="ender\external\sol\version.hpp" />
     <ClInclude Include="ender\external\sol\wrapper.hpp" />
-    <ClInclude Include="examples\lua_app\lua_app.hpp" />
     <ClInclude Include="examples\crypto_price_checker\price_checker.hpp" />
     <ClInclude Include="examples\menu_app\menu_app.hpp" />
     <ClInclude Include="ender\external\freetype\config\ftconfig.h" />

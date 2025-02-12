@@ -75,23 +75,33 @@ namespace ender {
     /**
      * @brief Access the internal debug console.
      *
-     * You shouldn't really use this. It's here for debug_print_formatted.
+     * You shouldn't use this. It's here to expose the console for debug_print_formatted.
      *
      * @return Pointer to internal console class.
      */
-    console* get_debug_console();
+    console& debug_console();
 
     /**
      * @brief Access the internal debug console's mutex.
+     *
+     *  You shouldn't use this. It's here to expose the console for debug_print_formatted.
+     *
      * @return
      */
-    std::mutex& get_debug_console_mutex();
+    std::mutex& debug_console_mutex();
 
     /**
      * @brief Directly prints to the debug console's buffer. Useful for lua binding.
      * @param text
      */
-    void debug_print_raw(std::string_view text);
+    inline void debug_print_raw(std::string_view text) {
+        {
+            if constexpr (in_debug == true) {
+                std::lock_guard lock(debug_console_mutex());
+                debug_console().print_raw(text);
+            }
+        }
+    }
 
     /**
      * @brief Print to the debug console with formatting.
@@ -108,8 +118,8 @@ namespace ender {
     template <class... Args>
     inline void debug_print_formatted(std::string_view format, Args... args) {
         if constexpr (in_debug == true) {
-            std::lock_guard lock(get_debug_console_mutex());
-            get_debug_console()->print_formatted(format, args...);
+            std::lock_guard lock(debug_console_mutex());
+            debug_console().print_formatted(format, args...);
         }
     }
 }  // namespace ender
