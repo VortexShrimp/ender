@@ -69,13 +69,13 @@ bool ender::internet::get(std::string_view url, std::string_view objects,
     InternetCloseHandle(connect);
 
     debug_print_formatted("[http] Get request to '{}' completed in {} seconds.\n", url,
-                          request_timer.get_elapsed_time_seconds());
+                          request_timer.elapsed_time_seconds());
 
     return true;
 }
 
 bool ender::internet::post(std::string_view url, std::string_view objects, std::string_view data,
-                           std::string response_out) {
+                           std::string& response_out) {
     const HINTERNET connect = InternetConnectA(m_internet, url.data(), INTERNET_DEFAULT_HTTP_PORT,
                                                NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
     if (connect == INVALID_HANDLE_VALUE) {
@@ -90,7 +90,8 @@ bool ender::internet::post(std::string_view url, std::string_view objects, std::
     }
 
     const BOOL was_request_sent =
-        HttpSendRequestA(request, NULL, 0, (LPVOID)data.data(), data.size());  // Ugly LPVOID cast.
+        HttpSendRequestA(request, NULL, 0, (LPVOID)data.data(),
+                         static_cast<DWORD>(data.size()));  // Ugly LPVOID cast.
     if (was_request_sent == FALSE) {
         InternetCloseHandle(request);
         InternetCloseHandle(connect);
@@ -130,6 +131,15 @@ std::string ender::get_request(std::string_view url, std::string_view objects) {
     }
 
     return response;
+}
+
+void ender::post_request(std::string_view url, std::string_view objects, std::string_view data) {
+    internet client = {};
+    if (client.create() == true) {
+        std::string response;
+        client.post(url, objects, data, response);
+        client.destroy();
+    }
 }
 
 void ender::get_request_callback(std::string_view url, std::string_view objects,

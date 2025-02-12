@@ -316,5 +316,5 @@ auto ender::window::get_window_size() const noexcept -> vec2i {
 }
 
 float ender::window::get_delta_time() {
-    return m_timer.get_delta_time();
+    return m_timer.delta_time_seconds();
 }

@@ -54,7 +54,7 @@ bool crypto_price_checker::app_window::on_create_window() {
                 set_page_number(new_number);
             };
 
-            m_lua_state["create_coin_table"] = [this]() { return create_coin_table_lua(); };
+            m_lua_state["create_coin_table"] = [this]() { return create_coin_table(); };
 
             m_lua_state["get_and_update_current_coin"] = [this]() {
                 get_and_update_current_coin(m_coin_id);
@@ -117,7 +117,7 @@ void crypto_price_checker::app_window::set_page_number(int new_number) {
     m_page_number = new_number;
 }
 
-void crypto_price_checker::app_window::create_coin_table_lua() {
+void crypto_price_checker::app_window::create_coin_table() {
     sol::table current_coin_table = m_lua_state.create_table("current_coin");
 
     // Create the fields in the table with defualt values.

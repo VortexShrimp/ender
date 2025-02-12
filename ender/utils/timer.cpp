@@ -1,12 +1,13 @@
 #include "timer.hpp"
 
-ender::high_resolution_timer::high_resolution_timer() {
+ender::high_resolution_timer::high_resolution_timer() noexcept {
     QueryPerformanceFrequency(&m_frequency);
     QueryPerformanceCounter(&m_start_time);
+
     m_last_time = m_start_time;
 }
 
-float ender::high_resolution_timer::get_delta_time() {
+float ender::high_resolution_timer::delta_time_seconds() noexcept {
     LARGE_INTEGER current_time;
     QueryPerformanceCounter(&current_time);
 
@@ -18,13 +19,13 @@ float ender::high_resolution_timer::get_delta_time() {
     return delta_time;
 }
 
-float ender::high_resolution_timer::get_elapsed_time_seconds() {
+float ender::high_resolution_timer::elapsed_time_seconds() noexcept {
     LARGE_INTEGER current_time;
     QueryPerformanceCounter(&current_time);
 
     return static_cast<float>(current_time.QuadPart - m_start_time.QuadPart) / m_frequency.QuadPart;
 }
 
-float ender::high_resolution_timer::get_elapsed_time_milliseconds() {
-    return get_elapsed_time_seconds() * 1000.f;
+float ender::high_resolution_timer::elapsed_time_milliseconds() noexcept {
+    return elapsed_time_seconds() * 1000.f;
 }

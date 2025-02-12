@@ -10,15 +10,30 @@ namespace ender {
      */
     class high_resolution_timer {
     public:
-        high_resolution_timer();
+        /**
+         * @brief Set the frequency and start-time of the timer.
+         */
+        high_resolution_timer() noexcept;
 
-        float get_delta_time();
-        float get_elapsed_time_seconds();
-        float get_elapsed_time_milliseconds();
+        float delta_time_seconds() noexcept;
+
+        float elapsed_time_seconds() noexcept;
+        float elapsed_time_milliseconds() noexcept;
+
+        LARGE_INTEGER frequency() const noexcept;
+        LARGE_INTEGER start_time() const noexcept;
 
     private:
         LARGE_INTEGER m_frequency;
         LARGE_INTEGER m_start_time;
         LARGE_INTEGER m_last_time;
     };
+
+    inline LARGE_INTEGER high_resolution_timer::frequency() const noexcept {
+        return m_frequency;
+    }
+
+    inline LARGE_INTEGER high_resolution_timer::start_time() const noexcept {
+        return m_start_time;
+    }
 }  // namespace ender

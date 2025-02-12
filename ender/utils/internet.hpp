@@ -41,7 +41,7 @@ namespace ender {
          */
         bool get(std::string_view url, std::string_view objects, std::string& response_out);
         bool post(std::string_view url, std::string_view objects, std::string_view data,
-                  std::string response_out);
+                  std::string& response_out);
 
         HINTERNET get_internet_handle() const;
 
@@ -53,9 +53,17 @@ namespace ender {
      * @brief Get request to url.
      * @param url
      * @param objects
-     * @return
+     * @return The API response as std::string.
      */
     std::string get_request(std::string_view url, std::string_view objects);
+
+    /**
+     * @brief
+     * @param url
+     * @param objects
+     * @param data String to post.
+     */
+    void post_request(std::string_view url, std::string_view objects, std::string_view data);
 
     /**
      * @brief
