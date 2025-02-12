@@ -19,6 +19,20 @@ bool ender::lua_window::lua_create() {
         lua_bind_imgui_api();
     }
 
+    ImVec4* colors = ImGui::GetStyle().Colors;
+    colors[ImGuiCol_WindowBg] = ImVec4(0.13f, 0.13f, 0.15f, 1.00f);
+    colors[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.92f);
+    colors[ImGuiCol_FrameBg] = ImVec4(0.16f, 0.15f, 0.17f, 1.00f);
+    colors[ImGuiCol_FrameBgHovered] = ImVec4(0.87f, 0.40f, 1.00f, 0.40f);
+    colors[ImGuiCol_FrameBgActive] = ImVec4(0.75f, 0.33f, 1.00f, 0.67f);
+    colors[ImGuiCol_CheckMark] = ImVec4(0.78f, 0.48f, 1.00f, 1.00f);
+    colors[ImGuiCol_SliderGrab] = ImVec4(0.80f, 0.53f, 1.00f, 1.00f);
+    colors[ImGuiCol_SliderGrabActive] = ImVec4(0.71f, 0.30f, 1.00f, 1.00f);
+    colors[ImGuiCol_Button] = ImVec4(0.36f, 0.26f, 0.41f, 0.66f);
+    colors[ImGuiCol_ButtonHovered] = ImVec4(0.80f, 0.53f, 1.00f, 1.00f);
+    colors[ImGuiCol_ButtonActive] = ImVec4(0.74f, 0.38f, 1.00f, 1.00f);
+    colors[ImGuiCol_Separator] = ImVec4(0.63f, 0.63f, 0.63f, 1.00f);
+
     // Load all the script files in the folder specified.
     lua_load_scripts_from_folder("scripts");
 
