@@ -42,8 +42,8 @@ bool ender::lua_window::lua_create() {
 }
 
 void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_name) {
-    auto current_directory = std::filesystem::current_path();
-    auto script_directory = std::filesystem::current_path().append(folder_name);
+    const auto current_directory = std::filesystem::current_path();
+    const auto script_directory = std::filesystem::current_path().append(folder_name);
     debug_print_formatted("[lua] Current path -> '{}'\n[lua] Script path -> '{}'\n",
                           current_directory.string(), script_directory.string());
 
@@ -135,10 +135,12 @@ void ender::lua_window::lua_bind_imgui_api() {
             ImGui::GetIO().FontDefault = m_imgui_fonts[font_index];
         };
 
-        // ImGuiWindowFlags_NoMove = 4
-        // ImGuiWindowFlags_NoCollapse = 32
-        // ImGuiWindowFlags_NoResize = 2
-        // ImGuiWindowFlags_NoTitleBar = 1
+        sol::table window_flags_table = m_lua_state.create_table("imgui_window");
+        window_flags_table["no_title"] = 1;
+        window_flags_table["no_resize"] = 2;
+        window_flags_table["no_move"] = 4;
+        window_flags_table["no_collapse"] = 32;
+
         m_lua_state["imgui_begin_window"] = [](const char* name, int flags) {
             return ImGui::Begin(name, nullptr, flags);
         };

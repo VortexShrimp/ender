@@ -39,12 +39,6 @@ void ender::console::print_raw(std::string_view text) noexcept {
                  NULL);
 }
 
-void ender::console::set_window_size(vec2i new_size) {
-    SMALL_RECT rect = {0, 0, static_cast<SHORT>(new_size.x - 1),
-                       static_cast<SHORT>(new_size.y - 1)};
-    SetConsoleWindowInfo(m_output, TRUE, &rect);
-}
-
 void ender::console::set_title(std::string_view new_title) {
     SetConsoleTitle(multibyte_to_unicode(new_title).c_str());
 }

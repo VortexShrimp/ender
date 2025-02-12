@@ -34,8 +34,6 @@ namespace ender {
         template <typename... Args>
         void print_formatted(std::string_view format, Args&&... args);
 
-        void set_window_size(vec2i new_size);
-
         /**
          * @brief Change the console window title. Must be called after create().
          * @param new_title

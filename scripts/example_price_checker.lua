@@ -23,9 +23,9 @@ function crypto_on_render_imgui(page_number)
     imgui_set_next_window_position_relative(0, 0)
     imgui_set_next_window_size_to_client_size()
 
-    -- The random numbers are ImGui window flags.
-    -- TODO: Possibly make them variables?
-    imgui_begin_window("crypto_window", 1 | 2 | 4 | 32)
+    -- Create the window (with flags).
+    imgui_begin_window("crypto_window",
+        imgui_window.no_title | imgui_window.no_resize | imgui_window.no_move | imgui_window.no_collapse)
     -- Home page.
     if page_number == 0 then
         if current_coin ~= nil then
@@ -42,7 +42,7 @@ function crypto_on_render_imgui(page_number)
             imgui_push_font(3)
             imgui_separator()
 
-        -- Display the coin info.
+            -- Display the coin info.
             imgui_text("1h " .. current_coin.change_1h .. "\n")
             imgui_spacing()
             imgui_text("24h " .. current_coin.change_24h .. "\n")
