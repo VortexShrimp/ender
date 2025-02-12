@@ -55,10 +55,7 @@ bool crypto_price_checker::app_window::on_create_window() {
             };
 
             m_lua_state["create_coin_table"] = [this]() { return create_coin_table(); };
-
-            m_lua_state["get_and_update_current_coin"] = [this]() {
-                get_and_update_current_coin(m_coin_id);
-            };
+            m_lua_state["update_coin_table"] = [this]() { update_coin_table(m_coin_id); };
 
             // Custom imgui API.
             m_lua_state["imgui_coin_id_input"] = [this](const char* label) {
@@ -130,7 +127,7 @@ void crypto_price_checker::app_window::create_coin_table() {
     current_coin_table["price_bitcoin"] = "";
 }
 
-void crypto_price_checker::app_window::get_and_update_current_coin(int coin_index) {
+void crypto_price_checker::app_window::update_coin_table(int coin_index) {
     // https://www.coinlore.com/cryptocurrency-data-api#global
     auto callback = [this](std::string http_response) {
         const nlohmann::json coin_data = nlohmann::json::parse(http_response);

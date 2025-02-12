@@ -8,7 +8,7 @@ function crypto_on_create ()
     imgui_set_defualt_font(1)
 
     create_coin_table()
-    get_and_update_current_coin()
+    update_coin_table()
 end
 
 function crypto_on_destroy ()
@@ -36,12 +36,10 @@ function crypto_on_render_imgui(page_number)
             imgui_push_font(1)
             imgui_text_centered_x("rank " .. current_coin.rank .. "\n")
             imgui_text_centered_x("$" .. current_coin.price .. "\n")
-
             imgui_pop_font()
 
             imgui_push_font(3)
             imgui_separator()
-
             -- Display the coin info.
             imgui_text("1h " .. current_coin.change_1h .. "\n")
             imgui_spacing()
@@ -52,12 +50,13 @@ function crypto_on_render_imgui(page_number)
             imgui_separator()
             imgui_coin_id_input("coin id")
             if imgui_button("Update Coin") then
-                get_and_update_current_coin()
+                update_coin_table()
             end
             imgui_pop_font()
         end
-    -- Bitcoin page.
     elseif page_number == 1 then
+        -- Currently nothing on this page.
+        -- Use set_page_number(number) to change the page.
     end
     imgui_end_window()
 end

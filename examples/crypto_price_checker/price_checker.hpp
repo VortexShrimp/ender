@@ -24,8 +24,9 @@ namespace crypto_price_checker {
 
     private:
         void set_page_number(int new_number);
+
         void create_coin_table();
-        void get_and_update_current_coin(int index);
+        void update_coin_table(int index);
 
         int m_page_number;
         int m_coin_id;
