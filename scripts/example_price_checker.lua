@@ -48,6 +48,7 @@ function crypto_on_render_imgui(page_number)
             imgui_text("7d " .. current_coin.change_7d .. "\n")
 
             imgui_separator()
+
             imgui_coin_id_input("coin id")
             if imgui_button("Update Coin") then
                 update_coin_table()

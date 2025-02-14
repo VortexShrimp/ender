@@ -180,29 +180,27 @@ bool ender::window::create(create_function on_create, window_details details) {
     UpdateWindow(m_hwnd);
 
     if constexpr (use_imgui == true) {
-        static bool once = true;
-        if (once == true) {
-            ImGui::CreateContext();
-            ImGuiIO& io = ImGui::GetIO();
-            io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
-            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
-            io.ConfigFlags |=
-                ImGuiConfigFlags_ViewportsEnable;  // Enable Multi-Viewport / Platform Windows
-            io.IniFilename = NULL;                 // Disable .ini config saving.
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
+        io.ConfigFlags |=
+            ImGuiConfigFlags_ViewportsEnable;  // Enable Multi-Viewport / Platform Windows
+        io.IniFilename = NULL;                 // Disable .ini config saving.
 
-            ImGui::StyleColorsDark();
+        ImGui::StyleColorsDark();
 
-            ImGuiStyle& style = ImGui::GetStyle();
-            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-                style.WindowRounding = 0.0f;
-                style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-            }
-
-            ImGui_ImplWin32_Init(m_hwnd);
-            ImGui_ImplDX11_Init(m_renderer->get_device(), m_renderer->get_device_context());
-
-            once = false;
+        ImGuiStyle& style = ImGui::GetStyle();
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+            style.WindowRounding = 0.0f;
+            style.Colors[ImGuiCol_WindowBg].w = 1.0f;
         }
+
+        ImGui_ImplWin32_Init(m_hwnd);
+        ImGui_ImplDX11_Init(m_renderer->device(), m_renderer->device_context());
+    }
+
+    if constexpr (use_standalone_renderer == true) {
     }
 
     // Add this window to the global lookup table.
@@ -315,6 +313,6 @@ auto ender::window::get_window_size() const noexcept -> DirectX::XMINT2 {
     return {rect.right - rect.left, rect.bottom - rect.top};
 }
 
-float ender::window::get_delta_time() {
+float ender::window::delta_time() {
     return m_timer.delta_time_seconds();
 }

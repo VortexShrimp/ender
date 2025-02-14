@@ -91,10 +91,19 @@ namespace ender {
         bool set_title(std::wstring_view new_title);
         std::wstring_view get_title() const;
 
+        /**
+         * @brief Size of client draw area.
+         * @return
+         */
         DirectX::XMINT2 get_client_size() const noexcept;
+
+        /**
+         * @brief Size of entire window.
+         * @return
+         */
         DirectX::XMINT2 get_window_size() const noexcept;
 
-        float get_delta_time();
+        float delta_time();
 
         bool m_is_running;
         std::unique_ptr<d3d11_renderer> m_renderer;

@@ -57,6 +57,25 @@ bool ender::d3d11_renderer::create(HWND hwnd) {
         return false;
     }
 
+    if constexpr (use_standalone_renderer == true) {
+        IDXGIDevice* dxgi_device = nullptr;
+        IDXGIAdapter* dxgi_adapter = nullptr;
+
+        if (m_device->QueryInterface(IID_PPV_ARGS(&dxgi_device)) == S_OK) {
+            if (dxgi_device->GetParent(IID_PPV_ARGS(&dxgi_adapter)) == S_OK) {
+                if (dxgi_adapter->GetParent(IID_PPV_ARGS(&m_dxgi_factory)) == S_OK) {
+                    // Nothing to do here rn lol.
+                }
+            }
+        }
+
+        SAFE_RELEASE(dxgi_device);
+        SAFE_RELEASE(dxgi_adapter);
+
+        m_device->AddRef();
+        m_device_context->AddRef();
+    }
+
     return true;
 }
 
@@ -65,6 +84,10 @@ bool ender::d3d11_renderer::destroy() {
     SAFE_RELEASE(m_swap_chain)
     SAFE_RELEASE(m_device_context)
     SAFE_RELEASE(m_device)
+
+    if constexpr (use_standalone_renderer == true) {
+        SAFE_RELEASE(m_dxgi_factory)
+    }
 
     return true;
 }
@@ -96,6 +119,10 @@ void ender::d3d11_renderer::render_frame() {
         }
     }
 
+    if constexpr (use_standalone_renderer == true) {
+        // TODO: Render standalone renderer.
+    }
+
     HRESULT hr = m_swap_chain->Present(1, 0);
     m_is_swap_chain_occluded = (hr == DXGI_STATUS_OCCLUDED);
 }
@@ -117,11 +144,11 @@ void ender::d3d11_renderer::handle_resize(HWND hwnd) {
     }
 }
 
-ID3D11Device* ender::d3d11_renderer::get_device() const noexcept {
+ID3D11Device* ender::d3d11_renderer::device() const noexcept {
     return m_device;
 }
 
-ID3D11DeviceContext* ender::d3d11_renderer::get_device_context() const noexcept {
+ID3D11DeviceContext* ender::d3d11_renderer::device_context() const noexcept {
     return m_device_context;
 }
 
@@ -138,4 +165,38 @@ bool ender::d3d11_renderer::create_render_target() {
     back_buffer->Release();
 
     return true;
+}
+
+ender::direct2d_renderer::~direct2d_renderer() {
+    destroy();
+}
+
+bool ender::direct2d_renderer::create(HWND hwnd) {
+    if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_factory))) {
+        return false;
+    }
+
+    // Get the size of the drawing area.
+    RECT rc;
+    GetClientRect(hwnd, &rc);
+
+    D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
+    if (FAILED(m_factory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(),
+                                                 D2D1::HwndRenderTargetProperties(hwnd, size),
+                                                 &m_render_target))) {
+        return false;
+    }
+
+    return true;
+}
+
+void ender::direct2d_renderer::destroy() {
+    SAFE_RELEASE(m_render_target)
+    SAFE_RELEASE(m_factory)
+}
+
+void ender::direct2d_renderer::render_frame() {
+    m_render_target->BeginDraw();
+    m_render_target->SetTransform(D2D1::Matrix3x2F::Identity());
+    m_render_target->Clear(D2D1::ColorF(D2D1::ColorF::White));
 }
