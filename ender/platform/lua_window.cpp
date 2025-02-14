@@ -15,9 +15,8 @@ bool ender::lua_window::lua_create() {
     // Nind ender functions to Lua.s
     lua_bind_core_api();
 
-    if constexpr (use_imgui == true) {
-        lua_bind_imgui_api();
-    }
+#ifdef ENDER_IMGUI
+    lua_bind_imgui_api();
 
     ImVec4* colors = ImGui::GetStyle().Colors;
     colors[ImGuiCol_WindowBg] = ImVec4(0.13f, 0.13f, 0.15f, 1.00f);
@@ -32,6 +31,7 @@ bool ender::lua_window::lua_create() {
     colors[ImGuiCol_ButtonHovered] = ImVec4(0.80f, 0.53f, 1.00f, 1.00f);
     colors[ImGuiCol_ButtonActive] = ImVec4(0.74f, 0.38f, 1.00f, 1.00f);
     colors[ImGuiCol_Separator] = ImVec4(0.63f, 0.63f, 0.63f, 1.00f);
+#endif  // ENDER_IMGUI
 
     // Load all the script files in the folder specified.
     lua_load_scripts_from_folder("scripts");
@@ -83,85 +83,81 @@ void ender::lua_window::lua_bind_core_api() {
 
 void ender::lua_window::lua_bind_imgui_api() {
     // ImGui window rendering functions.
-    if (use_imgui == true) {
-        m_lua_state["imgui_set_next_window_collapsed"] = [](bool collapsed) {
-            ImGui::SetNextWindowCollapsed(collapsed);
-        };
+    m_lua_state["imgui_set_next_window_collapsed"] = [](bool collapsed) {
+        ImGui::SetNextWindowCollapsed(collapsed);
+    };
 
-        // Relative to the screen.
-        m_lua_state["imgui_set_next_window_position_absolute"] = [](float x, float y) {
-            ImGui::SetNextWindowPos({x, y});
-        };
+    // Relative to the screen.
+    m_lua_state["imgui_set_next_window_position_absolute"] = [](float x, float y) {
+        ImGui::SetNextWindowPos({x, y});
+    };
 
-        // Relative to the window.
-        m_lua_state["imgui_set_next_window_position_relative"] = [](float x, float y) {
-            ImGui::SetNextWindowPos(
-                {ImGui::GetMainViewport()->Pos.x + x, ImGui::GetMainViewport()->Pos.y + y});
-        };
+    // Relative to the window.
+    m_lua_state["imgui_set_next_window_position_relative"] = [](float x, float y) {
+        ImGui::SetNextWindowPos(
+            {ImGui::GetMainViewport()->Pos.x + x, ImGui::GetMainViewport()->Pos.y + y});
+    };
 
-        m_lua_state["imgui_set_next_window_size"] = [](float x, float y) {
-            ImGui::SetNextWindowSize({x, y});
-        };
+    m_lua_state["imgui_set_next_window_size"] = [](float x, float y) {
+        ImGui::SetNextWindowSize({x, y});
+    };
 
-        m_lua_state["imgui_set_next_window_size_and_position"] = [](float posx, float posy,
-                                                                    float sizex, float sizey) {
-            ImGui::SetNextWindowPos({posx, posy});
-            ImGui::SetNextWindowSize({sizex, sizey});
-        };
+    m_lua_state["imgui_set_next_window_size_and_position"] = [](float posx, float posy, float sizex,
+                                                                float sizey) {
+        ImGui::SetNextWindowPos({posx, posy});
+        ImGui::SetNextWindowSize({sizex, sizey});
+    };
 
-        m_lua_state["imgui_push_font"] = [this](int font_index) {
-            ImGui::PushFont(m_imgui_fonts[font_index]);
-        };
+    m_lua_state["imgui_push_font"] = [this](int font_index) {
+        ImGui::PushFont(m_imgui_fonts[font_index]);
+    };
 
-        m_lua_state["imgui_pop_font"] = ImGui::PopFont;
+    m_lua_state["imgui_pop_font"] = ImGui::PopFont;
 
-        // Sets the next window to the size of the client drawing area.
-        m_lua_state["imgui_set_next_window_size_to_client_size"] = [this]() {
-            const auto [x, y] = get_client_size();
-            ImGui::SetNextWindowSize({static_cast<float>(x), static_cast<float>(y)});
-        };
+    // Sets the next window to the size of the client drawing area.
+    m_lua_state["imgui_set_next_window_size_to_client_size"] = [this]() {
+        const auto [x, y] = get_client_size();
+        ImGui::SetNextWindowSize({static_cast<float>(x), static_cast<float>(y)});
+    };
 
-        m_lua_state["imgui_add_font_from_file_ttf"] = [this](const char* file_name,
-                                                             float size_pixels) {
-            m_imgui_fonts.push_back(
-                ImGui::GetIO().Fonts->AddFontFromFileTTF(file_name, size_pixels));
-        };
+    m_lua_state["imgui_add_font_from_file_ttf"] = [this](const char* file_name, float size_pixels) {
+        m_imgui_fonts.push_back(ImGui::GetIO().Fonts->AddFontFromFileTTF(file_name, size_pixels));
+    };
 
-        m_lua_state["imgui_set_defualt_font"] = [this](int font_index) {
-            ImGui::GetIO().FontDefault = m_imgui_fonts[font_index];
-        };
+    m_lua_state["imgui_set_defualt_font"] = [this](int font_index) {
+        ImGui::GetIO().FontDefault = m_imgui_fonts[font_index];
+    };
 
-        sol::table window_flags_table = m_lua_state.create_table("imgui_window");
-        window_flags_table["no_title"] = 1;
-        window_flags_table["no_resize"] = 2;
-        window_flags_table["no_move"] = 4;
-        window_flags_table["no_collapse"] = 32;
+    sol::table window_flags_table = m_lua_state.create_table("imgui_window");
+    window_flags_table["no_title"] = 1;
+    window_flags_table["no_resize"] = 2;
+    window_flags_table["no_move"] = 4;
+    window_flags_table["no_collapse"] = 32;
 
-        m_lua_state["imgui_begin_window"] = [](const char* name, int flags) {
-            return ImGui::Begin(name, nullptr, flags);
-        };
+    m_lua_state["imgui_begin_window"] = [](const char* name, int flags) {
+        return ImGui::Begin(name, nullptr, flags);
+    };
 
-        m_lua_state["imgui_end_window"] = ImGui::End;
+    m_lua_state["imgui_end_window"] = ImGui::End;
 
-        m_lua_state["imgui_button"] = [](const char* label) { return ImGui::Button(label); };
-        m_lua_state["imgui_button_size"] = [](const char* label, float x, float y) {
-            return ImGui::Button(label, {x, y});
-        };
+    m_lua_state["imgui_button"] = [](const char* label) { return ImGui::Button(label); };
+    m_lua_state["imgui_button_size"] = [](const char* label, float x, float y) {
+        return ImGui::Button(label, {x, y});
+    };
 
-        m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
-        m_lua_state["imgui_text_centered_x"] = [](const char* text) {
-            const ImVec2 window_size = ImGui::GetWindowSize();
-            const ImVec2 text_size = ImGui::CalcTextSize(text);
+    m_lua_state["imgui_text"] = [](const char* text) { ImGui::Text(text); };
+    m_lua_state["imgui_text_centered_x"] = [](const char* text) {
+        const ImVec2 window_size = ImGui::GetWindowSize();
+        const ImVec2 text_size = ImGui::CalcTextSize(text);
 
-            const float text_x = (window_size.x - text_size.x) * 0.5f;
-            ImGui::SetCursorPos({text_x, ImGui::GetCursorPosY()});
-            ImGui::Text(text);
-        };
+        const float text_x = (window_size.x - text_size.x) * 0.5f;
+        ImGui::SetCursorPos({text_x, ImGui::GetCursorPosY()});
+        ImGui::Text(text);
+    };
 
-        m_lua_state["imgui_separator"] = ImGui::Separator;
-        m_lua_state["imgui_spacing"] = ImGui::Spacing;
-        m_lua_state["imgui_same_line"] = []() { ImGui::SameLine(); };
+    m_lua_state["imgui_separator"] = ImGui::Separator;
+    m_lua_state["imgui_spacing"] = ImGui::Spacing;
+    m_lua_state["imgui_same_line"] = []() { ImGui::SameLine(); };
 
-        m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
-    }
+    m_lua_state["imgui_show_demo_window"] = []() { ImGui::ShowDemoWindow(); };
 }

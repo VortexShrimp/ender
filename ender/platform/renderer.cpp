@@ -57,25 +57,6 @@ bool ender::d3d11_renderer::create(HWND hwnd) {
         return false;
     }
 
-    if constexpr (use_standalone_renderer == true) {
-        IDXGIDevice* dxgi_device = nullptr;
-        IDXGIAdapter* dxgi_adapter = nullptr;
-
-        if (m_device->QueryInterface(IID_PPV_ARGS(&dxgi_device)) == S_OK) {
-            if (dxgi_device->GetParent(IID_PPV_ARGS(&dxgi_adapter)) == S_OK) {
-                if (dxgi_adapter->GetParent(IID_PPV_ARGS(&m_dxgi_factory)) == S_OK) {
-                    // Nothing to do here rn lol.
-                }
-            }
-        }
-
-        SAFE_RELEASE(dxgi_device);
-        SAFE_RELEASE(dxgi_adapter);
-
-        m_device->AddRef();
-        m_device_context->AddRef();
-    }
-
     return true;
 }
 
@@ -84,10 +65,6 @@ bool ender::d3d11_renderer::destroy() {
     SAFE_RELEASE(m_swap_chain)
     SAFE_RELEASE(m_device_context)
     SAFE_RELEASE(m_device)
-
-    if constexpr (use_standalone_renderer == true) {
-        SAFE_RELEASE(m_dxgi_factory)
-    }
 
     return true;
 }
@@ -98,9 +75,9 @@ bool ender::d3d11_renderer::is_swapchain_occluded() {
 }
 
 void ender::d3d11_renderer::render_frame() {
-    if constexpr (use_imgui == true) {
-        ImGui::Render();
-    }
+#ifdef ENDER_IMGUI
+    ImGui::Render();
+#endif  // ENDER_IMGUI
 
     constexpr ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
     const float clear_color_with_alpha[4] = {clear_color.x * clear_color.w,
@@ -109,19 +86,16 @@ void ender::d3d11_renderer::render_frame() {
     m_device_context->OMSetRenderTargets(1, &m_render_target_view, nullptr);
     m_device_context->ClearRenderTargetView(m_render_target_view, clear_color_with_alpha);
 
-    if constexpr (use_imgui == true) {
-        ImGuiIO& io = ImGui::GetIO();
+#ifdef ENDER_IMGUI
+    ImGuiIO& io = ImGui::GetIO();
 
-        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-        }
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
     }
 
-    if constexpr (use_standalone_renderer == true) {
-        // TODO: Render standalone renderer.
-    }
+#endif  // ENDER_IMGUI
 
     HRESULT hr = m_swap_chain->Present(1, 0);
     m_is_swap_chain_occluded = (hr == DXGI_STATUS_OCCLUDED);

@@ -2,7 +2,7 @@
 <img src="data/logo.png" align="left" width="350px"/>
 
 ### About
-A 2D rendering framework for Windows, written in modern C++ and Lua.
+A 2D rendering framework written in C++.
 ### Requirements
 - Visual Studio 2022 (C++ 20)
 - Directx11 Windows
@@ -14,7 +14,7 @@ A 2D rendering framework for Windows, written in modern C++ and Lua.
 
 Making intuitive and efficient GUI applications with C++ has been
 a terrible experience for me so, here is my attempt at an elegant solution.
-
+<!---
 ### Roadmap
 - [x] Complete console debug logging system with a compile-time switch.
 - [ ] Consistent error or exception handling system.
@@ -92,3 +92,4 @@ directory alongside the executable containing the desired scripts.
 
 ## Support
 Only supports 64-bit Windows at the moment.
+-->

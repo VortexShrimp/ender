@@ -44,12 +44,13 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND window, UINT m
  * @return
  */
 static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-    if constexpr (ender::use_imgui == true) {
-        // Pass messages to ImGui.
-        if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
-            return true;
-        }
+#ifdef ENDER_IMGUI
+    // Pass messages to ImGui.
+    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
+        return true;
     }
+
+#endif  // ENDER_IMGUI
 
     // Get the window data for this window from the map.
     ender::internal_window_data& window_data = s_window_data[hwnd];
@@ -179,29 +180,26 @@ bool ender::window::create(create_function on_create, window_details details) {
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
     UpdateWindow(m_hwnd);
 
-    if constexpr (use_imgui == true) {
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
-        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable keyboard.
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
-        io.ConfigFlags |=
-            ImGuiConfigFlags_ViewportsEnable;  // Enable Multi-Viewport / Platform Windows
-        io.IniFilename = NULL;                 // Disable .ini config saving.
+#ifdef ENDER_IMGUI
+    ImGui::CreateContext();
 
-        ImGui::StyleColorsDark();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    io.IniFilename = NULL;  // Disable .ini config saving.
 
-        ImGuiStyle& style = ImGui::GetStyle();
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-            style.WindowRounding = 0.0f;
-            style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-        }
+    ImGui::StyleColorsDark();
 
-        ImGui_ImplWin32_Init(m_hwnd);
-        ImGui_ImplDX11_Init(m_renderer->device(), m_renderer->device_context());
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
-    if constexpr (use_standalone_renderer == true) {
-    }
+    ImGui_ImplWin32_Init(m_hwnd);
+    ImGui_ImplDX11_Init(m_renderer->device(), m_renderer->device_context());
+#endif  // ENDER_IMGUI
 
     // Add this window to the global lookup table.
     s_window_data[m_hwnd] = internal_window_data{.window = this,
@@ -225,11 +223,11 @@ bool ender::window::destroy(destroy_function on_destroy) {
         on_destroy(this);
     }
 
-    if constexpr (use_imgui == true) {
-        ImGui_ImplDX11_Shutdown();
-        ImGui_ImplWin32_Shutdown();
-        ImGui::DestroyContext();
-    }
+#ifdef ENDER_IMGUI
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
+#endif  // ENDER_IMGUI
 
     m_renderer->destroy();
     m_renderer.reset(nullptr);
@@ -272,13 +270,14 @@ void ender::window::render_frame(render_frame_function on_render_frame) {
         return;
     }
     m_renderer->set_swap_chain_occluded(false);
+
     m_renderer->handle_resize(m_hwnd);
 
-    if (use_imgui == true) {
-        ImGui_ImplDX11_NewFrame();
-        ImGui_ImplWin32_NewFrame();
-        ImGui::NewFrame();
-    }
+#ifdef ENDER_IMGUI
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+#endif  // ENDER_IMGUI
 
     if (on_render_frame != nullptr) {
         on_render_frame(this);

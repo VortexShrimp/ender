@@ -1,18 +1,17 @@
 #pragma once
 
+// Use ImGui in builds.
+#define ENDER_IMGUI
+
 namespace ender {
-#ifndef _DEBUG
-    constexpr bool in_debug = false;
+    consteval bool is_debug_build() {
+#ifdef _DEBUG
+        return true;
 #else
-    constexpr bool in_debug = true;
-#endif  // !_DEBUG
+        return false;
+#endif  // _DEBUG
+    }
 
-    // Only supports 1 window at a time.
-    constexpr bool use_imgui = true;
-    constexpr bool use_standalone_renderer = false;
-
+    // Currently unused.
     constexpr bool use_lua = true;
-
-    constexpr const char* version_string = "0.1";
-    constexpr const char* engine_name = "ender";
 }  // namespace ender

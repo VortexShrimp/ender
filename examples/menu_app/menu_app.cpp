@@ -25,9 +25,9 @@ bool menu_app::simple_window::on_create() noexcept {
 
 // Render ImGui here.
 void menu_app::simple_window::on_render_frame_imgui() noexcept {
-    if constexpr (ender::use_imgui == true) {
-        ImGui::ShowDemoWindow();
-    }
+#ifdef ENDER_IMGUI
+    ImGui::ShowDemoWindow();
+#endif  // ENDER_IMGUI
 }
 
 bool menu_app::on_create_handler(ender::window* ctx) {
