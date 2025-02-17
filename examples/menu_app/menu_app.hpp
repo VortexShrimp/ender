@@ -17,5 +17,5 @@ namespace menu_app {
     bool on_create_handler(ender::window* ctx);
     void on_render_frame_handler(ender::window* ctx);
 
-    int run_menu_app();
+    int run_example();
 }  // namespace menu_app

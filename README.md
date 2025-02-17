@@ -8,7 +8,7 @@ A 2D rendering framework written in C++.
 - Directx11 Windows
 ### Building
 1. Clone this repository.
-2. Get dependencies from [`ender/lib`](https://github.com/VortexShrimp/ender/tree/master/lib).
+2. Get dependencies from [`ender/lib`](https://github.com/VortexShrimp/ender/tree/master/ender/lib).
 3. Build in `Release\Debug` -> `x64`
 <br clear="left"/>
 

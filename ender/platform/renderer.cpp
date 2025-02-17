@@ -161,10 +161,16 @@ bool ender::direct2d_renderer::create(HWND hwnd) {
         return false;
     }
 
+    if (FAILED(
+            m_render_target->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Black), &m_brush))) {
+        return false;
+    }
+
     return true;
 }
 
 void ender::direct2d_renderer::destroy() {
+    SAFE_RELEASE(m_brush)
     SAFE_RELEASE(m_render_target)
     SAFE_RELEASE(m_factory)
 }

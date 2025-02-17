@@ -45,7 +45,7 @@ void menu_app::on_render_frame_handler(ender::window* ctx) {
     // app->on_render_frame()
 }
 
-int menu_app::run_menu_app() {
+int menu_app::run_example() {
     ender::debug_print_raw("Welcome to Menu App!\n");
 
     // Create and run the window.

@@ -6,11 +6,6 @@
 #include <directxmath.h>
 
 namespace ender {
-    struct vertex {
-        DirectX::XMFLOAT2 position;
-        DirectX::XMFLOAT4 color;
-    };
-
     /**
      * @brief Currently a d3d11 renderer.
      */
@@ -29,11 +24,11 @@ namespace ender {
         bool create(HWND hwnd);
         bool destroy();
 
-        bool is_swapchain_occluded();
-
         void render_frame();
 
+        bool is_swapchain_occluded();
         void set_swap_chain_occluded(bool is_occluded);
+
         void handle_resize(HWND hwnd);
 
         ID3D11Device* device() const noexcept;
@@ -62,9 +57,6 @@ namespace ender {
         void destroy();
 
         void render_frame();
-
-        void draw_rectangle(const DirectX::XMFLOAT2& position, const DirectX::XMFLOAT2& size,
-                            const DirectX::XMFLOAT4& color);
 
     private:
         ID2D1Factory* m_factory;
