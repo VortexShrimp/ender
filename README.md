@@ -1,19 +1,16 @@
 # ender
-<img src="data/logo.png" align="left" width="350px"/>
+<img src="data/logo.png" align="left" width="400px"/>
 
-### About
-A 2D rendering framework written in C++.
-### Requirements
-- Visual Studio 2022 (C++ 20)
-- Directx11 Windows
-### Building
-1. Clone this repository.
-2. Get dependencies from [`ender/lib`](https://github.com/VortexShrimp/ender/tree/master/ender/lib).
-3. Build in `Release\Debug` -> `x64`
+A Windows GUI framework for C++ with a focus on simplicity, elegance and efficiency.
+## Requirements
+- C++ Build Tools (Visual Studio 2022)
+- Source Dependencies [[`ender/lib`](https://github.com/VortexShrimp/ender/tree/master/ender/lib)]
+## Usage
+1. `git clone https://github.com/VortexShrimp/ender.git`
+2. Open `ender.sln` in Visual Studio 
+2. Build examples as `x64` -> `Release` or `Debug`
 <br clear="left"/>
 
-Making intuitive and efficient GUI applications with C++ has been
-a terrible experience for me so, here is my attempt at an elegant solution.
 <!---
 ### Roadmap
 - [x] Complete console debug logging system with a compile-time switch.
