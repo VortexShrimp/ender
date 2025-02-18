@@ -1,5 +1,5 @@
 # ender
-<img src="data/logo.png" align="left" width="400px"/>
+<img src="data/logo.png" align="left" width="350px"/>
 
 A Windows GUI framework for C++ with a focus on simplicity, elegance and efficiency.
 ## Requirements
@@ -8,9 +8,8 @@ A Windows GUI framework for C++ with a focus on simplicity, elegance and efficie
 ## Usage
 1. `git clone https://github.com/VortexShrimp/ender.git`
 2. Open `ender.sln` in Visual Studio 
-2. Build examples as `x64` -> `Release` or `Debug`
+3. Build examples as `x64` -> `Release` or `Debug`
 <br clear="left"/>
-
 <!---
 ### Roadmap
 - [x] Complete console debug logging system with a compile-time switch.
