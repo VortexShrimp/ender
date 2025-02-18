@@ -1,4 +1,4 @@
-# ender
+
 <img src="data/logo.png" align="left" width="350px"/>
 
 A Windows GUI framework for C++ with a focus on simplicity, elegance and efficiency.
@@ -10,13 +10,14 @@ A Windows GUI framework for C++ with a focus on simplicity, elegance and efficie
 2. Open `ender.sln` in Visual Studio 
 3. Build examples as `x64` -> `Release` or `Debug`
 <br clear="left"/>
-<!---
-### Roadmap
-- [x] Complete console debug logging system with a compile-time switch.
-- [ ] Consistent error or exception handling system.
-- [ ] File handling system for configurations, scripting and more.
-- [ ] Independant 2D batch sprite, primitive & text renderer.
+## Roadmap
+- [ ] **[Almost Complete]** Debug console logging system.
+- [ ] **[Almost Complete]** Consistent error or exception handling system.
+- [ ] **[In Progress]** File handling system for configurations, scripting and more.
+- [ ] **[In Progress]** Independant 2D batch sprite, primitive & text renderer.
 - [ ] Script compressing on disk for distribution and Lua encryption.
+
+<!--
 ## Example
 ### Simple Window
 The example below spawns a 64-bit Win32, Directx11 window running ImGui.
