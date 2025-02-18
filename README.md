@@ -10,6 +10,7 @@ A Windows GUI framework for C++ with a focus on simplicity, elegance and efficie
 2. Open `ender.sln` in Visual Studio 
 3. Build examples as `x64` -> `Release` or `Debug`
 <br clear="left"/>
+
 ## Roadmap
 - [ ] **[Almost Complete]** Debug console logging system.
 - [ ] **[Almost Complete]** Consistent error or exception handling system.

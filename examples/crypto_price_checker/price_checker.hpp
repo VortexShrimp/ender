@@ -23,7 +23,7 @@ namespace crypto_price_checker {
         //
 
     private:
-        void set_page_number(int new_number);
+        void set_page_number(int new_number) noexcept;
 
         void create_coin_table();
         void update_coin_table(int index);
@@ -33,4 +33,8 @@ namespace crypto_price_checker {
     };
 
     int run_example();
+
+    inline void app_window::set_page_number(int new_number) noexcept {
+        m_page_number = new_number;
+    }
 }  // namespace crypto_price_checker

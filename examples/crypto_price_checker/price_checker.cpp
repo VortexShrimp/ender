@@ -27,61 +27,55 @@ void crypto_price_checker::render_frame_handler(ender::window* ctx) {
 }
 
 int crypto_price_checker::run_example() {
-    auto app = std::make_unique<app_window>();
-    if (app->create(create_handler, {.title = L"Price Checker",
-                                     .class_name = L"cryto_miner",
-                                     .width = 300,
-                                     .height = 300,
-                                     .on_message_create = nullptr,
-                                     .on_message_destroy = nullptr,
-                                     .on_message_close = nullptr}) == true) {
-        while (app->process_events(process_events_handler) == true) {
-            app->render_frame(render_frame_handler);
+    try {
+        auto app = std::make_unique<app_window>();
+        if (app->create(create_handler, {.title = L"Price Checker",
+                                         .class_name = L"cryto_miner",
+                                         .width = 300,
+                                         .height = 300,
+                                         .on_message_create = nullptr,
+                                         .on_message_destroy = nullptr,
+                                         .on_message_close = nullptr}) == true) {
+            while (app->process_events(process_events_handler) == true) {
+                app->render_frame(render_frame_handler);
+            }
+
+            app->destroy(destroy_handler);
+            return 0;
         }
 
-        app->destroy(destroy_handler);
-        return 0;
+        return 1;
+    } catch (std::exception& ex) {
+        ender::debug_print_formatted("Exception: {}\n", ex.what());
+        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(), L"Exception",
+                   MB_ICONERROR);
+        return 1;
     }
-
-    return 1;
 }
 
 bool crypto_price_checker::app_window::on_create_window() {
-    try {
-        // Setup custom Lua API here.
-        if (lua_create() == true) {
-            m_lua_state["set_page_number"] = [this](int new_number) {
-                set_page_number(new_number);
-            };
+    // Create LUA state here.
+    if (lua_create() == true) {
+        m_lua_state["set_page_number"] = [this](int new_number) { set_page_number(new_number); };
+        m_lua_state["create_coin_table"] = [this]() { return create_coin_table(); };
+        m_lua_state["update_coin_table"] = [this]() { update_coin_table(m_coin_id); };
 
-            m_lua_state["create_coin_table"] = [this]() { return create_coin_table(); };
-            m_lua_state["update_coin_table"] = [this]() { update_coin_table(m_coin_id); };
+        // Custom imgui API.
+        m_lua_state["imgui_coin_id_input"] = [this](const char* label) {
+            ImGui::InputInt(label, &m_coin_id);
+        };
 
-            // Custom imgui API.
-            m_lua_state["imgui_coin_id_input"] = [this](const char* label) {
-                ImGui::InputInt(label, &m_coin_id);
-            };
+        // Try and call the on_create hook.
+        m_lua_state.script("on_create()");
 
-            m_lua_state.script("crypto_on_create()");
-        }
-
-        return true;
-    } catch (std::exception& ex) {
-        ender::debug_print_formatted("Exception: {}\n", ex.what());
-        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(),
-                   L"Lua Exception", MB_ICONERROR);
         return true;
     }
+
+    return false;
 }
 
 void crypto_price_checker::app_window::on_destroy_window() {
-    try {
-        m_lua_state.script("crypto_on_destroy()");
-    } catch (std::exception& ex) {
-        ender::debug_print_formatted("Exception: {}\n", ex.what());
-        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(),
-                   L"Lua Exception", MB_ICONERROR);
-    }
+    m_lua_state.script("on_destroy()");
 }
 
 bool crypto_price_checker::app_window::on_process_events() {
@@ -89,29 +83,14 @@ bool crypto_price_checker::app_window::on_process_events() {
         return false;
     }
 
-    try {
-        m_lua_state.script("crypto_on_process_events()");
-    } catch (std::exception& ex) {
-        ender::debug_print_formatted("Exception: {}\n", ex.what());
-        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(),
-                   L"Lua Exception", MB_ICONERROR);
-    }
+    m_lua_state.script("on_process_events()");
 
     return true;
 }
 
 void crypto_price_checker::app_window::on_render_frame() {
-    try {
-        m_lua_state.script(std::format("crypto_on_render_imgui({})", m_page_number));
-    } catch (std::exception& ex) {
-        ender::debug_print_formatted("Exception: {}\n", ex.what());
-        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(),
-                   L"Lua Exception", MB_ICONERROR);
-    }
-}
-
-void crypto_price_checker::app_window::set_page_number(int new_number) {
-    m_page_number = new_number;
+    // Call the render frame hook but pass the page number through.
+    m_lua_state.script(std::format("on_render_imgui({})", m_page_number));
 }
 
 void crypto_price_checker::app_window::create_coin_table() {
@@ -129,6 +108,7 @@ void crypto_price_checker::app_window::create_coin_table() {
 
 void crypto_price_checker::app_window::update_coin_table(int coin_index) {
     // https://www.coinlore.com/cryptocurrency-data-api#global
+
     auto callback = [this](std::string http_response) {
         const nlohmann::json coin_data = nlohmann::json::parse(http_response);
         if (coin_data.empty() == true) {
