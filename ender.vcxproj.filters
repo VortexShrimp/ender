@@ -66,6 +66,9 @@
     <ClCompile Include="examples\crypto_price_checker\price_checker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ender\ender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ender\external\imgui\imconfig.h">

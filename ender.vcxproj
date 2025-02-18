@@ -168,6 +168,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ender\ender.cpp" />
     <ClCompile Include="examples\crypto_price_checker\price_checker.cpp" />
     <ClCompile Include="examples\menu_app\menu_app.cpp" />
     <ClCompile Include="ender\external\imgui\imgui.cpp" />

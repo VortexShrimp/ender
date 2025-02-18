@@ -46,9 +46,7 @@ int crypto_price_checker::run_example() {
 
         return 1;
     } catch (std::exception& ex) {
-        ender::debug_print_formatted("Exception: {}\n", ex.what());
-        MessageBox(nullptr, ender::console::multibyte_to_unicode(ex.what()).c_str(), L"Exception",
-                   MB_ICONERROR);
+        ender::error_message_box(ex.what());
         return 1;
     }
 }

@@ -13,6 +13,7 @@ elegance and efficiency. Various usage examples can be found in
 1. `git clone https://github.com/VortexShrimp/ender.git`
 2. Open `ender.sln` in Visual Studio
 3. Build as `x64` -> `Release` or `Debug`
+4. Find `ender.exe` in `ender/build/x64` by default
 <br clear="left"/>
 
 ### Roadmap
