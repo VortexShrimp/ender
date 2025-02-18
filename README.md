@@ -9,7 +9,7 @@ elegance and efficiency. Various usage examples can be found in
 - 64-Bit Windows & DirectX 11
 - C++ Build Tools (Visual Studio 2022)
 - Source Dependencies [[`ender/lib`](https://github.com/VortexShrimp/ender/tree/master/ender/lib)]
-### Usage
+### Building Examples
 1. `git clone https://github.com/VortexShrimp/ender.git`
 2. Open `ender.sln` in Visual Studio
 3. Build as `x64` -> `Release` or `Debug`

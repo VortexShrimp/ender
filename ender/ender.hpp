@@ -1,6 +1,7 @@
 #pragma once
 
 // Use ImGui in builds.
+// TODO: Switch back to constexpr impl.
 #define ENDER_IMGUI
 
 namespace ender {

@@ -2,6 +2,8 @@
 
 #include <filesystem>
 
+#include <imgui\imgui.h>
+
 #include "../ender.hpp"
 #include "../utils/console.hpp"
 #include "../utils/internet.hpp"

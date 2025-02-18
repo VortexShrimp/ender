@@ -7,6 +7,7 @@
 namespace ender {
     /**
      * @brief Uses QueryPerformanceCounter to keep time.
+     * The timer starts when the object is created.
      */
     class high_resolution_timer {
     public:

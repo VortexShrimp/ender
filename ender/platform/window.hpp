@@ -8,7 +8,7 @@
 #include <windows.h>
 #include <directxmath.h>
 
-#include "../external/imgui/imgui.h"
+#include <imgui\imgui.h>
 
 #include "renderer.hpp"
 #include "../utils/timer.hpp"

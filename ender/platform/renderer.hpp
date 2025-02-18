@@ -7,7 +7,10 @@
 
 namespace ender {
     /**
-     * @brief Currently a d3d11 renderer.
+     * @brief Currently a d3d11 renderer that depends
+     * heavily on ImGui.
+     *
+     * The goal is to add many more renderers in the future.
      */
     class d3d11_renderer {
     public:

@@ -1,6 +1,8 @@
 #include "price_checker.hpp"
 
+// External libraries.
 #include <nlohmann\json.hpp>
+#include <imgui\imgui.h>
 
 // For debug printing.
 #include "../utils/console.hpp"

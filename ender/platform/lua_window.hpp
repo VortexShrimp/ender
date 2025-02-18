@@ -1,7 +1,7 @@
 #pragma once
 #include "window.hpp"
 
-#include "../external/sol/sol.hpp"
+#include <sol\sol.hpp>
 
 namespace ender {
     /**
@@ -35,6 +35,6 @@ namespace ender {
         void lua_bind_core_api();
         void lua_bind_imgui_api();
 
-        std::vector<ImFont*> m_imgui_fonts;
+        std::vector<struct ImFont*> m_imgui_fonts;
     };
 }  // namespace ender
