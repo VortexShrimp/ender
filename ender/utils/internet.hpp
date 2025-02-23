@@ -29,7 +29,7 @@ namespace ender {
         bool create(std::string_view user_agent = "WinHttpClient/1.0");
         void destroy();
 
-        using on_get_request_complete_callback = void (*)(std::string response, sol::state& state);
+        using request_complete_callback = void (*)(std::string response, sol::state& state);
 
         /**
          * @brief Make a get request to a url.
@@ -43,7 +43,7 @@ namespace ender {
         bool post(std::string_view url, std::string_view objects, std::string_view data,
                   std::string& response_out);
 
-        HINTERNET get_internet_handle() const;
+        HINTERNET internet_handle() const;
 
     private:
         HINTERNET m_internet;
@@ -59,18 +59,18 @@ namespace ender {
 
     /**
      * @brief
-     * @param url
-     * @param objects
-     * @param data String to post.
-     */
-    void post_request(std::string_view url, std::string_view objects, std::string_view data);
-
-    /**
-     * @brief
      * @param url Get request to url with callback.
      * @param objects
      * @param callback Called once the response is recieved.
      */
     void get_request_callback(std::string_view url, std::string_view objects,
                               std::function<void(std::string)> callback);
+
+    /**
+     * @brief
+     * @param url
+     * @param objects
+     * @param data String to post.
+     */
+    void post_request(std::string_view url, std::string_view objects, std::string_view data);
 }  // namespace ender

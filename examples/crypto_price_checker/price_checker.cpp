@@ -109,6 +109,7 @@ void crypto_price_checker::app_window::create_coin_table() {
 void crypto_price_checker::app_window::update_coin_table(int coin_index) {
     // https://www.coinlore.com/cryptocurrency-data-api#global
 
+    // Called if the GET request is successful.
     auto callback = [this](std::string http_response) {
         const nlohmann::json coin_data = nlohmann::json::parse(http_response);
         if (coin_data.empty() == true) {

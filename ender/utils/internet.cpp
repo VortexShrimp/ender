@@ -117,7 +117,7 @@ bool ender::internet::post(std::string_view url, std::string_view objects, std::
     return true;
 }
 
-HINTERNET ender::internet::get_internet_handle() const {
+HINTERNET ender::internet::internet_handle() const {
     return m_internet;
 }
 
@@ -136,7 +136,7 @@ std::string ender::get_request(std::string_view url, std::string_view objects) {
 void ender::post_request(std::string_view url, std::string_view objects, std::string_view data) {
     internet client = {};
     if (client.create() == true) {
-        std::string response;
+        std::string response = "";
         client.post(url, objects, data, response);
         client.destroy();
     }
@@ -144,10 +144,9 @@ void ender::post_request(std::string_view url, std::string_view objects, std::st
 
 void ender::get_request_callback(std::string_view url, std::string_view objects,
                                  std::function<void(std::string)> callback) {
-    std::string response = "";
-
     internet client = {};
     if (client.create() == true) {
+        std::string response = "";
         if (client.get(url, objects, response) == true) {
             if (response.empty() == false) {
                 callback(response);
