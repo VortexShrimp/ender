@@ -125,7 +125,7 @@
       <AdditionalDependencies>lua54.lib;d2d1.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)scripts\*" "$(OutDir)scripts\"</Command>
+      <Command>copy "$(ProjectDir)examples\crypto_price_checker\scripts\*" "$(OutDir)scripts\"</Command>
       <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
     </PostBuildEvent>
     <CustomBuildStep>
@@ -156,7 +156,7 @@
       <AdditionalDependencies>lua54.lib;d2d1.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)scripts\*" "$(OutDir)scripts\"</Command>
+      <Command>copy "$(ProjectDir)examples\crypto_price_checker\scripts\*" "$(OutDir)scripts\"</Command>
       <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
     </PostBuildEvent>
     <CustomBuildStep>
