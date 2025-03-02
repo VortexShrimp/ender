@@ -70,9 +70,12 @@ void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_nam
         }
     }
 
-    debug_print_formatted("Total scripts loaded -> {}\n", script_count);
+    if (script_count == 0) {
+        throw std::runtime_error(std::format("No scripts loaded from '{}'.\n", folder_name));
+    } else {
+        debug_print_formatted("Total scripts loaded -> {}\n", script_count);
+    }
 }
-
 void ender::lua_window::lua_bind_core_api() {
     // Print to the debug console. (if available)
     // debug_print("Hello from Lua!")

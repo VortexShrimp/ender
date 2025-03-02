@@ -29,8 +29,9 @@ void crypto_price_checker::render_frame_handler(ender::window* ctx) {
 }
 
 int crypto_price_checker::run_example() {
+    auto app = std::make_unique<app_window>();
+
     try {
-        auto app = std::make_unique<app_window>();
         if (app->create(create_handler, {.title = L"Price Checker",
                                          .class_name = L"cryto_miner",
                                          .width = 300,

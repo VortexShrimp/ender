@@ -1,5 +1,5 @@
 #pragma once
-#include "../../ender/platform/lua_window.hpp"
+#include "../../ender/platform/extensions/lua_window.hpp"
 #include "../../ender/utils/internet.hpp"
 
 namespace crypto_price_checker {
