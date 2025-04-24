@@ -1,9 +1,9 @@
 #pragma once
-#include "../window.hpp"
+#include "../platform/window.hpp"
 
 #include <sol\sol.hpp>
 
-namespace ender {
+namespace crypto_price_checker {
     /**
      * @brief Create a window with Lua state attached to it.
      *
@@ -11,7 +11,7 @@ namespace ender {
      * `ender::window`.
      *
      */
-    class lua_window : public window {
+    class lua_window : public ender::window {
     public:
         lua_window() : window() {
         }
@@ -37,4 +37,4 @@ namespace ender {
 
         std::vector<struct ImFont*> m_imgui_fonts;
     };
-}  // namespace ender
+}  // namespace crypto_price_checker

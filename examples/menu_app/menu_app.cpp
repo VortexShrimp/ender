@@ -27,6 +27,9 @@ bool menu_app::simple_window::on_create() noexcept {
 void menu_app::simple_window::on_render_frame_imgui() noexcept {
 #ifdef ENDER_IMGUI
     ImGui::ShowDemoWindow();
+
+    ImGui::GetBackgroundDrawList()->AddText(ImVec2(10, 10), IM_COL32(255, 255, 255, 255),
+                                            "Hello from ImGui!");
 #endif  // ENDER_IMGUI
 }
 

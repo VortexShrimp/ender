@@ -90,11 +90,6 @@ void ender::d3d11_renderer::render_frame() {
     ImGuiIO& io = ImGui::GetIO();
 
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-    }
-
 #endif  // ENDER_IMGUI
 
     HRESULT hr = m_swap_chain->Present(1, 0);

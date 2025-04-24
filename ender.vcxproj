@@ -179,7 +179,7 @@
     <ClCompile Include="ender\external\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_tables.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="ender\platform\extensions\lua_window.cpp" />
+    <ClCompile Include="examples\crypto_price_checker\lua_window.cpp" />
     <ClCompile Include="ender\utils\console.cpp" />
     <ClCompile Include="ender\utils\internet.cpp" />
     <ClCompile Include="ender\platform\renderer.cpp" />
@@ -424,7 +424,7 @@
     <ClInclude Include="ender\external\imgui\imstb_truetype.h" />
     <ClInclude Include="ender\external\xorstr\xorstr.hpp" />
     <ClInclude Include="ender\ender.hpp" />
-    <ClInclude Include="ender\platform\extensions\lua_window.hpp" />
+    <ClInclude Include="examples\crypto_price_checker\lua_window.hpp" />
     <ClInclude Include="ender\utils\console.hpp" />
     <ClInclude Include="ender\utils\internet.hpp" />
     <ClInclude Include="ender\platform\renderer.hpp" />

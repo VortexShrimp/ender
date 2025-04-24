@@ -118,13 +118,6 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         }
 
         case WM_DPICHANGED: {
-            if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DpiEnableScaleViewports) {
-                const RECT* suggested_rect = (RECT*)lparam;
-                SetWindowPos(hwnd, nullptr, suggested_rect->left, suggested_rect->top,
-                             suggested_rect->right - suggested_rect->left,
-                             suggested_rect->bottom - suggested_rect->top,
-                             SWP_NOZORDER | SWP_NOACTIVATE);
-            }
             break;
         }
 
@@ -186,17 +179,9 @@ bool ender::window::create(create_function on_create, window_details details) {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     io.IniFilename = NULL;  // Disable .ini config saving.
 
     ImGui::StyleColorsDark();
-
-    ImGuiStyle& style = ImGui::GetStyle();
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
-        style.WindowRounding = 0.0f;
-        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-    }
 
     ImGui_ImplWin32_Init(m_hwnd);
     ImGui_ImplDX11_Init(m_renderer->device(), m_renderer->device_context());

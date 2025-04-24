@@ -8,8 +8,8 @@
 #include "../utils/console.hpp"
 #include "../utils/internet.hpp"
 
-bool ender::lua_window::lua_create() {
-    debug_print_formatted("--- Lua Start ---\n");
+bool crypto_price_checker::lua_window::lua_create() {
+    ender::debug_print_formatted("--- Lua Start ---\n");
 
     // Initialize Lua context and bind ender functions.
     m_lua_state.open_libraries(sol::lib::base);
@@ -38,12 +38,12 @@ bool ender::lua_window::lua_create() {
     // Load all the script files in the folder specified.
     lua_load_scripts_from_folder("scripts");
 
-    debug_print_formatted("--- Lua End ---\n");
+    ender::debug_print_formatted("--- Lua End ---\n");
 
     return true;
 }
 
-void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_name) {
+void crypto_price_checker::lua_window::lua_load_scripts_from_folder(std::string_view folder_name) {
     int script_count = 0;
 
     // Create and loop through the script directory.
@@ -60,8 +60,8 @@ void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_nam
             // Load files with "lua" or "ender" extensions.
             if (entry_path.extension().compare(".lua") == 0 ||
                 entry_path.extension().compare(".ender") == 0) {
-                debug_print_formatted("- Loaded '{}' -> [{} bytes]\n",
-                                      entry_path.filename().string(), entry.file_size());
+                ender::debug_print_formatted("- Loaded '{}' -> [{} bytes]\n",
+                                             entry_path.filename().string(), entry.file_size());
                 // Load the script into Lua state.
                 m_lua_state.script_file(std::string(folder_name) + std::string("\\") +
                                         entry_path.filename().string());
@@ -73,20 +73,20 @@ void ender::lua_window::lua_load_scripts_from_folder(std::string_view folder_nam
     if (script_count == 0) {
         throw std::runtime_error(std::format("No scripts loaded from '{}'.\n", folder_name));
     } else {
-        debug_print_formatted("Total scripts loaded -> {}\n", script_count);
+        ender::debug_print_formatted("Total scripts loaded -> {}\n", script_count);
     }
 }
-void ender::lua_window::lua_bind_core_api() {
+void crypto_price_checker::lua_window::lua_bind_core_api() {
     // Print to the debug console. (if available)
     // debug_print("Hello from Lua!")
-    m_lua_state["debug_print"] = debug_print_raw;
+    m_lua_state["debug_print"] = ender::debug_print_raw;
 
     // Does a (blocking) get request.
     // local response = get_request("url.com", "/todos/1")
-    m_lua_state["get_request"] = get_request;
+    m_lua_state["get_request"] = ender::get_request;
 }
 
-void ender::lua_window::lua_bind_imgui_api() {
+void crypto_price_checker::lua_window::lua_bind_imgui_api() {
     // ImGui window rendering functions.
     m_lua_state["imgui_set_next_window_collapsed"] = [](bool collapsed) {
         ImGui::SetNextWindowCollapsed(collapsed);

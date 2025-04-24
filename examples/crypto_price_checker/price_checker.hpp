@@ -1,5 +1,5 @@
 #pragma once
-#include "../../ender/platform/extensions/lua_window.hpp"
+#include "lua_window.hpp"
 #include "../../ender/utils/internet.hpp"
 
 namespace crypto_price_checker {
@@ -8,7 +8,7 @@ namespace crypto_price_checker {
     bool process_events_handler(ender::window* ctx);
     void render_frame_handler(ender::window* ctx);
 
-    class app_window : public ender::lua_window {
+    class app_window : public lua_window {
     public:
         app_window() : m_page_number(0), m_coin_id(90), lua_window() {
         }
