@@ -1,8 +1,5 @@
 #include "internet.hpp"
 
-#include <thread>
-#include <memory>
-
 #include "console.hpp"
 
 ender::internet::~internet() {

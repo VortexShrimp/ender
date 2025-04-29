@@ -1,14 +1,12 @@
 #pragma once
 #include <string>
-#include <vector>
+#include <functional>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif  // !WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <wininet.h>
-
-#include <sol\sol.hpp>
 
 #include "timer.hpp"
 
@@ -28,8 +26,6 @@ namespace ender {
 
         bool create(std::string_view user_agent = "WinHttpClient/1.0");
         void destroy();
-
-        using request_complete_callback = void (*)(std::string response, sol::state& state);
 
         /**
          * @brief Make a get request to a url.
