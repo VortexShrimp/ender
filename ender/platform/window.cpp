@@ -50,8 +50,16 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
         return true;
     }
-
 #endif  // ENDER_IMGUI
+
+    auto imgui_wants_focus = []() -> bool {
+#ifdef ENDER_IMGUI
+        return ImGui::GetIO().WantCaptureMouse == true ||
+               ImGui::GetIO().WantCaptureKeyboard == true;
+#else
+        return false;
+#endif  // ENDER_IMGUI
+    };
 
     // Get the window data for this window from the map.
     ender::internal_window_data& window_data = s_window_data[hwnd];
@@ -118,6 +126,49 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
             break;
         }
 
+        case WM_LBUTTONDOWN: {
+            if (window_data.style == ender::window_style::borderless) {
+                POINT mouse_position = {LOWORD(lparam), HIWORD(lparam)};
+
+                // if (mouse_position.y < 100) {
+                // Start dragging the window.
+                window_data.is_dragging = true;
+                window_data.drag_start.x = mouse_position.x;
+                window_data.drag_start.y = mouse_position.y;
+                SetCapture(hwnd);
+                //}
+            }
+
+            break;
+        }
+
+        case WM_MOUSEMOVE: {
+            if (window_data.style == ender::window_style::borderless) {
+                if (window_data.is_dragging == true) {
+                    // Move the window.
+                    POINT current_pos = {LOWORD(lparam), HIWORD(lparam)};
+                    POINT delta = {current_pos.x - window_data.drag_start.x,
+                                   current_pos.y - window_data.drag_start.y};
+                    RECT rc;
+                    GetWindowRect(hwnd, &rc);
+                    SetWindowPos(hwnd, nullptr, rc.left + delta.x, rc.top + delta.y, 0, 0,
+                                 SWP_NOZORDER | SWP_NOSIZE);
+                }
+            }
+
+            break;
+        }
+
+        case WM_LBUTTONUP: {
+            if (window_data.style == ender::window_style::borderless) {
+                // Stop dragging the window.
+                window_data.is_dragging = false;
+                ReleaseCapture();
+            }
+
+            break;
+        }
+
         case WM_DPICHANGED: {
             break;
         }
@@ -153,8 +204,18 @@ bool ender::window::on_create(window_details details) {
         return false;
     }
 
-    m_hwnd = CreateWindowW(wcex.lpszClassName, details.title.data(), WS_OVERLAPPEDWINDOW, 100, 100,
-                           details.width, details.height, nullptr, nullptr, m_instance, nullptr);
+    DWORD style = {};
+    switch (details.style) {
+        case window_style::resizable:
+            style = WS_OVERLAPPEDWINDOW;
+            break;
+        case window_style::borderless:
+            style = WS_POPUP;
+            break;
+    }
+
+    m_hwnd = CreateWindowW(wcex.lpszClassName, details.title.data(), style, 100, 100, details.width,
+                           details.height, nullptr, nullptr, m_instance, nullptr);
     if (m_hwnd == nullptr) {
         debug_print_formatted("[error] Failed to create window class. Last error -> {}\n",
                               GetLastError());
@@ -192,6 +253,9 @@ bool ender::window::on_create(window_details details) {
     s_window_data[m_hwnd] = internal_window_data{.window = this,
                                                  .resize_width = 0,
                                                  .resize_height = 0,
+                                                 .style = details.style,
+                                                 .is_dragging = false,
+                                                 .drag_start = {0, 0},
                                                  .on_message_create = details.on_message_create,
                                                  .on_message_destroy = details.on_message_destroy,
                                                  .on_message_close = details.on_message_close};

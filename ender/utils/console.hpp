@@ -75,9 +75,9 @@ namespace ender {
      *
      * @warning You shouldn't use this. It's here to expose the console for debug_print_formatted.
      *
-     * @return Pointer to internal console class.
+     * @return
      */
-    console& debug_console();
+    console& debug_console_instance();
 
     /**
      * @brief Access the internal debug console's mutex.
@@ -95,7 +95,7 @@ namespace ender {
     inline void debug_print_raw(std::string_view text) {
         if constexpr (is_debug_build() == true) {
             std::lock_guard lock(debug_console_mutex());
-            debug_console().print_raw(text);
+            debug_console_instance().print_raw(text);
         }
     }
 
@@ -115,7 +115,7 @@ namespace ender {
     inline void debug_print_formatted(std::string_view format, Args... args) {
         if constexpr (is_debug_build() == true) {
             std::lock_guard lock(debug_console_mutex());
-            debug_console().print_formatted(format, args...);
+            debug_console_instance().print_formatted(format, args...);
         }
     }
 }  // namespace ender

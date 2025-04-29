@@ -86,12 +86,11 @@ std::wstring ender::console::multibyte_to_unicode(std::string_view multibyte_tex
     return converted_text;
 }
 
-auto ender::debug_console() -> console& {
+auto ender::debug_console_instance() -> console& {
     static ender::console s_debug_console;
 
     // Create the console once.
-    static bool once = true;
-    if (once == true) {
+    if (static bool once = true; once == true) {
         s_debug_console = {};
         s_debug_console.create();
         s_debug_console.set_title("debug console");

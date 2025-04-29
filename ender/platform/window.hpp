@@ -28,6 +28,20 @@
 #define ENDER_OVERRIDE
 
 namespace ender {
+    enum class window_style {
+        /**
+         * @brief A normal window with a title bar and close button.
+         */
+        resizable,
+
+        /**
+         * @brief A borderless window with no title bar or close button.
+         * @note This window uses custom 'dragging' logic which might
+         * interfere with ImGUI.
+         */
+        borderless
+    };
+
     /**
      * @brief Spawn a platform window.
      *
@@ -44,6 +58,8 @@ namespace ender {
         struct window_details {
             std::wstring_view title;
             std::wstring_view class_name;
+
+            window_style style;
 
             int width;
             int height;
@@ -128,6 +144,10 @@ namespace ender {
 
         UINT resize_width;
         UINT resize_height;
+
+        window_style style;
+        bool is_dragging;
+        POINT drag_start;
 
         window::message_create_function on_message_create;
         window::message_destroy_function on_message_destroy;
