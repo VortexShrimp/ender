@@ -1,6 +1,6 @@
 #include "simple_window.hpp"
 
-#include "../utils/console.hpp"
+#include "../ender.hpp"
 
 #include <imgui\imgui.h>
 
@@ -18,32 +18,32 @@ bool examples::simple_window::create(window_details details) noexcept {
 }
 
 bool examples::simple_window::destroy() noexcept {
-    ender::debug_print_raw("[simple_window] Shutting down.\n");
+    // Free your custom window code here
+    // ...
 
     return window::on_destroy();
 }
 
 bool examples::simple_window::process_events() noexcept {
-    return window::on_process_events();
+    const bool should_run = window::on_process_events();
+
+    // Custom processing here
+    // ...
+
+    return should_run;
 }
 
 void examples::simple_window::render_frame() noexcept {
     window::on_pre_render_frame();
+
+    // Your custom render code here
+    // ...
 
 #ifdef ENDER_IMGUI
     ImGui::ShowDemoWindow(&m_is_running);
 
     ImGui::GetBackgroundDrawList()->AddText(ImVec2(10, 10), IM_COL32(255, 255, 255, 255),
                                             "Hello from ImGui!");
-
-    // Use these settings with borderless windows.
-    // auto [x, y] = get_client_size();
-    // ImGui::SetNextWindowSize({static_cast<float>(x), static_cast<float>(y)});
-    // ImGui::SetNextWindowPos({0, 0});
-    // ImGui::Begin("Hello from ImGui!", &m_is_running,
-    //              ImGuiWindowFlags_NoResize | ImGuiWindowFlags_None |
-    //              ImGuiWindowFlags_NoCollapse);
-    // ImGui::End();
 #endif  // ENDER_IMGUI
 
     window::on_post_render_frame();
@@ -51,7 +51,6 @@ void examples::simple_window::render_frame() noexcept {
 
 int examples::run_simple_window() {
     // Create and run the window.
-    // You can put more windows in seperate threads...
     auto app = std::make_unique<simple_window>();
     if (app->create({.title = L"simple window (example)",
                      .class_name = L"simple_window",

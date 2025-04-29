@@ -1,5 +1,4 @@
 #include <windows.h>
-#include <thread>
 
 // Include the examples.
 #include "simple_window\simple_window.hpp"

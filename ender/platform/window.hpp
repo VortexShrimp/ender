@@ -132,7 +132,7 @@ namespace ender {
         ATOM m_wcex;           // Window class ATOM.
         HINSTANCE m_instance;  // Instance (if any) that the window belongs to.
 
-        high_resolution_timer m_timer;
+        timer_complex m_timer;  // Timer for the window.
     };
 
     /**

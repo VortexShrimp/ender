@@ -3,12 +3,10 @@
 
 namespace examples {
     /*
-     * @brief Simple window example.
+     * @brief Simple window class example.
      *
-     * This is an extremely simple window that uses the ender::window class.
-     * It shows you how to create a window and render with ImGUI.
-     *
-     * @note This can be used as a boilerplate template for the framework.
+     * One of the simplest possible implementations of ender::window.
+     * This can be used as a boilerplate template for the framework.
      */
     class simple_window final : public ender::window {
     public:

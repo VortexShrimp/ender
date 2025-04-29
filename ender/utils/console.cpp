@@ -6,6 +6,7 @@ ender::console::~console() {
 
 bool ender::console::create() {
     if (AllocConsole() == FALSE) {
+        error_message_box("Failed to allocate console.");
         return false;
     }
 
@@ -43,10 +44,10 @@ void ender::console::set_title(std::string_view new_title) {
     SetConsoleTitle(multibyte_to_unicode(new_title).c_str());
 }
 
-std::wstring_view ender::console::get_title() {
+std::string_view ender::console::get_title() {
     wchar_t buffer[256];
     GetConsoleTitle(buffer, 256);
-    return buffer;
+    return unicode_to_multibyte(buffer);
 }
 
 std::string ender::console::unicode_to_multibyte(std::wstring_view unicode_text) {

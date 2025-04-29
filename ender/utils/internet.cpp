@@ -25,7 +25,7 @@ void ender::internet::destroy() {
 
 bool ender::internet::get(std::string_view url, std::string_view objects,
                           std::string& response_out) {
-    ender::high_resolution_timer request_timer = {};
+    timer_basic request_timer = {};
 
     const HINTERNET connect = InternetConnectA(m_internet, url.data(), INTERNET_DEFAULT_HTTP_PORT,
                                                NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);
@@ -66,7 +66,7 @@ bool ender::internet::get(std::string_view url, std::string_view objects,
     InternetCloseHandle(connect);
 
     debug_print_formatted("[http] Get request to '{}' completed in {} seconds.\n", url,
-                          request_timer.elapsed_time_seconds());
+                          request_timer.time_elapsed_seconds());
 
     return true;
 }

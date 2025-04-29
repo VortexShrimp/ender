@@ -1,3 +1,8 @@
+/**
+ * @file console.hpp
+ * @brief Console utility functions and API.
+ */
+
 #pragma once
 #include <string>
 #include <format>
@@ -11,6 +16,12 @@
 #include "../ender.hpp"
 
 namespace ender {
+    /**
+     * @brief Console class for debug output.
+     *
+     * @note This class by itself is not thread-safe. Use the helper functions below to print
+     * safely.
+     */
     class console {
     public:
         console() : m_output(nullptr), m_input(nullptr) {
@@ -19,9 +30,13 @@ namespace ender {
 
         /**
          * @brief Allocates and initializes the console.
-         * @return
+         * @return True if the console was created successfully.
          */
         bool create();
+
+        /**
+         * @brief Free the console and its resources.
+         */
         void destroy();
 
         /**
@@ -31,14 +46,20 @@ namespace ender {
          * @param ...args
          */
         template <typename... Args>
-        void print_formatted(std::string_view format, Args&&... args);
+        inline void print_formatted(std::string_view format, Args&&... args);
+
+        /**
+         * @brief Print directly to the console output buffer.
+         * @param text Message to print.
+         */
+        void print_raw(std::string_view text) noexcept;
 
         /**
          * @brief Change the console window title. Must be called after create().
          * @param new_title
          */
         void set_title(std::string_view new_title);
-        std::wstring_view get_title();
+        std::string_view get_title();
 
         /**
          * @brief Converts wstring to string.
@@ -47,15 +68,6 @@ namespace ender {
          */
         static std::string unicode_to_multibyte(std::wstring_view unicode_text);
         static std::wstring multibyte_to_unicode(std::string_view multibyte_text);
-
-        /**
-         * @brief Print directly to the console output buffer.
-         *
-         * Multibyte text is converted to Unicode just before its printed.
-         *
-         * @param text
-         */
-        void print_raw(std::string_view text) noexcept;
 
     private:
         HANDLE m_output;
@@ -70,27 +82,24 @@ namespace ender {
     }
 
     /**
-     * @brief Access the debug console singleton.
-     * The console is created the fist time this function is called.
+     * @brief Direct access to the internal debug console.
+     * @return Reference to the console singleton instance.
      *
-     * @warning You shouldn't use this. It's here to expose the console for debug_print_formatted.
-     *
-     * @return
+     * @warning Do not use this! It is here to expose the console for helper functions.
      */
     console& debug_console_instance();
 
     /**
-     * @brief Access the internal debug console's mutex.
+     * @brief Direct access to the internal debug console's mutex.
+     * @return Reference to the console's mutex.
      *
-     * @warning You shouldn't use this. It's here to expose the console for debug_print_formatted.
-     *
-     * @return
+     * @warning Do not use this! It is here to expose the console for helper functions.
      */
     std::mutex& debug_console_mutex();
 
     /**
-     * @brief Directly prints to the debug console's buffer. Useful for lua binding.
-     * @param text
+     * @brief Directly prints to the debug console's buffer during debug builds.
+     * @param text Message to print.
      */
     inline void debug_print_raw(std::string_view text) {
         if constexpr (is_debug_build() == true) {
@@ -100,13 +109,7 @@ namespace ender {
     }
 
     /**
-     * @brief Print to the debug console with formatting.
-     *
-     * If compiled, creates a console on first use. Does not compile in debug mode.
-     *
-     * @todo Pass rvalues instead of copies?
-     * `Args...` -> `Args&&...`.
-     *
+     * @brief Prints formatted text to the debug console's buffer during debug builds.
      * @tparam ...Args
      * @param format
      * @param ...args
