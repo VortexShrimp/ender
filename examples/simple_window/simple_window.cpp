@@ -4,7 +4,7 @@
 
 #include <imgui\imgui.h>
 
-bool examples::simple_window::create(window_details details) noexcept {
+bool examples::simple_window::simple_window::create(window_details details) noexcept {
     const bool result = window::on_create(details);
 
     ender::debug_print_raw("[simple_window] Created successfully.");
@@ -15,21 +15,18 @@ bool examples::simple_window::create(window_details details) noexcept {
     return result;
 }
 
-bool examples::simple_window::destroy() noexcept {
+bool examples::simple_window::simple_window::destroy() noexcept {
     ender::debug_print_raw("[simple_window] Shutting down.");
 
     return window::on_destroy();
 }
 
-bool examples::simple_window::process_events() noexcept {
+bool examples::simple_window::simple_window::process_events() noexcept {
     return window::on_process_events();
 }
 
-void examples::simple_window::render_frame() noexcept {
+void examples::simple_window::simple_window::render_frame() noexcept {
     window::on_pre_render_frame();
-
-    // Custom rendering code here
-    // ...
 
 #ifdef ENDER_IMGUI
     ImGui::ShowDemoWindow();
@@ -41,12 +38,12 @@ void examples::simple_window::render_frame() noexcept {
     window::on_post_render_frame();
 }
 
-int examples::run_simple_window() noexcept {
+int examples::simple_window::run_example() {
     // Create and run the window.
     // You can put more windows in seperate threads...
     auto app = std::make_unique<simple_window>();
-    if (app->create({.title = L"simple window (example)",
-                     .class_name = L"simple_window",
+    if (app->create({.title = L"menu app",
+                     .class_name = L"menu_app",
                      .width = 1280,
                      .height = 720,
                      .on_message_create = nullptr,

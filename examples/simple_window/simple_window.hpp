@@ -1,12 +1,12 @@
 #pragma once
 #include "../platform/window.hpp"
 
-namespace examples {
+namespace examples::simple_window {
     /*
      * @brief Simple window example.
      *
      * This is an extremely simple window that uses the ender::window class.
-     * It illustrates how to create a window and render with ImGui.
+     * It shows how to create a window and render a frame with ImGui.
      *
      * @note This can be used as a boilerplate example for the ender framework.
      */
@@ -21,5 +21,5 @@ namespace examples {
         void render_frame() noexcept;
     };
 
-    int run_simple_window() noexcept;
-}  // namespace examples
+    int run_example();
+}  // namespace examples::simple_window
