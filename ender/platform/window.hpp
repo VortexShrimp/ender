@@ -13,6 +13,20 @@
 #include "renderer.hpp"
 #include "../utils/timer.hpp"
 
+/**
+ * @brief Used to denote that a function should be overridden.
+ *
+ * The `ender::window` should be inheretted and must have its own
+ * copies of the functions that are marked with this macro.
+ *
+ * In those copies, the original function must be called. For
+ * example `my_window::on_create()` should call `ender::window::on_create()`
+ * before running its own logic.
+ *
+ * @note This macro does nothing. It's just a marker for API users.
+ */
+#define ENDER_OVERRIDE
+
 namespace ender {
     /**
      * @brief Spawn a platform window.
@@ -25,12 +39,7 @@ namespace ender {
     public:
         using message_create_function = void (*)();
         using message_destroy_function = void (*)();
-        using message_close_function = bool (*)(window* game);  // Return true to confirm exit.
-
-        using create_function = bool (*)(window* game);
-        using destroy_function = void (*)(window* game);
-        using process_events_function = bool (*)(window* game);
-        using render_frame_function = void (*)(window* game);
+        using message_close_function = bool (*)(window* app);  // Return true to confirm exit.
 
         struct window_details {
             std::wstring_view title;
@@ -53,41 +62,36 @@ namespace ender {
               m_timer() {
         }
 
+    protected:
         /**
          * @brief Creates the window and renderer.
-         * @param on_create Callback called after successful window creation.
          * @param details Parameters for the window.
          * @return True on success.
          */
-        bool create(create_function on_create, window_details details);
+        ENDER_OVERRIDE bool on_create(window_details details);
 
         /**
-         * @brief
-         * @param on_destroy Called before internal resources are destroyed.
-         * @return
+         * @brief Destroys the window and frees its resources.
+         * @return True on success.
          */
-        bool destroy(destroy_function on_destroy);
+        ENDER_OVERRIDE bool on_destroy();
 
         /**
-         * @brief
-         * @param on_process_input Called after system handles messages.
-         * @return True to keep the game running.
+         * @brief Processes the window messages.
+         * @return True if the window should continue running.
          */
-        bool process_events(process_events_function on_process_events);
+        ENDER_OVERRIDE bool on_process_events();
 
-        /**
-         * @brief
-         * @param on_render_frame
-         */
-        void render_frame(render_frame_function on_render_frame);
+        ENDER_OVERRIDE void on_pre_render_frame();
+
+        ENDER_OVERRIDE void on_post_render_frame();
 
         /**
          * @brief Is the window supposed to be running?
-         * @return True if the window should run.
+         * @return
          */
         bool is_running() const noexcept;
 
-    protected:
         bool set_title(std::wstring_view new_title);
         std::wstring_view get_title() const;
 
@@ -98,12 +102,12 @@ namespace ender {
         DirectX::XMINT2 get_client_size() const noexcept;
 
         /**
-         * @brief Size of entire window.
+         * @brief Size of entire window on the OS.
          * @return
          */
         DirectX::XMINT2 get_window_size() const noexcept;
 
-        float delta_time();
+        float get_delta_time_seconds();
 
         bool m_is_running;
         std::unique_ptr<d3d11_renderer> m_renderer;

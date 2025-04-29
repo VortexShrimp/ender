@@ -92,11 +92,12 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
                     if (choice == IDYES) {
                         DestroyWindow(hwnd);
                         break;
-                    } else {
+                    } else {  // Keep running because user selected no.
                         break;
                     }
                 }
             }
+
             DestroyWindow(hwnd);
             break;
         }
@@ -128,7 +129,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     return 0;
 }
 
-bool ender::window::create(create_function on_create, window_details details) {
+bool ender::window::on_create(window_details details) {
     m_instance = nullptr;
 
     WNDCLASSEXW wcex = {};
@@ -196,19 +197,10 @@ bool ender::window::create(create_function on_create, window_details details) {
                                                  .on_message_close = details.on_message_close};
     m_is_running = true;
 
-    // If callback exists, return based on it.
-    if (on_create != nullptr) {
-        return on_create(this);
-    }
-
     return m_is_running;
 }
 
-bool ender::window::destroy(destroy_function on_destroy) {
-    if (on_destroy != nullptr) {
-        on_destroy(this);
-    }
-
+bool ender::window::on_destroy() {
 #ifdef ENDER_IMGUI
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
@@ -229,7 +221,7 @@ bool ender::window::destroy(destroy_function on_destroy) {
     return true;
 }
 
-bool ender::window::process_events(process_events_function on_handle_events) {
+bool ender::window::on_process_events() {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
@@ -240,14 +232,10 @@ bool ender::window::process_events(process_events_function on_handle_events) {
         }
     }
 
-    if (on_handle_events != nullptr) {
-        return on_handle_events(this);
-    }
-
     return m_is_running;
 }
 
-void ender::window::render_frame(render_frame_function on_render_frame) {
+void ender::window::on_pre_render_frame() {
     if (m_is_running == false) {
         return;
     }
@@ -264,9 +252,15 @@ void ender::window::render_frame(render_frame_function on_render_frame) {
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 #endif  // ENDER_IMGUI
+}
 
-    if (on_render_frame != nullptr) {
-        on_render_frame(this);
+void ender::window::on_post_render_frame() {
+    if (m_is_running == false) {
+        return;
+    }
+
+    if (m_renderer->is_swapchain_occluded() == false) {
+        return;
     }
 
     m_renderer->render_frame();
@@ -298,6 +292,6 @@ auto ender::window::get_window_size() const noexcept -> DirectX::XMINT2 {
     return {rect.right - rect.left, rect.bottom - rect.top};
 }
 
-float ender::window::delta_time() {
+float ender::window::get_delta_time_seconds() {
     return m_timer.delta_time_seconds();
 }

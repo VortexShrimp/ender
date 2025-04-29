@@ -8,7 +8,7 @@
 namespace ender {
     /**
      * @brief Currently a d3d11 renderer that depends
-     * heavily on ImGui.
+     * heavily on ImGui's architecture.
      *
      * The goal is to add many more renderers in the future.
      */
@@ -50,6 +50,11 @@ namespace ender {
         bool m_is_swap_chain_occluded;
     };
 
+    /**
+     * @brief Direct2D renderer.
+     *
+     * Currently work-in-progress.
+     */
     class direct2d_renderer {
     public:
         direct2d_renderer() : m_factory(nullptr), m_render_target(nullptr), m_brush(nullptr) {

@@ -169,8 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ender\ender.cpp" />
-    <ClCompile Include="examples\crypto_price_checker\price_checker.cpp" />
-    <ClCompile Include="examples\menu_app\menu_app.cpp" />
+    <ClCompile Include="examples\simple_window\simple_window.cpp" />
     <ClCompile Include="ender\external\imgui\imgui.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_demo.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_draw.cpp" />
@@ -179,7 +178,6 @@
     <ClCompile Include="ender\external\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_tables.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="examples\crypto_price_checker\lua_window.cpp" />
     <ClCompile Include="ender\utils\console.cpp" />
     <ClCompile Include="ender\utils\internet.cpp" />
     <ClCompile Include="ender\platform\renderer.cpp" />
@@ -356,8 +354,7 @@
     <ClInclude Include="ender\external\sol\variadic_results.hpp" />
     <ClInclude Include="ender\external\sol\version.hpp" />
     <ClInclude Include="ender\external\sol\wrapper.hpp" />
-    <ClInclude Include="examples\crypto_price_checker\price_checker.hpp" />
-    <ClInclude Include="examples\menu_app\menu_app.hpp" />
+    <ClInclude Include="examples\simple_window\simple_window.hpp" />
     <ClInclude Include="ender\external\freetype\config\ftconfig.h" />
     <ClInclude Include="ender\external\freetype\config\ftheader.h" />
     <ClInclude Include="ender\external\freetype\config\ftmodule.h" />
@@ -424,7 +421,6 @@
     <ClInclude Include="ender\external\imgui\imstb_truetype.h" />
     <ClInclude Include="ender\external\xorstr\xorstr.hpp" />
     <ClInclude Include="ender\ender.hpp" />
-    <ClInclude Include="examples\crypto_price_checker\lua_window.hpp" />
     <ClInclude Include="ender\utils\console.hpp" />
     <ClInclude Include="ender\utils\internet.hpp" />
     <ClInclude Include="ender\platform\renderer.hpp" />

@@ -3,20 +3,31 @@ A Windows GUI framework for modern C++ with a focus on simplicity,
 elegance and efficiency. Various usage examples can be found in
 [`ender/examples`](https://github.com/VortexShrimp/ender/tree/master/examples).
 
+## About
+Anyone who regularly uses C++ will eventually run into the problem of
+Desktop Application GUI development. The options are limited and the
+available libraries are often bloated, outdated or just plain difficult to
+use.
+
 <img src="data/logo.png" align="left" width="350px"/>
 
 ### Requirements
+
 - 64-Bit Windows & DirectX 11
 - C++ Build Tools (Visual Studio 2022)
 - Source Dependencies [[`ender/lib`](https://github.com/VortexShrimp/ender/tree/master/ender/lib)]
+
 ### Building Examples
+
 1. `git clone https://github.com/VortexShrimp/ender.git`
 2. Open `ender.sln` in Visual Studio
 3. Build as `x64` -> `Release` or `Debug`
 4. Find `ender.exe` in `ender/build/x64` by default
+
 <br clear="left"/>
 
 ### Roadmap
+
 - [ ] **[Almost Complete]** Debug console logging system.
 - [ ] **[Almost Complete]** Consistent error or exception handling system.
 - [ ] **[In Progress]** File handling system for configurations, scripting and more.

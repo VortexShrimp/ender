@@ -3,12 +3,14 @@
 
 // Include the examples.
 #include "crypto_price_checker\price_checker.hpp"
-#include "menu_app\menu_app.hpp"
+#include "simple_window\simple_window.hpp"
 
 // Example Windows entry point.
 INT WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR cmd_line, INT cmd_show) {
+    // Requires updating...
     // crypto_price_checker::run_example();
-    menu_app::run_example();
+
+    examples::simple_window::run_example();
 
     return 1;
 }

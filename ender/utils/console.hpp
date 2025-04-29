@@ -93,11 +93,9 @@ namespace ender {
      * @param text
      */
     inline void debug_print_raw(std::string_view text) {
-        {
-            if constexpr (is_debug_build() == true) {
-                std::lock_guard lock(debug_console_mutex());
-                debug_console().print_raw(text);
-            }
+        if constexpr (is_debug_build() == true) {
+            std::lock_guard lock(debug_console_mutex());
+            debug_console().print_raw(text);
         }
     }
 

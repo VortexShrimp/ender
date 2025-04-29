@@ -7,6 +7,7 @@
 #include "../external/imgui/imgui_impl_dx11.h"
 #include "../external/imgui/imgui_impl_win32.h"
 
+// TODO: Use templates instead of macros.
 #define SAFE_RELEASE(ptr) \
     if (ptr) {            \
         ptr->Release();   \
