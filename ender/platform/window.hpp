@@ -36,8 +36,7 @@ namespace ender {
 
         /**
          * @brief A borderless window with no title bar or close button.
-         * @note This window uses custom 'dragging' logic which might
-         * interfere with ImGUI.
+         * Currently non-resizable.
          */
         borderless
     };

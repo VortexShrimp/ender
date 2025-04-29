@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <array>
 
 #include <d2d1.h>
 #include <d3d11.h>
@@ -27,7 +28,7 @@ namespace ender {
         bool create(HWND hwnd);
         bool destroy();
 
-        void render_frame();
+        void render_frame(std::array<float, 4> clear_color = m_default_clear_color);
 
         bool is_swapchain_occluded();
         void set_swap_chain_occluded(bool is_occluded);
@@ -38,6 +39,8 @@ namespace ender {
         ID3D11DeviceContext* device_context() const noexcept;
 
     private:
+        constexpr static std::array<float, 4> m_default_clear_color = {0.2f, 0.2f, 0.2f, 1.0f};
+
         bool create_render_target();
 
         ID3D11Device* m_device;

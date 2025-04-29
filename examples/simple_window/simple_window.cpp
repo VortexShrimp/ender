@@ -7,7 +7,9 @@
 bool examples::simple_window::create(window_details details) noexcept {
     const bool result = window::on_create(details);
 
-    ender::debug_print_raw("[simple_window] Created successfully.\n");
+    ImFont* font =
+        ImGui::GetIO().Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 22.0f);
+    ImGui::GetIO().FontDefault = font;
 
     // Your custom init code here
     // ...

@@ -54,8 +54,10 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
 
     auto imgui_wants_focus = []() -> bool {
 #ifdef ENDER_IMGUI
-        return ImGui::GetIO().WantCaptureMouse == true ||
-               ImGui::GetIO().WantCaptureKeyboard == true;
+        // Check if ImGui wants to capture the mouse.
+        // This is used to determine whether to move the ImGui window, or OS
+        // window when borderless window style is used.
+        return ImGui::GetIO().WantCaptureMouseUnlessPopupClose == true;
 #else
         return false;
 #endif  // ENDER_IMGUI
@@ -127,7 +129,8 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         }
 
         case WM_LBUTTONDOWN: {
-            if (window_data.style == ender::window_style::borderless) {
+            if (window_data.style == ender::window_style::borderless &&
+                imgui_wants_focus() == false) {
                 POINT mouse_position = {LOWORD(lparam), HIWORD(lparam)};
 
                 // if (mouse_position.y < 100) {
@@ -143,7 +146,8 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         }
 
         case WM_MOUSEMOVE: {
-            if (window_data.style == ender::window_style::borderless) {
+            if (window_data.style == ender::window_style::borderless &&
+                imgui_wants_focus() == false) {
                 if (window_data.is_dragging == true) {
                     // Move the window.
                     POINT current_pos = {LOWORD(lparam), HIWORD(lparam)};
@@ -160,7 +164,8 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         }
 
         case WM_LBUTTONUP: {
-            if (window_data.style == ender::window_style::borderless) {
+            if (window_data.style == ender::window_style::borderless &&
+                imgui_wants_focus() == false) {
                 // Stop dragging the window.
                 window_data.is_dragging = false;
                 ReleaseCapture();
@@ -185,7 +190,7 @@ bool ender::window::on_create(window_details details) {
 
     WNDCLASSEXW wcex = {};
     wcex.cbSize = sizeof(wcex);
-    wcex.style = CS_CLASSDC;
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
     wcex.lpfnWndProc = ender_wndproc_dispatch;
     wcex.cbClsExtra = 0L;
     wcex.cbWndExtra = 0L;
@@ -213,6 +218,9 @@ bool ender::window::on_create(window_details details) {
             style = WS_POPUP;
             break;
     }
+
+    // To make transparent windows, set exteneded style to WS_EX_LAYERED.
+    // SetLayeredWindowAttributes(m_hwnd, RGB(0, 0, 0), 255, LWA_COLORKEY);
 
     m_hwnd = CreateWindowW(wcex.lpszClassName, details.title.data(), style, 100, 100, details.width,
                            details.height, nullptr, nullptr, m_instance, nullptr);

@@ -75,17 +75,13 @@ bool ender::d3d11_renderer::is_swapchain_occluded() {
            m_swap_chain->Present(0, DXGI_PRESENT_TEST) != DXGI_STATUS_OCCLUDED;
 }
 
-void ender::d3d11_renderer::render_frame() {
+void ender::d3d11_renderer::render_frame(std::array<float, 4> clear_color) {
 #ifdef ENDER_IMGUI
     ImGui::Render();
 #endif  // ENDER_IMGUI
 
-    constexpr ImVec4 clear_color = ImVec4(0.2f, 0.2f, 0.2f, 1.00f);
-    const float clear_color_with_alpha[4] = {clear_color.x * clear_color.w,
-                                             clear_color.y * clear_color.w,
-                                             clear_color.z * clear_color.w, clear_color.w};
     m_device_context->OMSetRenderTargets(1, &m_render_target_view, nullptr);
-    m_device_context->ClearRenderTargetView(m_render_target_view, clear_color_with_alpha);
+    m_device_context->ClearRenderTargetView(m_render_target_view, clear_color.data());
 
 #ifdef ENDER_IMGUI
     ImGuiIO& io = ImGui::GetIO();
