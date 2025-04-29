@@ -1,7 +1,7 @@
 #pragma once
 #include "../platform/window.hpp"
 
-namespace examples::simple_window {
+namespace examples {
     /*
      * @brief Simple window example.
      *
@@ -21,5 +21,5 @@ namespace examples::simple_window {
         void render_frame() noexcept;
     };
 
-    int run_example();
-}  // namespace examples::simple_window
+    int run_simple_window();
+}  // namespace examples

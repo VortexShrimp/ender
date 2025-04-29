@@ -4,7 +4,7 @@
 
 #include <imgui\imgui.h>
 
-bool examples::simple_window::simple_window::create(window_details details) noexcept {
+bool examples::simple_window::create(window_details details) noexcept {
     const bool result = window::on_create(details);
 
     ender::debug_print_raw("[simple_window] Created successfully.");
@@ -15,17 +15,17 @@ bool examples::simple_window::simple_window::create(window_details details) noex
     return result;
 }
 
-bool examples::simple_window::simple_window::destroy() noexcept {
+bool examples::simple_window::destroy() noexcept {
     ender::debug_print_raw("[simple_window] Shutting down.");
 
     return window::on_destroy();
 }
 
-bool examples::simple_window::simple_window::process_events() noexcept {
+bool examples::simple_window::process_events() noexcept {
     return window::on_process_events();
 }
 
-void examples::simple_window::simple_window::render_frame() noexcept {
+void examples::simple_window::render_frame() noexcept {
     window::on_pre_render_frame();
 
 #ifdef ENDER_IMGUI
@@ -38,7 +38,7 @@ void examples::simple_window::simple_window::render_frame() noexcept {
     window::on_post_render_frame();
 }
 
-int examples::simple_window::run_example() {
+int examples::run_simple_window() {
     // Create and run the window.
     // You can put more windows in seperate threads...
     auto app = std::make_unique<simple_window>();
