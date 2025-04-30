@@ -17,6 +17,28 @@
 
 namespace ender {
     /**
+     * @brief Win32 colors for the console.
+     */
+    enum class console_color : WORD {
+        black = 0,
+        dark_blue = FOREGROUND_BLUE,
+        dark_green = FOREGROUND_GREEN,
+        dark_cyan = FOREGROUND_GREEN | FOREGROUND_BLUE,
+        dark_red = FOREGROUND_RED,
+        dark_magenta = FOREGROUND_RED | FOREGROUND_BLUE,
+        dark_yellow = FOREGROUND_RED | FOREGROUND_GREEN,
+        gray = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
+        dark_gray = FOREGROUND_INTENSITY,
+        blue = FOREGROUND_INTENSITY | FOREGROUND_BLUE,
+        green = FOREGROUND_INTENSITY | FOREGROUND_GREEN,
+        cyan = FOREGROUND_INTENSITY | FOREGROUND_GREEN | FOREGROUND_BLUE,
+        red = FOREGROUND_INTENSITY | FOREGROUND_RED,
+        magenta = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE,
+        yellow = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN,
+        white = FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE,
+    };
+
+    /**
      * @brief Console class for debug output.
      *
      * @note This class by itself is not thread-safe. Use the helper functions below to print
@@ -39,6 +61,8 @@ namespace ender {
          */
         void destroy();
 
+        void set_color(console_color color) noexcept;
+
         /**
          * @brief  Write std::format text to the output buffer.
          * @tparam ...Args
@@ -59,7 +83,12 @@ namespace ender {
          * @param new_title
          */
         void set_title(std::string_view new_title);
-        std::string_view get_title();
+
+        /**
+         * @brief Get the console window title.
+         * @return Converted console title as `std::string`.
+         */
+        std::string get_title();
 
         /**
          * @brief Converts wstring to string.

@@ -28,6 +28,18 @@ void ender::console::destroy() {
     m_input = INVALID_HANDLE_VALUE;
 }
 
+void ender::console::set_color(console_color color) noexcept {
+    if (m_output == INVALID_HANDLE_VALUE) {
+        error_message_box("Console not initialized.");
+        return;
+    }
+
+    if (SetConsoleTextAttribute(m_output, static_cast<WORD>(color)) == FALSE) {
+        error_message_box("Failed to set console color.");
+        return;
+    }
+}
+
 void ender::console::print_raw(std::string_view text) noexcept {
     if (m_output == INVALID_HANDLE_VALUE) {
         return;
@@ -44,10 +56,14 @@ void ender::console::set_title(std::string_view new_title) {
     SetConsoleTitle(multibyte_to_unicode(new_title).c_str());
 }
 
-std::string_view ender::console::get_title() {
+std::string ender::console::get_title() {
     wchar_t buffer[256];
-    GetConsoleTitle(buffer, 256);
-    return unicode_to_multibyte(buffer);
+    if (GetConsoleTitle(buffer, 256) == FALSE) {
+        error_message_box("Failed to get console title.");
+        return {};
+    }
+
+    return std::string{unicode_to_multibyte(buffer)};
 }
 
 std::string ender::console::unicode_to_multibyte(std::wstring_view unicode_text) {
@@ -92,9 +108,12 @@ auto ender::debug_console_instance() -> console& {
 
     // Create the console once.
     if (static bool once = true; once == true) {
+        // Temporary debug console name.
+        constexpr const char* debug_console_name = "debug console";
+
         s_debug_console = {};
         s_debug_console.create();
-        s_debug_console.set_title("debug console");
+        s_debug_console.set_title(debug_console_name);
 
         once = false;
     }

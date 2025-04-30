@@ -40,6 +40,7 @@ void examples::simple_app::render_frame() noexcept {
         ImGui::Text("This is a simple window example.");
         if (ImGui::Button("Here's a button") == true) {
             // Do button logic..
+            ender::debug_print_raw("Button pressed!\n");
         }
         const float delta_time = get_delta_time_seconds();
 
