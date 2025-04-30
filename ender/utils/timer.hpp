@@ -1,3 +1,8 @@
+/**
+ * @file timer.hpp
+ * @brief Timer utility functions and API.
+ */
+
 #pragma once
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -5,6 +10,11 @@
 #include <windows.h>
 
 namespace ender {
+    /**
+     * @brief Simple high-resolution timer.
+     *
+     * The timer starts when the object is created and can be used to measure elapsed time.
+     */
     class timer_basic {
     public:
         timer_basic() noexcept;

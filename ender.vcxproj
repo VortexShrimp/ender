@@ -169,7 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ender\ender.cpp" />
-    <ClCompile Include="examples\simple_window\simple_window.cpp" />
+    <ClCompile Include="examples\simple_app\simple_app.cpp" />
     <ClCompile Include="ender\external\imgui\imgui.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_demo.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_draw.cpp" />
@@ -354,7 +354,7 @@
     <ClInclude Include="ender\external\sol\variadic_results.hpp" />
     <ClInclude Include="ender\external\sol\version.hpp" />
     <ClInclude Include="ender\external\sol\wrapper.hpp" />
-    <ClInclude Include="examples\simple_window\simple_window.hpp" />
+    <ClInclude Include="examples\simple_app\simple_app.hpp" />
     <ClInclude Include="ender\external\freetype\config\ftconfig.h" />
     <ClInclude Include="ender\external\freetype\config\ftheader.h" />
     <ClInclude Include="ender\external\freetype\config\ftmodule.h" />

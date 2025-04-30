@@ -57,7 +57,7 @@
     <ClCompile Include="ender\platform\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="examples\simple_window\simple_window.cpp">
+    <ClCompile Include="examples\simple_app\simple_app.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ender\ender.cpp">
@@ -278,7 +278,7 @@
     <ClInclude Include="ender\platform\renderer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="examples\simple_window\simple_window.hpp">
+    <ClInclude Include="examples\simple_app\simple_app.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ender\external\lua\lauxlib.h">

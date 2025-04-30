@@ -54,10 +54,13 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
 
     auto imgui_wants_focus = []() -> bool {
 #ifdef ENDER_IMGUI
+        // TODO: Add an option for window movement...
+        //
         // Check if ImGui wants to capture the mouse.
         // This is used to determine whether to move the ImGui window, or OS
         // window when borderless window style is used.
-        return ImGui::GetIO().WantCaptureMouseUnlessPopupClose == true;
+        // return ImGui::GetIO().WantCaptureMouseUnlessPopupClose == true;
+        return false;
 #else
         return false;
 #endif  // ENDER_IMGUI
@@ -156,7 +159,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
                     RECT rc;
                     GetWindowRect(hwnd, &rc);
                     SetWindowPos(hwnd, nullptr, rc.left + delta.x, rc.top + delta.y, 0, 0,
-                                 SWP_NOZORDER | SWP_NOSIZE);
+                                 SWP_SHOWWINDOW | SWP_NOZORDER | SWP_NOSIZE);
                 }
             }
 
@@ -219,8 +222,9 @@ bool ender::window::on_create(window_details details) {
             break;
     }
 
+    SetProcessDPIAware();
+
     // To make transparent windows, set exteneded style to WS_EX_LAYERED.
-    // SetLayeredWindowAttributes(m_hwnd, RGB(0, 0, 0), 255, LWA_COLORKEY);
 
     m_hwnd = CreateWindowW(wcex.lpszClassName, details.title.data(), style, 100, 100, details.width,
                            details.height, nullptr, nullptr, m_instance, nullptr);
@@ -230,6 +234,8 @@ bool ender::window::on_create(window_details details) {
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
         return false;
     }
+
+    // SetLayeredWindowAttributes(m_hwnd, RGB(0, 0, 0), 255, LWA_COLORKEY);
 
     // Create and initialize the renderer.
     m_renderer = std::make_unique<d3d11_renderer>();

@@ -3,14 +3,14 @@
 
 namespace examples {
     /*
-     * @brief Simple window class example.
+     * @brief Simple app class example.
      *
      * One of the simplest possible implementations of ender::window.
      * This can be used as a boilerplate template for the framework.
      */
-    class simple_window final : public ender::window {
+    class simple_app final : public ender::window {
     public:
-        simple_window() : window() {
+        simple_app() : window() {
         }
 
         bool create(window_details details) noexcept;
@@ -19,5 +19,5 @@ namespace examples {
         void render_frame() noexcept;
     };
 
-    int run_simple_window();
+    int run_simple_app();
 }  // namespace examples
