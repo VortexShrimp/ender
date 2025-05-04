@@ -43,6 +43,8 @@ namespace ender {
      *
      * @note This class by itself is not thread-safe. Use the helper functions below to print
      * safely.
+     *
+     * @todo Integrate the singleton logic into the class itself.
      */
     class console {
     public:

@@ -26,6 +26,12 @@ namespace ender {
         LARGE_INTEGER m_frequency;
     };
 
+    /**
+     * @brief High-resolution timer with delta time calculation.
+     *
+     * The timer starts when the object is created and can be used to measure elapsed time
+     * and delta time between frames.
+     */
     class timer_complex : public timer_basic {
     public:
         timer_complex() noexcept;
