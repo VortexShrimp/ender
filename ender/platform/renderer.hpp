@@ -26,7 +26,7 @@ namespace ender {
         ~d3d11_renderer();
 
         bool create(HWND hwnd);
-        bool destroy();
+        [[maybe_unused]] bool destroy();
 
         void render_frame(std::array<float, 4> clear_color = m_default_clear_color);
 

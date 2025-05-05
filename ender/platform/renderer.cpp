@@ -7,12 +7,18 @@
 #include "../external/imgui/imgui_impl_dx11.h"
 #include "../external/imgui/imgui_impl_win32.h"
 
-// TODO: Use templates instead of macros.
-#define SAFE_RELEASE(ptr) \
-    if (ptr) {            \
-        ptr->Release();   \
-        ptr = nullptr;    \
+/**
+ * @brief Safely release Directx resources.
+ * @tparam T
+ * @param ptr
+ */
+template <class T>
+inline void safe_release(T*& ptr) noexcept {
+    if (ptr) {
+        ptr->Release();
+        ptr = nullptr;
     }
+}
 
 ender::d3d11_renderer::~d3d11_renderer() {
     destroy();
@@ -62,10 +68,11 @@ bool ender::d3d11_renderer::create(HWND hwnd) {
 }
 
 bool ender::d3d11_renderer::destroy() {
-    SAFE_RELEASE(m_render_target_view)
-    SAFE_RELEASE(m_swap_chain)
-    SAFE_RELEASE(m_device_context)
-    SAFE_RELEASE(m_device)
+    safe_release(m_render_target_view);
+    safe_release(m_dxgi_factory);
+    safe_release(m_device_context);
+    safe_release(m_device);
+    safe_release(m_swap_chain);
 
     return true;
 }
@@ -100,7 +107,7 @@ void ender::d3d11_renderer::set_swap_chain_occluded(bool is_occluded) {
 void ender::d3d11_renderer::handle_resize(HWND hwnd) {
     internal_window_data& window_data = get_internal_window_data(hwnd);
     if (window_data.resize_width != 0 && window_data.resize_height != 0) {
-        SAFE_RELEASE(m_render_target_view)
+        safe_release(m_render_target_view);
         m_swap_chain->ResizeBuffers(0, window_data.resize_width, window_data.resize_height,
                                     DXGI_FORMAT_UNKNOWN, 0);
         create_render_target();
@@ -162,9 +169,9 @@ bool ender::direct2d_renderer::create(HWND hwnd) {
 }
 
 void ender::direct2d_renderer::destroy() {
-    SAFE_RELEASE(m_brush)
-    SAFE_RELEASE(m_render_target)
-    SAFE_RELEASE(m_factory)
+    safe_release(m_brush);
+    safe_release(m_render_target);
+    safe_release(m_factory);
 }
 
 void ender::direct2d_renderer::render_frame() {
