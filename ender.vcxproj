@@ -122,18 +122,21 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua54.lib;d2d1.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d2d1.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)examples\crypto_price_checker\scripts\*" "$(OutDir)scripts\"</Command>
-      <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>
       </Command>
     </CustomBuildStep>
     <PreBuildEvent>
-      <Command>if not exist "$(OutDir)scripts\" mkdir "$(OutDir)scripts\"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,18 +156,21 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lua54.lib;d2d1.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d2d1.lib;d3d11.lib;freetype.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)examples\crypto_price_checker\scripts\*" "$(OutDir)scripts\"</Command>
-      <Message>Copies the scripts for the examples to the build folder so that the binary can use them.</Message>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>
       </Command>
     </CustomBuildStep>
     <PreBuildEvent>
-      <Command>if not exist "$(OutDir)scripts\" mkdir "$(OutDir)scripts\"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -186,11 +192,6 @@
     <ClCompile Include="examples\examples_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ender\external\lua\lauxlib.h" />
-    <ClInclude Include="ender\external\lua\lua.h" />
-    <ClInclude Include="ender\external\lua\lua.hpp" />
-    <ClInclude Include="ender\external\lua\luaconf.h" />
-    <ClInclude Include="ender\external\lua\lualib.h" />
     <ClInclude Include="ender\external\nlohmann\adl_serializer.hpp" />
     <ClInclude Include="ender\external\nlohmann\byte_container_with_subtype.hpp" />
     <ClInclude Include="ender\external\nlohmann\detail\abi_macros.hpp" />
@@ -237,123 +238,6 @@
     <ClInclude Include="ender\external\nlohmann\ordered_map.hpp" />
     <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley.hpp" />
     <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
-    <ClInclude Include="ender\external\sol\abort.hpp" />
-    <ClInclude Include="ender\external\sol\assert.hpp" />
-    <ClInclude Include="ender\external\sol\as_args.hpp" />
-    <ClInclude Include="ender\external\sol\as_returns.hpp" />
-    <ClInclude Include="ender\external\sol\base_traits.hpp" />
-    <ClInclude Include="ender\external\sol\bind_traits.hpp" />
-    <ClInclude Include="ender\external\sol\bytecode.hpp" />
-    <ClInclude Include="ender\external\sol\call.hpp" />
-    <ClInclude Include="ender\external\sol\compatibility.hpp" />
-    <ClInclude Include="ender\external\sol\compatibility\compat-5.3.c.h" />
-    <ClInclude Include="ender\external\sol\compatibility\compat-5.3.h" />
-    <ClInclude Include="ender\external\sol\compatibility\compat-5.4.h" />
-    <ClInclude Include="ender\external\sol\compatibility\lua_version.hpp" />
-    <ClInclude Include="ender\external\sol\config.hpp" />
-    <ClInclude Include="ender\external\sol\coroutine.hpp" />
-    <ClInclude Include="ender\external\sol\debug.hpp" />
-    <ClInclude Include="ender\external\sol\demangle.hpp" />
-    <ClInclude Include="ender\external\sol\deprecate.hpp" />
-    <ClInclude Include="ender\external\sol\detail\build_version.hpp" />
-    <ClInclude Include="ender\external\sol\dump_handler.hpp" />
-    <ClInclude Include="ender\external\sol\ebco.hpp" />
-    <ClInclude Include="ender\external\sol\environment.hpp" />
-    <ClInclude Include="ender\external\sol\epilogue.hpp" />
-    <ClInclude Include="ender\external\sol\error.hpp" />
-    <ClInclude Include="ender\external\sol\error_handler.hpp" />
-    <ClInclude Include="ender\external\sol\forward.hpp" />
-    <ClInclude Include="ender\external\sol\forward_as.hpp" />
-    <ClInclude Include="ender\external\sol\forward_detail.hpp" />
-    <ClInclude Include="ender\external\sol\function.hpp" />
-    <ClInclude Include="ender\external\sol\function_result.hpp" />
-    <ClInclude Include="ender\external\sol\function_types.hpp" />
-    <ClInclude Include="ender\external\sol\function_types_core.hpp" />
-    <ClInclude Include="ender\external\sol\function_types_overloaded.hpp" />
-    <ClInclude Include="ender\external\sol\function_types_stateful.hpp" />
-    <ClInclude Include="ender\external\sol\function_types_stateless.hpp" />
-    <ClInclude Include="ender\external\sol\function_types_templated.hpp" />
-    <ClInclude Include="ender\external\sol\inheritance.hpp" />
-    <ClInclude Include="ender\external\sol\in_place.hpp" />
-    <ClInclude Include="ender\external\sol\load_result.hpp" />
-    <ClInclude Include="ender\external\sol\lua_table.hpp" />
-    <ClInclude Include="ender\external\sol\lua_value.hpp" />
-    <ClInclude Include="ender\external\sol\make_reference.hpp" />
-    <ClInclude Include="ender\external\sol\metatable.hpp" />
-    <ClInclude Include="ender\external\sol\object.hpp" />
-    <ClInclude Include="ender\external\sol\object_base.hpp" />
-    <ClInclude Include="ender\external\sol\optional.hpp" />
-    <ClInclude Include="ender\external\sol\optional_implementation.hpp" />
-    <ClInclude Include="ender\external\sol\overload.hpp" />
-    <ClInclude Include="ender\external\sol\packaged_coroutine.hpp" />
-    <ClInclude Include="ender\external\sol\pairs_iterator.hpp" />
-    <ClInclude Include="ender\external\sol\pointer_like.hpp" />
-    <ClInclude Include="ender\external\sol\policies.hpp" />
-    <ClInclude Include="ender\external\sol\prologue.hpp" />
-    <ClInclude Include="ender\external\sol\property.hpp" />
-    <ClInclude Include="ender\external\sol\protect.hpp" />
-    <ClInclude Include="ender\external\sol\protected_function.hpp" />
-    <ClInclude Include="ender\external\sol\protected_function_result.hpp" />
-    <ClInclude Include="ender\external\sol\protected_handler.hpp" />
-    <ClInclude Include="ender\external\sol\proxy_base.hpp" />
-    <ClInclude Include="ender\external\sol\raii.hpp" />
-    <ClInclude Include="ender\external\sol\reference.hpp" />
-    <ClInclude Include="ender\external\sol\resolve.hpp" />
-    <ClInclude Include="ender\external\sol\sol.hpp" />
-    <ClInclude Include="ender\external\sol\stack.hpp" />
-    <ClInclude Include="ender\external\sol\stack\detail\pairs.hpp" />
-    <ClInclude Include="ender\external\sol\stack_check.hpp" />
-    <ClInclude Include="ender\external\sol\stack_check_get.hpp" />
-    <ClInclude Include="ender\external\sol\stack_check_get_qualified.hpp" />
-    <ClInclude Include="ender\external\sol\stack_check_get_unqualified.hpp" />
-    <ClInclude Include="ender\external\sol\stack_check_qualified.hpp" />
-    <ClInclude Include="ender\external\sol\stack_check_unqualified.hpp" />
-    <ClInclude Include="ender\external\sol\stack_core.hpp" />
-    <ClInclude Include="ender\external\sol\stack_field.hpp" />
-    <ClInclude Include="ender\external\sol\stack_get.hpp" />
-    <ClInclude Include="ender\external\sol\stack_get_qualified.hpp" />
-    <ClInclude Include="ender\external\sol\stack_get_unqualified.hpp" />
-    <ClInclude Include="ender\external\sol\stack_guard.hpp" />
-    <ClInclude Include="ender\external\sol\stack_iterator.hpp" />
-    <ClInclude Include="ender\external\sol\stack_pop.hpp" />
-    <ClInclude Include="ender\external\sol\stack_probe.hpp" />
-    <ClInclude Include="ender\external\sol\stack_proxy.hpp" />
-    <ClInclude Include="ender\external\sol\stack_proxy_base.hpp" />
-    <ClInclude Include="ender\external\sol\stack_push.hpp" />
-    <ClInclude Include="ender\external\sol\stack_reference.hpp" />
-    <ClInclude Include="ender\external\sol\state.hpp" />
-    <ClInclude Include="ender\external\sol\state_handling.hpp" />
-    <ClInclude Include="ender\external\sol\state_view.hpp" />
-    <ClInclude Include="ender\external\sol\string_view.hpp" />
-    <ClInclude Include="ender\external\sol\table.hpp" />
-    <ClInclude Include="ender\external\sol\table_core.hpp" />
-    <ClInclude Include="ender\external\sol\table_iterator.hpp" />
-    <ClInclude Include="ender\external\sol\table_proxy.hpp" />
-    <ClInclude Include="ender\external\sol\thread.hpp" />
-    <ClInclude Include="ender\external\sol\tie.hpp" />
-    <ClInclude Include="ender\external\sol\traits.hpp" />
-    <ClInclude Include="ender\external\sol\trampoline.hpp" />
-    <ClInclude Include="ender\external\sol\tuple.hpp" />
-    <ClInclude Include="ender\external\sol\types.hpp" />
-    <ClInclude Include="ender\external\sol\unicode.hpp" />
-    <ClInclude Include="ender\external\sol\unique_usertype_traits.hpp" />
-    <ClInclude Include="ender\external\sol\unreachable.hpp" />
-    <ClInclude Include="ender\external\sol\unsafe_function.hpp" />
-    <ClInclude Include="ender\external\sol\unsafe_function_result.hpp" />
-    <ClInclude Include="ender\external\sol\userdata.hpp" />
-    <ClInclude Include="ender\external\sol\usertype.hpp" />
-    <ClInclude Include="ender\external\sol\usertype_container.hpp" />
-    <ClInclude Include="ender\external\sol\usertype_container_launch.hpp" />
-    <ClInclude Include="ender\external\sol\usertype_core.hpp" />
-    <ClInclude Include="ender\external\sol\usertype_proxy.hpp" />
-    <ClInclude Include="ender\external\sol\usertype_storage.hpp" />
-    <ClInclude Include="ender\external\sol\usertype_traits.hpp" />
-    <ClInclude Include="ender\external\sol\utility\is_integer.hpp" />
-    <ClInclude Include="ender\external\sol\utility\to_string.hpp" />
-    <ClInclude Include="ender\external\sol\variadic_args.hpp" />
-    <ClInclude Include="ender\external\sol\variadic_results.hpp" />
-    <ClInclude Include="ender\external\sol\version.hpp" />
-    <ClInclude Include="ender\external\sol\wrapper.hpp" />
     <ClInclude Include="examples\simple_app\simple_app.hpp" />
     <ClInclude Include="ender\external\freetype\config\ftconfig.h" />
     <ClInclude Include="ender\external\freetype\config\ftheader.h" />
