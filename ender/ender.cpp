@@ -10,14 +10,14 @@
 namespace ender {
     void error_message_box(const char* message) {
         // Print the message to the debug console before the message box.
-        debug_print_formatted("Exception: {}\n", message);
+        debug_print("Exception: {}\n", message);
 
         // Create the caption based on ender::version_name.
         const std::wstring caption_wide =
-            console::multibyte_to_unicode(std::format("{} error", version_name));
+            multibyte_to_unicode(std::format("{} error", version_name));
 
         // Convert the message to wide-string.
-        const std::wstring message_wide = console::multibyte_to_unicode(message);
+        const std::wstring message_wide = multibyte_to_unicode(message);
 
         MessageBox(nullptr, message_wide.c_str(), caption_wide.c_str(), MB_ICONERROR);
     }

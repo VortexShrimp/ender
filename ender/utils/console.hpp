@@ -14,6 +14,7 @@
 #include <windows.h>
 
 #include "../ender.hpp"
+#include "timer.hpp"
 
 namespace ender {
     /**
@@ -63,8 +64,6 @@ namespace ender {
          */
         void destroy();
 
-        void set_color(console_color color) noexcept;
-
         /**
          * @brief  Write std::format text to the output buffer.
          * @tparam ...Args
@@ -73,12 +72,6 @@ namespace ender {
          */
         template <typename... Args>
         inline void print_formatted(std::string_view format, Args&&... args);
-
-        /**
-         * @brief Print directly to the console output buffer.
-         * @param text Message to print.
-         */
-        void print_raw(std::string_view text) noexcept;
 
         /**
          * @brief Change the console window title. Must be called after create().
@@ -92,15 +85,15 @@ namespace ender {
          */
         std::string get_title();
 
-        /**
-         * @brief Converts wstring to string.
-         * @param unicode_text
-         * @return
-         */
-        static std::string unicode_to_multibyte(std::wstring_view unicode_text);
-        static std::wstring multibyte_to_unicode(std::string_view multibyte_text);
-
     private:
+        void set_color(console_color color) noexcept;
+
+        /**
+         * @brief Print directly to the console output buffer.
+         * @param text Message to print.
+         */
+        void print_raw(std::string_view text) noexcept;
+
         HANDLE m_output;
         HANDLE m_input;
     };
@@ -111,6 +104,9 @@ namespace ender {
             std::vformat(std::string(format), std::make_format_args(std::forward<Args>(args)...));
         print_raw(formatted);
     }
+
+    std::string unicode_to_multibyte(std::wstring_view unicode_text);
+    std::wstring multibyte_to_unicode(std::string_view multibyte_text);
 
     /**
      * @brief Direct access to the internal debug console.
@@ -129,24 +125,13 @@ namespace ender {
     std::mutex& debug_console_mutex();
 
     /**
-     * @brief Directly prints to the debug console's buffer during debug builds.
-     * @param text Message to print.
-     */
-    inline void debug_print_raw(std::string_view text) {
-        if constexpr (is_debug_build() == true) {
-            std::lock_guard lock(debug_console_mutex());
-            debug_console_instance().print_raw(text);
-        }
-    }
-
-    /**
      * @brief Prints formatted text to the debug console's buffer during debug builds.
      * @tparam ...Args
      * @param format
      * @param ...args
      */
     template <class... Args>
-    inline void debug_print_formatted(std::string_view format, Args... args) {
+    inline void debug_print(std::string_view format, Args... args) {
         if constexpr (is_debug_build() == true) {
             std::lock_guard lock(debug_console_mutex());
             debug_console_instance().print_formatted(format, args...);

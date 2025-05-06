@@ -7,7 +7,7 @@ ender::internet::~internet() {
 }
 
 bool ender::internet::create(std::string_view user_agent) {
-    m_internet = InternetOpen(console::multibyte_to_unicode(user_agent.data()).c_str(),
+    m_internet = InternetOpen(multibyte_to_unicode(user_agent.data()).c_str(),
                               INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
     if (m_internet == INVALID_HANDLE_VALUE) {
         return false;
@@ -37,7 +37,7 @@ bool ender::internet::get(std::string_view url, std::string_view objects,
         HttpOpenRequestA(connect, "GET", objects.data(), NULL, NULL, NULL, 0, 0);
     if (request == 0) {
         InternetCloseHandle(connect);
-        debug_print_formatted("Failed to Open Request. Last Error -> {}\n", GetLastError());
+        debug_print("Failed to Open Request. Last Error -> {}\n", GetLastError());
         return false;
     }
 
@@ -45,7 +45,7 @@ bool ender::internet::get(std::string_view url, std::string_view objects,
     if (was_request_sent == FALSE) {
         InternetCloseHandle(request);
         InternetCloseHandle(connect);
-        debug_print_formatted("Failed to Send Request. Last Error -> {}\n", GetLastError());
+        debug_print("Failed to Send Request. Last Error -> {}\n", GetLastError());
         return false;
     }
 
@@ -65,8 +65,8 @@ bool ender::internet::get(std::string_view url, std::string_view objects,
     InternetCloseHandle(request);
     InternetCloseHandle(connect);
 
-    debug_print_formatted("[http] Get request to '{}' completed in {} seconds.\n", url,
-                          request_timer.time_elapsed_seconds());
+    debug_print("[http] Get request to '{}' completed in {} seconds.\n", url,
+                request_timer.time_elapsed_seconds());
 
     return true;
 }

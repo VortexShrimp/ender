@@ -188,7 +188,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     return 0;
 }
 
-bool ender::window::on_create(window_details details) {
+bool ender::window::create(window_details details) {
     m_instance = nullptr;
 
     WNDCLASSEXW wcex = {};
@@ -207,7 +207,7 @@ bool ender::window::on_create(window_details details) {
 
     m_wcex = RegisterClassExW(&wcex);
     if (m_wcex == ATOM{}) {
-        debug_print_formatted("[error] Failed to register window class. Last error -> {}\n",
+        debug_print("[error] Failed to register window class. Last error -> {}\n",
                               GetLastError());
         return false;
     }
@@ -229,7 +229,7 @@ bool ender::window::on_create(window_details details) {
     m_hwnd = CreateWindowW(wcex.lpszClassName, details.title.data(), style, 100, 100, details.width,
                            details.height, nullptr, nullptr, m_instance, nullptr);
     if (m_hwnd == nullptr) {
-        debug_print_formatted("[error] Failed to create window class. Last error -> {}\n",
+        debug_print("[error] Failed to create window class. Last error -> {}\n",
                               GetLastError());
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
         return false;
@@ -240,7 +240,7 @@ bool ender::window::on_create(window_details details) {
     // Create and initialize the renderer.
     m_renderer = std::make_unique<d3d11_renderer>();
     if (m_renderer->create(m_hwnd) == false) {
-        debug_print_formatted("[error] Failed to create renderer. Last error -> {}\n",
+        debug_print("[error] Failed to create renderer. Last error -> {}\n",
                               GetLastError());
         DestroyWindow(m_hwnd);
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
@@ -278,7 +278,7 @@ bool ender::window::on_create(window_details details) {
     return m_is_running;
 }
 
-bool ender::window::on_destroy() {
+bool ender::window::destroy() {
 #ifdef ENDER_IMGUI
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
@@ -299,7 +299,7 @@ bool ender::window::on_destroy() {
     return true;
 }
 
-bool ender::window::on_process_events() {
+bool ender::window::process_events() {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
@@ -313,7 +313,7 @@ bool ender::window::on_process_events() {
     return m_is_running;
 }
 
-void ender::window::on_pre_render_frame() {
+void ender::window::pre_render_frame() {
     if (m_is_running == false) {
         return;
     }
@@ -332,7 +332,7 @@ void ender::window::on_pre_render_frame() {
 #endif  // ENDER_IMGUI
 }
 
-void ender::window::on_post_render_frame() {
+void ender::window::post_render_frame() {
     if (m_is_running == false) {
         return;
     }

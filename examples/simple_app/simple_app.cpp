@@ -6,7 +6,7 @@
 #include <imgui\imgui.h>
 
 bool examples::simple_app::create(window_details details) noexcept {
-    const bool result = window::on_create(details);
+    const bool result = window::create(details);
 
 #ifdef ENDER_IMGUI
     // Load a custom font.
@@ -19,15 +19,15 @@ bool examples::simple_app::create(window_details details) noexcept {
 }
 
 bool examples::simple_app::destroy() noexcept {
-    return window::on_destroy();
+    return window::destroy();
 }
 
 bool examples::simple_app::process_events() noexcept {
-    return window::on_process_events();
+    return window::process_events();
 }
 
 void examples::simple_app::render_frame() noexcept {
-    window::on_pre_render_frame();
+    window::pre_render_frame();
 
 #ifdef ENDER_IMGUI
     // Set the ImGui window size to the size of the client area.
@@ -40,7 +40,7 @@ void examples::simple_app::render_frame() noexcept {
         ImGui::Text("This is a simple window example.");
         if (ImGui::Button("Here's a button") == true) {
             // Do button logic..
-            ender::debug_print_raw("Button pressed!\n");
+            ender::debug_print("Button pressed!\n");
         }
         const float delta_time = get_delta_time_seconds();
 
@@ -50,7 +50,7 @@ void examples::simple_app::render_frame() noexcept {
     }
 #endif  // ENDER_IMGUI
 
-    window::on_post_render_frame();
+    window::post_render_frame();
 }
 
 int examples::run_simple_app() {
@@ -58,8 +58,8 @@ int examples::run_simple_app() {
     if (app->create({.title = L"simple app (example)",
                      .class_name = L"simple_app",
                      .style = ender::window_style::resizable,
-                     .width = 300,
-                     .height = 450,
+                     .width = 400,
+                     .height = 500,
                      .on_message_create = nullptr,
                      .on_message_destroy = nullptr,
                      .on_message_close = nullptr}) == true) {

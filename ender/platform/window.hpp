@@ -83,23 +83,23 @@ namespace ender {
          * @param details Parameters for the window.
          * @return True on success.
          */
-        ENDER_OVERRIDE bool on_create(window_details details);
+        ENDER_OVERRIDE bool create(window_details details);
 
         /**
          * @brief Destroys the window and frees its resources.
          * @return True on success.
          */
-        ENDER_OVERRIDE bool on_destroy();
+        ENDER_OVERRIDE bool destroy();
 
         /**
          * @brief Processes the window messages.
          * @return True if the window should continue running.
          */
-        ENDER_OVERRIDE bool on_process_events();
+        ENDER_OVERRIDE bool process_events();
 
-        ENDER_OVERRIDE void on_pre_render_frame();
+        ENDER_OVERRIDE void pre_render_frame();
 
-        ENDER_OVERRIDE void on_post_render_frame();
+        ENDER_OVERRIDE void post_render_frame();
 
         /**
          * @brief Is the window supposed to be running?

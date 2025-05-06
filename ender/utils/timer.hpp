@@ -19,6 +19,10 @@ namespace ender {
     public:
         timer_basic() noexcept;
 
+        /**
+         * @brief Returns the elapsed time in seconds since the timer was created.
+         * @return Elapsed time in seconds.
+         */
         float time_elapsed_seconds() const noexcept;
 
     protected:
