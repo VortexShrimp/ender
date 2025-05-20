@@ -40,16 +40,38 @@ namespace ender {
     };
 
     /**
-     * @brief Console class for debug output.
-     *
-     * @note This class by itself is not thread-safe. Use the helper functions below to print
-     * safely.
-     *
-     * @todo Integrate the singleton logic into the class itself.
+     * @brief Console singleton class for logging messages.
      */
     class console {
     public:
-        console() : m_output(nullptr), m_input(nullptr) {
+        console(const console&) = delete;
+        console& operator=(const console&) = delete;
+        console(console&&) = delete;
+        console& operator=(console&&) = delete;
+
+        /**
+         * @brief Access the singleton instance of this class.
+         * @return
+         */
+        static console& instance() noexcept;
+
+        /**
+         * @brief Print directly to the console output buffer.
+         * @param text Message to print.
+         */
+        void print_raw(std::string_view text) noexcept;
+
+        /**
+         * @brief  Write std::format text to the output buffer.
+         * @tparam ...Args
+         * @param format
+         * @param ...args
+         */
+        template <typename... Args>
+        inline void print_formatted(std::string_view format, Args&&... args);
+
+    private:
+        console() : m_output(nullptr), m_input(nullptr), m_timer() {
         }
         ~console();
 
@@ -65,15 +87,6 @@ namespace ender {
         void destroy();
 
         /**
-         * @brief  Write std::format text to the output buffer.
-         * @tparam ...Args
-         * @param format
-         * @param ...args
-         */
-        template <typename... Args>
-        inline void print_formatted(std::string_view format, Args&&... args);
-
-        /**
          * @brief Change the console window title. Must be called after create().
          * @param new_title
          */
@@ -85,17 +98,17 @@ namespace ender {
          */
         std::string get_title();
 
-    private:
-        void set_color(console_color color) noexcept;
-
         /**
-         * @brief Print directly to the console output buffer.
-         * @param text Message to print.
+         * @brief Set the console text color.
+         * @param color New color to set.
          */
-        void print_raw(std::string_view text) noexcept;
+        void set_color(console_color color) noexcept;
 
         HANDLE m_output;
         HANDLE m_input;
+
+        std::mutex m_mutex;
+        timer_basic m_timer;
     };
 
     template <class... Args>
@@ -104,25 +117,6 @@ namespace ender {
             std::vformat(std::string(format), std::make_format_args(std::forward<Args>(args)...));
         print_raw(formatted);
     }
-
-    std::string unicode_to_multibyte(std::wstring_view unicode_text);
-    std::wstring multibyte_to_unicode(std::string_view multibyte_text);
-
-    /**
-     * @brief Direct access to the internal debug console.
-     * @return Reference to the console singleton instance.
-     *
-     * @warning Do not use this! It is here to expose the console for helper functions.
-     */
-    console& debug_console_instance();
-
-    /**
-     * @brief Direct access to the internal debug console's mutex.
-     * @return Reference to the console's mutex.
-     *
-     * @warning Do not use this! It is here to expose the console for helper functions.
-     */
-    std::mutex& debug_console_mutex();
 
     /**
      * @brief Prints formatted text to the debug console's buffer during debug builds.
@@ -133,8 +127,22 @@ namespace ender {
     template <class... Args>
     inline void debug_print(std::string_view format, Args... args) {
         if constexpr (is_debug_build() == true) {
-            std::lock_guard lock(debug_console_mutex());
-            debug_console_instance().print_formatted(format, args...);
+            console::instance().print_formatted(format, args...);
         }
     }
+
+    inline console& console::instance() noexcept {
+        static console instance;
+
+        if (static bool once = true; once == true) {
+            instance.create();
+            instance.set_title("Ender Debug Console");
+            once = false;
+        }
+
+        return instance;
+    }
+
+    std::string unicode_to_multibyte(std::wstring_view unicode_text);
+    std::wstring multibyte_to_unicode(std::string_view multibyte_text);
 }  // namespace ender

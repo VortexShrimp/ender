@@ -59,7 +59,10 @@ void ender::console::print_raw(std::string_view text) noexcept {
         return;
     }
 
-    std::wstring converted = multibyte_to_unicode(text);
+    // Lock the mutex to ensure thread safety while printing.
+    std::lock_guard lock(m_mutex);
+
+    const std::wstring converted = multibyte_to_unicode(text);
 
     DWORD written;
     WriteConsole(m_output, converted.data(), static_cast<DWORD>(converted.length()), &written,
@@ -101,27 +104,4 @@ std::wstring ender::multibyte_to_unicode(std::string_view multibyte_text) {
                         static_cast<int>(multibyte_text.length()), converted_text.data(), size);
 
     return converted_text;
-}
-
-auto ender::debug_console_instance() -> console& {
-    static ender::console s_debug_console;
-
-    // Create the console once.
-    if (static bool once = true; once == true) {
-        // Temporary debug console name.
-        constexpr const char* debug_console_name = "debug console";
-
-        s_debug_console = {};
-        s_debug_console.create();
-        s_debug_console.set_title(debug_console_name);
-
-        once = false;
-    }
-
-    return s_debug_console;
-}
-
-std::mutex& ender::debug_console_mutex() {
-    static std::mutex s_console_mutex;
-    return s_console_mutex;
 }
