@@ -175,7 +175,17 @@ void ender::direct2d_renderer::destroy() {
 }
 
 void ender::direct2d_renderer::render_frame() {
+    if (m_render_target == nullptr) {
+        return;
+    }
+
     m_render_target->BeginDraw();
     m_render_target->SetTransform(D2D1::Matrix3x2F::Identity());
     m_render_target->Clear(D2D1::ColorF(D2D1::ColorF::White));
+
+    D2D1_SIZE_F size = m_render_target->GetSize();
+    D2D1_RECT_F rectangle = D2D1::RectF(size.width * 0.25f, size.height * 0.25f, size.width * 0.75f,
+                                        size.height * 0.75f);
+    m_render_target->FillRectangle(D2D1::RectF(0, 0, size.width, size.height), m_brush);
+    m_render_target->EndDraw();
 }

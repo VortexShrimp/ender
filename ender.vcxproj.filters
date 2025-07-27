@@ -63,6 +63,9 @@
     <ClCompile Include="ender\ender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ender\utils\system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ender\external\imgui\imconfig.h">
@@ -417,6 +420,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ender\external\nlohmann\ordered_map.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ender\utils\system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

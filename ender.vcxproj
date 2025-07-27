@@ -175,6 +175,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ender\ender.cpp" />
+    <ClCompile Include="ender\utils\system.cpp" />
     <ClCompile Include="examples\simple_app\simple_app.cpp" />
     <ClCompile Include="ender\external\imgui\imgui.cpp" />
     <ClCompile Include="ender\external\imgui\imgui_demo.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="ender\external\nlohmann\ordered_map.hpp" />
     <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley.hpp" />
     <ClInclude Include="ender\external\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
+    <ClInclude Include="ender\utils\system.hpp" />
     <ClInclude Include="examples\simple_app\simple_app.hpp" />
     <ClInclude Include="ender\external\freetype\config\ftconfig.h" />
     <ClInclude Include="ender\external\freetype\config\ftheader.h" />

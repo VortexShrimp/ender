@@ -107,7 +107,17 @@ namespace ender {
          */
         bool is_running() const noexcept;
 
+        /**
+         * @brief Set the window title.
+         * @param new_title New title for the window.
+         * @return True on success.
+         */
         bool set_title(std::wstring_view new_title);
+
+        /**
+         * @brief Get the window title.
+         * @return Current title of the window.
+         */
         std::wstring_view get_title() const;
 
         /**
