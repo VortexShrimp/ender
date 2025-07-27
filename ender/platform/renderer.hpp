@@ -13,9 +13,9 @@ namespace ender {
      *
      * The goal is to add many more renderers in the future.
      */
-    class d3d11_renderer {
+    class d3d11_imgui_renderer {
     public:
-        d3d11_renderer()
+        d3d11_imgui_renderer()
             : m_device(nullptr),
               m_device_context(nullptr),
               m_swap_chain(nullptr),
@@ -23,7 +23,7 @@ namespace ender {
               m_dxgi_factory(nullptr),
               m_is_swap_chain_occluded(false) {
         }
-        ~d3d11_renderer();
+        ~d3d11_imgui_renderer();
 
         bool create(HWND hwnd);
         [[maybe_unused]] bool destroy();

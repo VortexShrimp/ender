@@ -26,7 +26,79 @@ use.
 
 <br clear="left"/>
 
-### Roadmap
+## Usage Example
+The following example shows you how to use `ender::imgui_window` to create a simple
+ImGui demo window.
+
+```cpp
+#include <memory>
+#include <ender/platform/window.hpp>
+#include <imgui/imgui.h>
+
+/**
+ * This is a minimal example of how to use ender with ImGui.
+ */
+class imgui_demo_window final : public ender::imgui_window {
+public:
+    simple_app() : imgui_window() {
+    }
+
+    bool create(ender::window_details details) noexcept {
+        bool result = imgui_window::create(details);
+
+        // Any additional initialization can be done here.
+        // For example, setting up ImGui styles or loading fonts.
+        // Or setting up app-specific resources.
+
+        return result;
+    }
+
+    bool destroy() noexcept {
+        // Any additional cleanup can be done here.
+        // For example, releasing resources or saving settings.
+
+        return imgui_window::destroy();
+    }
+
+    bool process_events() noexcept {
+        return imgui_window::process_events();
+    }
+
+    void render_frame() noexcept {
+        imgui_window::pre_render_frame();
+
+        // Run any ImGui code to render here.
+        ImGui::ShowDemoWindow();
+
+        imgui_window::post_render_frame();
+    }
+
+private:
+    // Any additional member variables can be declared here.
+    // For example, to store application state or resources.
+    // Just make sure to initialize them in the constructor
+    // or the create method.
+};
+
+int main() {
+    auto app = std::make_unique<imgui_demo_window>();
+    if (app->create({.title = L"ImGui Demo Window",
+                     .class_name = L"imgui_demo_class",
+                     .width = 1280,
+                     .height = 720}) == true) {
+        while (app->process_events() == true) {
+            app->render_frame();
+        }
+
+        app->destroy();
+        return 0;
+    }
+
+    return 1;
+}
+```
+
+## Roadmap
 
 - [ ] **[Almost Complete]** Debug console logging system.
 - [ ] **[Almost Complete]** Consistent error or exception handling system.

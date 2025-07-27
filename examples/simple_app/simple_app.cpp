@@ -5,29 +5,27 @@
 
 #include <imgui\imgui.h>
 
-bool examples::simple_app::create(window_details details) noexcept {
-    const bool result = window::create(details);
+bool examples::simple_app::create(ender::window_details details) noexcept {
+    const bool result = imgui_window::create(details);
 
-#ifdef ENDER_IMGUI
     // Load a custom font.
     ImFont* font =
         ImGui::GetIO().Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 28.0f);
     ImGui::GetIO().FontDefault = font;
-#endif ENDER_IMGUI
 
     return result;
 }
 
 bool examples::simple_app::destroy() noexcept {
-    return window::destroy();
+    return imgui_window::destroy();
 }
 
 bool examples::simple_app::process_events() noexcept {
-    return window::process_events();
+    return imgui_window::process_events();
 }
 
 void examples::simple_app::render_frame() noexcept {
-    window::pre_render_frame();
+    imgui_window::pre_render_frame();
 
 #ifdef ENDER_IMGUI
     // Set the ImGui window size to the size of the client area.
@@ -50,7 +48,7 @@ void examples::simple_app::render_frame() noexcept {
     }
 #endif  // ENDER_IMGUI
 
-    window::post_render_frame();
+    imgui_window::post_render_frame();
 }
 
 int examples::run_simple_app() {

@@ -41,6 +41,24 @@ namespace ender {
         borderless
     };
 
+    using message_create_function = void (*)();
+    using message_destroy_function = void (*)();
+    using message_close_function = bool (*)();  // Return true to confirm exit.
+
+    struct window_details {
+        std::wstring_view title;
+        std::wstring_view class_name;
+
+        window_style style;
+
+        int width;
+        int height;
+
+        message_create_function on_message_create;
+        message_destroy_function on_message_destroy;
+        message_close_function on_message_close;
+    };
+
     /**
      * @brief Spawn a platform window.
      *
@@ -48,27 +66,9 @@ namespace ender {
      * to the individual windows. This data is stored in s_window_data.
      *
      */
-    class window {
+    class imgui_window {
     public:
-        using message_create_function = void (*)();
-        using message_destroy_function = void (*)();
-        using message_close_function = bool (*)(window* app);  // Return true to confirm exit.
-
-        struct window_details {
-            std::wstring_view title;
-            std::wstring_view class_name;
-
-            window_style style;
-
-            int width;
-            int height;
-
-            message_create_function on_message_create;
-            message_destroy_function on_message_destroy;
-            message_close_function on_message_close;
-        };
-
-        window()
+        imgui_window()
             : m_is_running(false),
               m_hwnd(nullptr),
               m_wcex(),
@@ -135,7 +135,7 @@ namespace ender {
         float get_delta_time_seconds();
 
         bool m_is_running;
-        std::unique_ptr<d3d11_renderer> m_renderer;
+        std::unique_ptr<d3d11_imgui_renderer> m_renderer;
 
     private:
         HWND m_hwnd;           // Win32 handle to the window.
@@ -149,7 +149,7 @@ namespace ender {
      * @brief Data that needs to be shared between Window and Message Loop.
      */
     struct internal_window_data {
-        window* window;  // Reference to the ender window incase it's needed.
+        imgui_window* window;  // Reference to the ender window incase it's needed.
 
         UINT resize_width;
         UINT resize_height;
@@ -158,9 +158,9 @@ namespace ender {
         bool is_dragging;
         POINT drag_start;
 
-        window::message_create_function on_message_create;
-        window::message_destroy_function on_message_destroy;
-        window::message_close_function on_message_close;
+        message_create_function on_message_create;
+        message_destroy_function on_message_destroy;
+        message_close_function on_message_close;
     };
 
     /**

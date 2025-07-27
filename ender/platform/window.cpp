@@ -7,10 +7,12 @@
 #include "../ender.hpp"
 #include "../utils/console.hpp"
 
+#ifdef ENDER_IMGUI
 // Include all the imgui stuff.
 #include <imgui\imgui.h>
 #include <imgui\imgui_impl_dx11.h>
 #include <imgui\imgui_impl_win32.h>
+#endif  // ENDER_IMGUI
 
 /**
  * @brief Stores data that is shared between wndproc and windows.
@@ -95,7 +97,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
         // Use it to allow a user to confirm their exit.
         case WM_CLOSE: {
             if (window_data.on_message_close != nullptr) {
-                const bool should_confirm_exit = window_data.on_message_close(window_data.window);
+                const bool should_confirm_exit = window_data.on_message_close();
                 if (should_confirm_exit == true) {
                     // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-messagebox
                     const int choice = MessageBox(hwnd, L"Would you like to exit this window?",
@@ -188,7 +190,7 @@ static LRESULT WINAPI ender_wndproc_dispatch(HWND hwnd, UINT msg, WPARAM wparam,
     return 0;
 }
 
-bool ender::window::create(window_details details) {
+bool ender::imgui_window::create(window_details details) {
     m_instance = nullptr;
 
     WNDCLASSEXW wcex = {};
@@ -207,8 +209,7 @@ bool ender::window::create(window_details details) {
 
     m_wcex = RegisterClassExW(&wcex);
     if (m_wcex == ATOM{}) {
-        debug_print("[error] Failed to register window class. Last error -> {}\n",
-                              GetLastError());
+        debug_print("[error] Failed to register window class. Last error -> {}\n", GetLastError());
         return false;
     }
 
@@ -229,8 +230,7 @@ bool ender::window::create(window_details details) {
     m_hwnd = CreateWindowW(wcex.lpszClassName, details.title.data(), style, 100, 100, details.width,
                            details.height, nullptr, nullptr, m_instance, nullptr);
     if (m_hwnd == nullptr) {
-        debug_print("[error] Failed to create window class. Last error -> {}\n",
-                              GetLastError());
+        debug_print("[error] Failed to create window class. Last error -> {}\n", GetLastError());
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
         return false;
     }
@@ -238,10 +238,9 @@ bool ender::window::create(window_details details) {
     // SetLayeredWindowAttributes(m_hwnd, RGB(0, 0, 0), 255, LWA_COLORKEY);
 
     // Create and initialize the renderer.
-    m_renderer = std::make_unique<d3d11_renderer>();
+    m_renderer = std::make_unique<d3d11_imgui_renderer>();
     if (m_renderer->create(m_hwnd) == false) {
-        debug_print("[error] Failed to create renderer. Last error -> {}\n",
-                              GetLastError());
+        debug_print("[error] Failed to create renderer. Last error -> {}\n", GetLastError());
         DestroyWindow(m_hwnd);
         UnregisterClassW(MAKEINTATOM(m_wcex), m_instance);
         return false;
@@ -278,7 +277,7 @@ bool ender::window::create(window_details details) {
     return m_is_running;
 }
 
-bool ender::window::destroy() {
+bool ender::imgui_window::destroy() {
 #ifdef ENDER_IMGUI
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
@@ -299,7 +298,7 @@ bool ender::window::destroy() {
     return true;
 }
 
-bool ender::window::process_events() {
+bool ender::imgui_window::process_events() {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
@@ -313,7 +312,7 @@ bool ender::window::process_events() {
     return m_is_running;
 }
 
-void ender::window::pre_render_frame() {
+void ender::imgui_window::pre_render_frame() {
     if (m_is_running == false) {
         return;
     }
@@ -332,7 +331,7 @@ void ender::window::pre_render_frame() {
 #endif  // ENDER_IMGUI
 }
 
-void ender::window::post_render_frame() {
+void ender::imgui_window::post_render_frame() {
     if (m_is_running == false) {
         return;
     }
@@ -344,32 +343,32 @@ void ender::window::post_render_frame() {
     m_renderer->render_frame();
 }
 
-bool ender::window::set_title(std::wstring_view new_title) {
+bool ender::imgui_window::set_title(std::wstring_view new_title) {
     return SetWindowText(m_hwnd, new_title.data());
 }
 
-std::wstring_view ender::window::get_title() const {
+std::wstring_view ender::imgui_window::get_title() const {
     wchar_t buffer[256];
     GetWindowText(m_hwnd, buffer, 256);
     return buffer;
 }
 
-bool ender::window::is_running() const noexcept {
+bool ender::imgui_window::is_running() const noexcept {
     return m_is_running;
 }
 
-auto ender::window::get_client_size() const noexcept -> DirectX::XMINT2 {
+auto ender::imgui_window::get_client_size() const noexcept -> DirectX::XMINT2 {
     RECT rect;
     GetClientRect(m_hwnd, &rect);
     return {rect.right - rect.left, rect.bottom - rect.top};
 }
 
-auto ender::window::get_window_size() const noexcept -> DirectX::XMINT2 {
+auto ender::imgui_window::get_window_size() const noexcept -> DirectX::XMINT2 {
     RECT rect;
     GetWindowRect(m_hwnd, &rect);
     return {rect.right - rect.left, rect.bottom - rect.top};
 }
 
-float ender::window::get_delta_time_seconds() {
+float ender::imgui_window::get_delta_time_seconds() {
     return m_timer.delta_time_seconds();
 }

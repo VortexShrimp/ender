@@ -20,11 +20,11 @@ inline void safe_release(T*& ptr) noexcept {
     }
 }
 
-ender::d3d11_renderer::~d3d11_renderer() {
+ender::d3d11_imgui_renderer::~d3d11_imgui_renderer() {
     destroy();
 }
 
-bool ender::d3d11_renderer::create(HWND hwnd) {
+bool ender::d3d11_imgui_renderer::create(HWND hwnd) {
     DXGI_SWAP_CHAIN_DESC sd = {};
     sd.BufferCount = 2;
     sd.BufferDesc.Width = 0;
@@ -67,7 +67,7 @@ bool ender::d3d11_renderer::create(HWND hwnd) {
     return true;
 }
 
-bool ender::d3d11_renderer::destroy() {
+bool ender::d3d11_imgui_renderer::destroy() {
     safe_release(m_render_target_view);
     safe_release(m_dxgi_factory);
     safe_release(m_device_context);
@@ -77,12 +77,12 @@ bool ender::d3d11_renderer::destroy() {
     return true;
 }
 
-bool ender::d3d11_renderer::is_swapchain_occluded() {
+bool ender::d3d11_imgui_renderer::is_swapchain_occluded() {
     return m_is_swap_chain_occluded == false &&
            m_swap_chain->Present(0, DXGI_PRESENT_TEST) != DXGI_STATUS_OCCLUDED;
 }
 
-void ender::d3d11_renderer::render_frame(std::array<float, 4> clear_color) {
+void ender::d3d11_imgui_renderer::render_frame(std::array<float, 4> clear_color) {
 #ifdef ENDER_IMGUI
     ImGui::Render();
 #endif  // ENDER_IMGUI
@@ -100,11 +100,11 @@ void ender::d3d11_renderer::render_frame(std::array<float, 4> clear_color) {
     m_is_swap_chain_occluded = (hr == DXGI_STATUS_OCCLUDED);
 }
 
-void ender::d3d11_renderer::set_swap_chain_occluded(bool is_occluded) {
+void ender::d3d11_imgui_renderer::set_swap_chain_occluded(bool is_occluded) {
     m_is_swap_chain_occluded = is_occluded;
 }
 
-void ender::d3d11_renderer::handle_resize(HWND hwnd) {
+void ender::d3d11_imgui_renderer::handle_resize(HWND hwnd) {
     internal_window_data& window_data = get_internal_window_data(hwnd);
     if (window_data.resize_width != 0 && window_data.resize_height != 0) {
         safe_release(m_render_target_view);
@@ -117,15 +117,15 @@ void ender::d3d11_renderer::handle_resize(HWND hwnd) {
     }
 }
 
-ID3D11Device* ender::d3d11_renderer::device() const noexcept {
+ID3D11Device* ender::d3d11_imgui_renderer::device() const noexcept {
     return m_device;
 }
 
-ID3D11DeviceContext* ender::d3d11_renderer::device_context() const noexcept {
+ID3D11DeviceContext* ender::d3d11_imgui_renderer::device_context() const noexcept {
     return m_device_context;
 }
 
-bool ender::d3d11_renderer::create_render_target() {
+bool ender::d3d11_imgui_renderer::create_render_target() {
     ID3D11Texture2D* back_buffer;
     if (m_swap_chain->GetBuffer(0, IID_PPV_ARGS(&back_buffer)) != S_OK) {
         return false;
