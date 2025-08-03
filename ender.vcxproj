@@ -193,6 +193,27 @@
     <ClCompile Include="examples\examples_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ender\external\directxtk\Audio.h" />
+    <ClInclude Include="ender\external\directxtk\BufferHelpers.h" />
+    <ClInclude Include="ender\external\directxtk\CommonStates.h" />
+    <ClInclude Include="ender\external\directxtk\DDSTextureLoader.h" />
+    <ClInclude Include="ender\external\directxtk\DirectXHelpers.h" />
+    <ClInclude Include="ender\external\directxtk\Effects.h" />
+    <ClInclude Include="ender\external\directxtk\GamePad.h" />
+    <ClInclude Include="ender\external\directxtk\GeometricPrimitive.h" />
+    <ClInclude Include="ender\external\directxtk\GraphicsMemory.h" />
+    <ClInclude Include="ender\external\directxtk\Keyboard.h" />
+    <ClInclude Include="ender\external\directxtk\Model.h" />
+    <ClInclude Include="ender\external\directxtk\Mouse.h" />
+    <ClInclude Include="ender\external\directxtk\PostProcess.h" />
+    <ClInclude Include="ender\external\directxtk\PrimitiveBatch.h" />
+    <ClInclude Include="ender\external\directxtk\ScreenGrab.h" />
+    <ClInclude Include="ender\external\directxtk\SimpleMath.h" />
+    <ClInclude Include="ender\external\directxtk\SpriteBatch.h" />
+    <ClInclude Include="ender\external\directxtk\SpriteFont.h" />
+    <ClInclude Include="ender\external\directxtk\VertexTypes.h" />
+    <ClInclude Include="ender\external\directxtk\WICTextureLoader.h" />
+    <ClInclude Include="ender\external\directxtk\XboxDDSTextureLoader.h" />
     <ClInclude Include="ender\external\nlohmann\adl_serializer.hpp" />
     <ClInclude Include="ender\external\nlohmann\byte_container_with_subtype.hpp" />
     <ClInclude Include="ender\external\nlohmann\detail\abi_macros.hpp" />
@@ -312,6 +333,9 @@
     <ClInclude Include="ender\platform\renderer.hpp" />
     <ClInclude Include="ender\platform\window.hpp" />
     <ClInclude Include="ender\utils\timer.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ender\external\directxtk\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

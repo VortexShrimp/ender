@@ -61,7 +61,13 @@ public:
     }
 
     bool process_events() noexcept {
-        return imgui_window::process_events();
+        ender::window_event_details details = {};
+        const bool is_running = imgui_window::process_events(details);
+
+        // Handle window messages from details.
+        // Or do other processing based on the event details.
+
+        return is_running;
     }
 
     void render_frame() noexcept {

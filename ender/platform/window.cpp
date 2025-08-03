@@ -298,7 +298,7 @@ bool ender::imgui_window::destroy() {
     return true;
 }
 
-bool ender::imgui_window::process_events() {
+bool ender::imgui_window::process_events(window_event_details& details) {
     MSG message;
     while (PeekMessage(&message, nullptr, 0U, 0U, PM_REMOVE)) {
         TranslateMessage(&message);
@@ -308,6 +308,10 @@ bool ender::imgui_window::process_events() {
             return m_is_running = false;
         }
     }
+
+    details.message = message.message;
+    details.wparam = message.wParam;
+    details.lparam = message.lParam;
 
     return m_is_running;
 }

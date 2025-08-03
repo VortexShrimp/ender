@@ -21,7 +21,12 @@ bool examples::simple_app::destroy() noexcept {
 }
 
 bool examples::simple_app::process_events() noexcept {
-    return imgui_window::process_events();
+    ender::window_event_details details = {};
+    const bool is_running = imgui_window::process_events(details);
+
+    // Handle window messages from details.
+
+    return is_running;
 }
 
 void examples::simple_app::render_frame() noexcept {

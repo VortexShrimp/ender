@@ -6,6 +6,8 @@
 #include <d3d11.h>
 #include <directxmath.h>
 
+#include <directxtk\GeometricPrimitive.h>
+
 namespace ender {
     /**
      * @brief Currently a d3d11 renderer that depends
@@ -51,27 +53,5 @@ namespace ender {
         IDXGIFactory* m_dxgi_factory;
 
         bool m_is_swap_chain_occluded;
-    };
-
-    /**
-     * @brief Direct2D renderer.
-     *
-     * Currently work-in-progress.
-     */
-    class direct2d_renderer {
-    public:
-        direct2d_renderer() : m_factory(nullptr), m_render_target(nullptr), m_brush(nullptr) {
-        }
-        ~direct2d_renderer();
-
-        bool create(HWND hwnd);
-        void destroy();
-
-        void render_frame();
-
-    private:
-        ID2D1Factory* m_factory;
-        ID2D1HwndRenderTarget* m_render_target;
-        ID2D1SolidColorBrush* m_brush;
     };
 }  // namespace ender

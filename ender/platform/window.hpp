@@ -59,6 +59,12 @@ namespace ender {
         message_close_function on_message_close;
     };
 
+    struct window_event_details {
+        UINT message;
+        WPARAM wparam;
+        LPARAM lparam;
+    };
+
     /**
      * @brief Spawn a platform window.
      *
@@ -95,7 +101,7 @@ namespace ender {
          * @brief Processes the window messages.
          * @return True if the window should continue running.
          */
-        ENDER_OVERRIDE bool process_events();
+        ENDER_OVERRIDE bool process_events(window_event_details& details);
 
         ENDER_OVERRIDE void pre_render_frame();
 
